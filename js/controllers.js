@@ -23,7 +23,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $rootScope.username = window.localStorage.getItem('fname');
             } else {
                 if ($rootScope.userLogged == 0)
-                    $state.go('auth.walkthrough');
+                    $state.go('app.category-list');
             }
 
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -91,7 +91,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicHistory.clearCache();
                     $ionicHistory.clearHistory();
                     $ionicHistory.nextViewOptions({disableBack: true, historyRoot: true});
-                    $state.go('auth.walkthrough', {}, {reload: true});
+                    //$state.go('auth.walkthrough', {}, {reload: true});
+                     $state.go('app.category-list');
                 }, 30);
 
             };
@@ -495,7 +496,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 //bring specific category providers
 
         .controller('CategoryListCtrl', function ($scope, $state, $http, $stateParams, $rootScope, $ionicLoading) {
-            if (get('id') != null) {
+          //  if (get('id') != null) {
                 $rootScope.userLogged = 1;
                 $scope.interface = window.localStorage.getItem('interface_id');
                 $scope.userId = window.localStorage.getItem('id');
@@ -526,9 +527,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }, function errorCallback(response) {
                     // console.log(response);
                 });
-            } else {
-                $state.go('auth.walkthrough', {}, {reload: true});
-            }
+           // } else {
+              //  $state.go('auth.walkthrough', {}, {reload: true});
+          //  }
         })
 
         .controller('PatientSettingsCtrl', function ($scope, $http, $ionicPlatform, $state, $stateParams, $timeout, $ionicModal, $ionicLoading, $rootScope, $sce) {

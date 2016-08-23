@@ -290,6 +290,7 @@ angular.module('your_app_name', [
                         },
                         controller: 'SignupCtrl'
                     })
+                    
                     .state('auth.check-otp', {
                         url: '/check-otp',
                         templateUrl: function () {
@@ -989,6 +990,6 @@ angular.module('your_app_name', [
                     ;
 
             // if none of the above states are matched, use this as the fallback
-            $urlRouterProvider.otherwise('/auth/walkthrough');
+            $urlRouterProvider.otherwise('/app/category-listing');
         });
  

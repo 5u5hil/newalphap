@@ -12,6 +12,7 @@ $(document).ready(function () {
     } else {
         $rootScope.$apply(function () {
             $rootScope.userLogged = 0;
+            window.location.href = "#/app/category-listing";
         });
     }
 });
