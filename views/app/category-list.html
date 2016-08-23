@@ -1,0 +1,131 @@
+<ion-view cache-view="false" class="category-list-view" >
+    <button class="button button-clear button-positive">Edit</button>
+    <ion-nav-title>
+        <span  ng-if="apkLanguage == 'english'">Home</span>
+        <span  ng-if="apkLanguage != 'english'">{{cattext.home[language]}}</span>
+    </ion-nav-title>
+    <ion-content>
+        <div class="list catlist" ng-if="apkLanguage == 'english'">
+            <div ng-repeat="menu in menuItem">
+                <a class="item item-icon-right" ng-click="{{menu.url}}" ng-if="menu.intereface_menu.menu == 'consultations' && menu.intereface_menu.menu != 'settings'" >
+                    <i class="cicon ion-medkit"></i>
+                    <span class="ctitle">{{menu.intereface_menu.menu|capitalize}}</span>	
+                    <!-- <p>Lorem Ipsum is simply dummy text of the printing</p> -->
+                </a>
+                <a class="item item-icon-right" ui-sref="{{menu.url}}" ng-if="menu.intereface_menu.menu != 'consultations'  && menu.intereface_menu.menu != 'settings'" >
+                    <i class="cicon
+                       {{menu.intereface_menu.menu=='records'? 'ion-clipboard': menu.intereface_menu.menu=='chats'? 'ion-chatboxes':menu.intereface_menu.menu=='packages'? 'ion-cube':menu.intereface_menu.menu=='library'? 'ion-ios-book':menu.intereface_menu.menu=='pathology'? 'ion-erlenmeyer-flask':menu.intereface_menu.menu=='medicines'? 'ion-medkit': 'ion-cube'}}"></i>
+                    <span class="ctitle">{{menu.intereface_menu.menu|capitalize}}</span>	
+                    <!-- <p>Lorem Ipsum is simply dummy text of the printing</p> -->
+                </a>
+            </div>
+            <!--            <a class="item item-icon-right" ui-sref="app.category-detail" >
+                            <i class="cicon ion-clipboard"></i>
+                            <span class="ctitle">Records</span>
+                        </a>
+                        <a class="item item-icon-right" ui-sref="app.chatlist" >
+                            <i class="cicon ion-chatboxes"></i>
+                            <span class="ctitle">Chats</span>
+                        </a>
+                        <a class="item item-icon-right" ui-sref="app.packaging" >
+                            <i class="cicon ion-cube"></i>
+                            <span class="ctitle">Packages</span>
+                        </a>
+                        <a class="item item-icon-right" ui-sref="app.content-library" >
+                            <i class="cicon ion-ios-book"></i>
+                            <span class="ctitle">Library</span>	
+                        </a>-->
+            <!--     <a class="item item-icon-right" ui-sref="app.medicine">
+                    <i class="cicon ion-medkit"></i>
+                    <span class="ctitle">Medicines</span>
+                </a>
+                <a class="item item-icon-right" ui-sref="app.pathology">
+                    <i class="cicon ion-erlenmeyer-flask"></i>
+                    <span class="ctitle">Pathology</span>
+                </a> -->
+            <!-- <a class="item item-icon-right" ui-sref="#">
+             <i class="cicon ion-android-done"></i>
+            <span class="ctitle">Tests</span>
+            <p>Lorem Ipsum is simply dummy text of the printing</p>
+      </a> -->
+            <!-- 	<a class="item item-icon-right" ui-sref="app.category-detail" >
+                     <i class="cicon ion-ios-paper "></i>
+                    <span class="ctitle">Records</span>
+            <p>Lorem Ipsum is simply dummy text of the printing</p>
+              </a> -->
+            <!-- <a class="item item-icon-right" ui-sref="#">
+                   <i class="cicon ion-email"></i>
+                  <span class="ctitle"> Packaging</span>
+                  <p>Lorem Ipsum is simply dummy text of the printing</p>
+            </a> -->
+        </div>
+
+        <div class="list catlist" ng-if="apkLanguage != 'english'">
+            <div ng-repeat="menu in menuItem">
+                <a class="item item-icon-right" ng-click="{{menu.url}}" ng-if="menu.intereface_menu.menu == 'consultations'  && menu.intereface_menu.menu != 'settings'" >
+                    <i class="cicon ion-medkit"></i>
+                    <span class="ctitle" ng-init="item = menu.intereface_menu.menu">{{cattext[item][language]}}</span>	
+                    <!-- <p>Lorem Ipsum is simply dummy text of the printing</p> -->
+                </a>
+                <a class="item item-icon-right" ui-sref="{{menu.url}}" ng-if="menu.intereface_menu.menu != 'consultations' && menu.intereface_menu.menu != 'settings'" >
+                    <i class="cicon
+                       {{menu.intereface_menu.menu=='records'? 'ion-clipboard': menu.intereface_menu.menu=='chats'? 'ion-chatboxes':menu.intereface_menu.menu=='packages'? 'ion-cube':menu.intereface_menu.menu=='library'? 'ion-ios-book':menu.intereface_menu.menu=='pathology'? 'ion-erlenmeyer-flask':menu.intereface_menu.menu=='medicines'? 'ion-medkit': 'ion-cube'}}"></i>
+                    <span class="ctitle" ng-init="item = menu.intereface_menu.menu">{{cattext[item][language]}}</span>	
+                    <!-- <p>Lorem Ipsum is simply dummy text of the printing</p> -->
+                </a>
+            </div>
+            <!--            <a class="item item-icon-right" ng-click="checkCat()" >
+                            <i class="cicon ion-medkit"></i>
+                            <span class="ctitle">{{cattext.consultations[language]}}</span>	
+                             <p>Lorem Ipsum is simply dummy text of the printing</p> 
+                        </a>
+                        <a class="item item-icon-right" ui-sref="app.category-detail" >
+                            <i class="cicon ion-clipboard"></i>
+                            <span class="ctitle">{{cattext.records[language]}}</span>
+                        </a>
+                        <a class="item item-icon-right" ui-sref="app.chatlist" >
+                            <i class="cicon ion-chatboxes"></i>
+                            <span class="ctitle">{{cattext.chats[language]}}</span>
+                        </a>
+                        <a class="item item-icon-right" ui-sref="app.packaging" >
+                            <i class="cicon ion-cube"></i>
+                            <span class="ctitle">{{cattext.package[language]}}</span>
+                        </a>
+                        <a class="item item-icon-right" ui-sref="app.content-library" >
+                            <i class="cicon ion-ios-book"></i>
+                            <span class="ctitle">{{cattext.library[language]}}</span>	
+                                            <div class="comingsoon">{{cattext.coming_soon[language]}}</div>
+                        </a>-->
+            <!--            <a class="item item-icon-right" ui-sref="app.medicine">
+                            <i class="cicon ion-medkit"></i>
+                            <span class="ctitle">{{cattext.medicines[language]}}</span>
+                        </a>
+                        <a class="item item-icon-right" ui-sref="app.pathology">
+                            <i class="cicon ion-erlenmeyer-flask"></i>
+                            <span class="ctitle">{{cattext.pathology[language]}}</span>
+                        </a>-->
+            <!-- <a class="item item-icon-right greyitem" ui-sref="#" >
+                     <i class="cicon ion-chatboxes"></i>
+                    <span class="ctitle">Chats</span>	
+                    <div class="comingsoon">Coming Soon</div>
+            </a> -->
+            <!-- <a class="item item-icon-right" ui-sref="#">
+             <i class="cicon ion-android-done"></i>
+            <span class="ctitle">Tests</span>
+            <p>Lorem Ipsum is simply dummy text of the printing</p>
+      </a> -->
+
+            <!-- 	<a class="item item-icon-right" ui-sref="app.category-detail" >
+                     <i class="cicon ion-ios-paper "></i>
+                    <span class="ctitle">Records</span>
+            <p>Lorem Ipsum is simply dummy text of the printing</p>
+              </a> -->
+
+            <!-- <a class="item item-icon-right" ui-sref="#">
+                   <i class="cicon ion-email"></i>
+                  <span class="ctitle"> Packaging</span>
+                  <p>Lorem Ipsum is simply dummy text of the printing</p>
+            </a> -->
+        </div>
+    </ion-content>
+</ion-view>
