@@ -282,6 +282,14 @@ angular.module('your_app_name', [
                         },
                         controller: 'LoginCtrl'
                     })
+                    
+                    .state('app.genericlogin', {
+                        url: '/genericlogin',
+                        templateUrl: function () {
+                            return "views/app/generic_login.html";
+                        },
+                       
+                    })
 
                     .state('auth.signup', {
                         url: '/signup',

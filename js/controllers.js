@@ -9,21 +9,164 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $rootScope.username = window.localStorage.getItem('fname');
             } else {
                 if ($rootScope.userLogged == 0)
+                     $rootScope.userLogged = 0;
                     $state.go('auth.walkthrough');
             }
         })
 
 // APP
-        .controller('AppCtrl', function ($scope, $http, $state, $ionicConfig, $rootScope, $ionicLoading, $ionicHistory, $timeout) {
+        .controller('AppCtrl', function ($scope, $ionicModal, $http, $state, $ionicConfig, $rootScope, $ionicLoading, $ionicHistory, $timeout) {
             $rootScope.imgpath = domain + "/public/frontend/user/";
             $rootScope.attachpath = domain + "/public";
+            console.log('sdad---' + $rootScope.userLogged+" == "+window.localStorage.getItem('id'));
+            // added generic code ---
+
+            window.localStorage.setItem('interface_id', '5');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userType = 'patient';
+            $scope.action = 'login';
+
+            $rootScope.$on('showLoginModal', function ($event, scope, cancelCallback, callback) {
+                $scope.showLogin = true;
+                $scope.registerToggle = function () {
+                    $scope.showLogin = !$scope.showLogin;
+                }
+                $scope = scope || $scope;
+                $scope.viewLogin = true;
+                $ionicModal.fromTemplateUrl('views/app/generic_login.html', {
+                    scope: $scope
+                }).then(function (modal) {
+                    $scope.loginModal = modal;
+                    $scope.loginModal.show();
+                    $scope.hide = function () {
+                        $scope.loginModal.hide();
+                        if (typeof cancelCallback === 'function') {
+                            cancelCallback();
+                        }
+                    }
+
+
+                    console.log("jfskdjfk");
+                    $scope.doLogIn = function () {
+                        console.log("khjfgkdjfhg");
+                        $ionicLoading.show({template: 'Loading...'});
+                        var data = new FormData(jQuery("#loginuser")[0]);
+                        $.ajax({
+                            type: 'POST',
+                            url: domain + "chk-user",
+                            data: data,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: function (response) {
+                                //console.log(response);
+                                if (angular.isObject(response)) {
+                                    $scope.loginError = '';
+                                    $scope.loginError.digest;
+                                    store(response);
+                                    $rootScope.userLogged = 1;
+                                    $rootScope.username = response.fname;
+                                    $ionicLoading.hide();
+
+                                    $http({
+                                        method: 'GET',
+                                        url: domain + 'get-login-logout-log',
+                                        params: {userId: window.localStorage.getItem('id'), interface: $scope.interface, type: $scope.userType, action: $scope.action}
+                                    }).then(function successCallback(response) {
+                                    }, function errorCallback(e) {
+                                        console.log(e);
+                                    });
+
+                                    try {
+                                        window.plugins.OneSignal.getIds(function (ids) {
+                                            console.log('getIds: ' + JSON.stringify(ids));
+                                            if (window.localStorage.getItem('id')) {
+                                                $scope.userId = window.localStorage.getItem('id');
+                                            } else {
+                                                $scope.userId = '';
+                                            }
+
+                                            $http({
+                                                method: 'GET',
+                                                url: domain + 'notification/insertPlayerId',
+                                                params: {userId: $scope.userId, playerId: ids.userId, pushToken: ids.pushToken}
+                                            }).then(function successCallback(response) {
+                                                if (response.data == 1) {
+                                                    // alert('Notification setting updated');
+                                                    //  $state.go('app.category-list');
+                                                }
+                                            }, function errorCallback(e) {
+                                                console.log(e);
+                                                // $state.go('app.category-list');
+                                            });
+                                        });
+                                    } catch (err) {
+                                        // $state.go('app.category-list');
+                                    }
+
+                                    //   $rootScope.url = document.referrer;
+                                    if (typeof callback === 'function') {
+                                        callback();
+                                    }
+                                    //$state.go('app.category-list');
+
+                                    $scope.loginModal.hide();
+                                } else {
+                                    $rootScope.userLogged = 0;
+                                    $scope.loginError = response;
+                                    $scope.loginError.digest;
+                                    $ionicLoading.hide();
+                                    $timeout(function () {
+                                        $scope.loginError = response;
+                                        $scope.loginError.digest;
+                                    })
+                                    //console.log('else part login');
+                                    if (typeof cancelCallback === 'function') {
+                                        cancelCallback();
+                                    }
+                                }
+                                $rootScope.$digest;
+                                $rootScope.$response;
+                            },
+                            error: function (e) {
+                                //  console.log(e.responseText);
+                            }
+                        });
+                    };
+                    $scope.registerUser = function (data) {
+                        Loader.show('Registering')
+                        APIFactory.registerUser(data).then(function (response) {
+                            console.log(response);
+                            if (response.data == 'EmailExist') {
+                                Loader.toggleLoadingWithMessage('Email is already registered!', 2000);
+                            } else if (response.data == 'UsernameExist') {
+                                Loader.toggleLoadingWithMessage('Username is already registered!', 2000);
+                            } else if (response.data == 'success') {
+                                Loader.toggleLoadingWithMessage('Registration Successful', 2000);
+                                var cred = {
+                                    logusername: data.regEmail,
+                                    logpassword: data.regPassword
+                                };
+                                $scope.authUser(cred);
+                            }
+                        }, function (error) {
+                            console.error(error)
+                        })
+                    }
+                });
+
+            });
+
+
+            //-------------
 
             if (window.localStorage.getItem('id') != null) {
                 $rootScope.userLogged = 1;
                 $rootScope.username = window.localStorage.getItem('fname');
             } else {
                 if ($rootScope.userLogged == 0)
-                    $state.go('app.category-list');
+                    $rootScope.userLogged = 0;
+                $state.go('app.category-list');
             }
 
             $scope.interface = window.localStorage.getItem('interface_id');
@@ -49,6 +192,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }, function errorCallback(response) {
                 // console.log(response);
             });
+            
+            console.log('bhavs---' + $rootScope.userLogged);
 
             $rootScope.$on("sideMenu", function () {
                 $ionicLoading.show({template: 'Loading..'});
@@ -92,7 +237,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicHistory.clearHistory();
                     $ionicHistory.nextViewOptions({disableBack: true, historyRoot: true});
                     //$state.go('auth.walkthrough', {}, {reload: true});
-                     $state.go('app.category-list');
+                    $state.go('app.category-list');
                 }, 30);
 
             };
@@ -122,6 +267,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
 
             };
+            
+              console.log('bhavs---' + $rootScope.userLogged);
         })
 
         .controller('SearchBarCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
@@ -496,40 +643,60 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 //bring specific category providers
 
         .controller('CategoryListCtrl', function ($scope, $state, $http, $stateParams, $rootScope, $ionicLoading) {
-          //  if (get('id') != null) {
-                $rootScope.userLogged = 1;
-                $scope.interface = window.localStorage.getItem('interface_id');
-                $scope.userId = window.localStorage.getItem('id');
-                $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
-                $ionicLoading.show({template: 'Loading..'});
+            //  if (get('id') != null) {
+            $rootScope.userLogged = 1;
+            window.localStorage.setItem('interface_id', '5');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $ionicLoading.show({template: 'Loading..'});
+            $http({
+                method: 'GET',
+                url: domain + 'get-login',
+                params: {id: window.localStorage.getItem('id'), interface: $scope.interface}
+            }).then(function successCallback(response) {
+                console.log(response.data.lang.language);
+                $scope.langtext = response.data.data;
+                $scope.language = response.data.lang.language;
+                if (response.data) {
+
+                    //$rootScope.apkLanguage = response.data.lang.language;
+                    $scope.apkLanguage = window.localStorage.setItem('apkLanguage', response.data.lang.language);
+                } else {
+
+                }
+            }, function errorCallback(response) {
+                // console.log(response);
+            });
+
+            $http({
+                method: 'GET',
+                url: domain + 'get-categoty-lang',
+                params: {id: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                if (response.data.dataCat) {
+                    $scope.menuItem = response.data.menuItem;
+                    $scope.cattext = response.data.dataCat;
+                    $scope.language = response.data.lang.language;
+                    $scope.apkLanguage = window.localStorage.setItem('apkLanguage', $scope.language);
+                }
                 $http({
                     method: 'GET',
-                    url: domain + 'get-categoty-lang',
-                    params: {id: $scope.userId, interface: $scope.interface}
-                }).then(function successCallback(response) {
-                    if (response.data.dataCat) {
-                        $scope.menuItem = response.data.menuItem;
-                        $scope.cattext = response.data.dataCat;
-                        $scope.language = response.data.lang.language;
-                        $scope.apkLanguage = window.localStorage.setItem('apkLanguage', $scope.language);
-                    }
-                    $http({
-                        method: 'GET',
-                        url: domain + 'assistants/get-chat-unread-cnt',
-                        params: {userId: $scope.userId}
-                    }).then(function sucessCallback(response) {
-                        console.log(response);
-                        $scope.unreadCnt = response.data;
-                        $ionicLoading.hide();
-                    }, function errorCallback(e) {
-                        console.log(e);
-                    });
-                }, function errorCallback(response) {
-                    // console.log(response);
+                    url: domain + 'assistants/get-chat-unread-cnt',
+                    params: {userId: $scope.userId}
+                }).then(function sucessCallback(response) {
+                    console.log(response);
+                    $scope.unreadCnt = response.data;
+                    $ionicLoading.hide();
+                }, function errorCallback(e) {
+                    console.log(e);
                 });
-           // } else {
-              //  $state.go('auth.walkthrough', {}, {reload: true});
-          //  }
+            }, function errorCallback(response) {
+                // console.log(response);
+            });
+            // } else {
+            //  $state.go('auth.walkthrough', {}, {reload: true});
+            //  }
         })
 
         .controller('PatientSettingsCtrl', function ($scope, $http, $ionicPlatform, $state, $stateParams, $timeout, $ionicModal, $ionicLoading, $rootScope, $sce) {
@@ -3995,7 +4162,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 window.localStorage.removeItem('startSlot');
                 window.localStorage.removeItem('endSlot');
             };
-
             $scope.checkAvailability = function (uid, prodId) {
                 $scope.interface = window.localStorage.getItem('interface_id');
                 console.log("prodId " + prodId);
@@ -4138,7 +4304,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(servId);
             };
             $scope.bookAppointment = function (prodId, serv) {
-                console.log();
+                $scope.userId = get('id');
+                console.log("getid" + $scope.userId);
+
                 $scope.apply = '0';
                 $scope.discountApplied = '0';
                 window.localStorage.setItem('coupondiscount', '0');
@@ -4168,8 +4336,24 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             console.log('1')
                             $state.go('app.payment');
                         } else {
-                            $ionicLoading.show({template: 'Loading...'});
-                            $state.go('auth.login');
+                            // $ionicLoading.show({template: 'Loading...'});
+                            //$state.go('auth.login');
+
+//                            $ionicModal.fromTemplateUrl('views/app/generic_login.html', {
+//                                scope: $scope
+//                            }).then(function (modal) {
+//                                $scope.loginmodal = modal;
+//                                $scope.loginmodal.show();
+//                            });
+
+                            $rootScope.$broadcast('showLoginModal', $scope, function () {
+                                console.log("logged in fail");
+
+                            }, function () {
+                                console.log("succesfully logged in");
+                                $state.go('app.payment');
+                            });
+                            //$scope.loginmodal.show();
                         }
                     } else if (serv == 3 || serv == 4) {
                         if (checkLogin())
@@ -6860,5 +7044,96 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         })
 
+        .controller('GenericLoginCtrl', function ($scope, $state, $sce, $rootScope, $ionicLoading, $http, $stateParams, $timeout, $filter) {
+            window.localStorage.setItem('interface_id', '5');
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userType = 'patient';
+            $scope.action = 'login';
+            // $scope.val = {"message":"zxczc","additionalData":{"actionButtons":[{"id":"id1","text":"ignore","icon":"1"}],"actionSelected":"id1","title":"czxczxc"},"isActive":false};
+            // console.log($scope.val.additionalData.actionButtons[0].id);
 
+            console.log("jfskdjfk");
+            $scope.doLogIn = function () {
+                console.log("khjfgkdjfhg");
+                $ionicLoading.show({template: 'Loading...'});
+                var data = new FormData(jQuery("#loginuser")[0]);
+                $.ajax({
+                    type: 'POST',
+                    url: domain + "chk-user",
+                    data: data,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (response) {
+                        //console.log(response);
+                        if (angular.isObject(response)) {
+                            $scope.loginError = '';
+                            $scope.loginError.digest;
+                            store(response);
+                            $rootScope.userLogged = 1;
+                            $rootScope.username = response.fname;
+                            $ionicLoading.hide();
+                            $http({
+                                method: 'GET',
+                                url: domain + 'get-login-logout-log',
+                                params: {userId: window.localStorage.getItem('id'), interface: $scope.interface, type: $scope.userType, action: $scope.action}
+                            }).then(function successCallback(response) {
+                            }, function errorCallback(e) {
+                                console.log(e);
+                            });
+
+                            try {
+                                window.plugins.OneSignal.getIds(function (ids) {
+                                    console.log('getIds: ' + JSON.stringify(ids));
+                                    if (window.localStorage.getItem('id')) {
+                                        $scope.userId = window.localStorage.getItem('id');
+                                    } else {
+                                        $scope.userId = '';
+                                    }
+
+                                    $http({
+                                        method: 'GET',
+                                        url: domain + 'notification/insertPlayerId',
+                                        params: {userId: $scope.userId, playerId: ids.userId, pushToken: ids.pushToken}
+                                    }).then(function successCallback(response) {
+                                        if (response.data == 1) {
+                                            // alert('Notification setting updated');
+                                            //  $state.go('app.category-list');
+                                        }
+                                    }, function errorCallback(e) {
+                                        console.log(e);
+                                        // $state.go('app.category-list');
+                                    });
+                                });
+                            } catch (err) {
+                                // $state.go('app.category-list');
+                            }
+
+                            $rootScope.url = document.referrer;
+
+                            //$state.go('app.category-list');
+
+
+                        } else {
+                            $rootScope.userLogged = 0;
+                            $scope.loginError = response;
+                            $scope.loginError.digest;
+                            $ionicLoading.hide();
+                            $timeout(function () {
+                                $scope.loginError = response;
+                                $scope.loginError.digest;
+                            })
+                            //console.log('else part login');
+                        }
+                        $rootScope.$digest;
+                        $rootScope.$response;
+                    },
+                    error: function (e) {
+                        //  console.log(e.responseText);
+                    }
+                });
+            };
+
+
+        })
         ;
