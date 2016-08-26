@@ -92,7 +92,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicHistory.clearHistory();
                     $ionicHistory.nextViewOptions({disableBack: true, historyRoot: true});
                     //$state.go('auth.walkthrough', {}, {reload: true});
-                     $state.go('app.category-list');
+                    $state.go('app.category-list');
                 }, 30);
 
             };
@@ -144,7 +144,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.langtext = response.data.data;
                 $scope.language = response.data.lang.language;
                 if (response.data) {
-
                     //$rootScope.apkLanguage = response.data.lang.language;
                     $scope.apkLanguage = window.localStorage.setItem('apkLanguage', response.data.lang.language);
                 } else {
@@ -496,40 +495,40 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 //bring specific category providers
 
         .controller('CategoryListCtrl', function ($scope, $state, $http, $stateParams, $rootScope, $ionicLoading) {
-          //  if (get('id') != null) {
-                $rootScope.userLogged = 1;
-                $scope.interface = window.localStorage.getItem('interface_id');
-                $scope.userId = window.localStorage.getItem('id');
-                $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
-                $ionicLoading.show({template: 'Loading..'});
+            //  if (get('id') != null) {
+            $rootScope.userLogged = 1;
+            $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.userId = window.localStorage.getItem('id');
+            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+            $ionicLoading.show({template: 'Loading..'});
+            $http({
+                method: 'GET',
+                url: domain + 'get-categoty-lang',
+                params: {id: $scope.userId, interface: $scope.interface}
+            }).then(function successCallback(response) {
+                if (response.data.dataCat) {
+                    $scope.menuItem = response.data.menuItem;
+                    $scope.cattext = response.data.dataCat;
+                    $scope.language = response.data.lang.language;
+                    $scope.apkLanguage = window.localStorage.setItem('apkLanguage', $scope.language);
+                }
                 $http({
                     method: 'GET',
-                    url: domain + 'get-categoty-lang',
-                    params: {id: $scope.userId, interface: $scope.interface}
-                }).then(function successCallback(response) {
-                    if (response.data.dataCat) {
-                        $scope.menuItem = response.data.menuItem;
-                        $scope.cattext = response.data.dataCat;
-                        $scope.language = response.data.lang.language;
-                        $scope.apkLanguage = window.localStorage.setItem('apkLanguage', $scope.language);
-                    }
-                    $http({
-                        method: 'GET',
-                        url: domain + 'assistants/get-chat-unread-cnt',
-                        params: {userId: $scope.userId}
-                    }).then(function sucessCallback(response) {
-                        console.log(response);
-                        $scope.unreadCnt = response.data;
-                        $ionicLoading.hide();
-                    }, function errorCallback(e) {
-                        console.log(e);
-                    });
-                }, function errorCallback(response) {
-                    // console.log(response);
+                    url: domain + 'assistants/get-chat-unread-cnt',
+                    params: {userId: $scope.userId}
+                }).then(function sucessCallback(response) {
+                    console.log(response);
+                    $scope.unreadCnt = response.data;
+                    $ionicLoading.hide();
+                }, function errorCallback(e) {
+                    console.log(e);
                 });
-           // } else {
-              //  $state.go('auth.walkthrough', {}, {reload: true});
-          //  }
+            }, function errorCallback(response) {
+                // console.log(response);
+            });
+            // } else {
+            //  $state.go('auth.walkthrough', {}, {reload: true});
+            //  }
         })
 
         .controller('PatientSettingsCtrl', function ($scope, $http, $ionicPlatform, $state, $stateParams, $timeout, $ionicModal, $ionicLoading, $rootScope, $sce) {
