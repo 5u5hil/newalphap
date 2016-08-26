@@ -237,11 +237,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicHistory.clearHistory();
                     $ionicHistory.nextViewOptions({disableBack: true, historyRoot: true});
                             //$state.go('auth.walkthrough', {}, {reload: true});
-                            << << << < HEAD
-                            === === =
                             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
                             $scope.interface = window.localStorage.getItem('interface_id');
-                    >>> >>> > origin / master
                             $state.go('app.category-list');
                 }, 30);
 
