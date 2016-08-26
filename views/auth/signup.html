@@ -5,7 +5,8 @@
                 <div class="card sign-up-container">
                     <form name="signupForm" class="" novalidate id="signup">
                         <div class="item item-body">
-
+                              <input type="hidden" value="{{interface}}" ng-model="interface" name="interface">
+                              <input type="hidden" value="{{registervia}}" ng-model="registervia" name="registervia">
                             <label class="item item-input">
                                 <input type="text"  name="name"  required ng-model="user.name" placeholder="Name" ng-minlength="3" />
                                 <div class="clr"></div>
