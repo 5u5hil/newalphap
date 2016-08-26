@@ -7,12 +7,18 @@
     <ion-content>
         <div class="list catlist" ng-if="apkLanguage == 'english'">
             <div ng-repeat="menu in menuItem">
-                <a class="item item-icon-right" ng-click="{{menu.url}}" ng-if="menu.intereface_menu.menu == 'consultations' && menu.intereface_menu.menu != 'settings'" >
-                    <i class="cicon ion-medkit"></i>
-                    <span class="ctitle">{{menu.intereface_menu.menu|capitalize}}</span>	
-                    <!-- <p>Lorem Ipsum is simply dummy text of the printing</p> -->
-                </a>
-                <a class="item item-icon-right" ui-sref="{{menu.url}}" ng-if="menu.intereface_menu.menu != 'consultations'  && menu.intereface_menu.menu != 'settings'" >
+                <span ng-if="menu.intereface_menu.menu == 'consultations' && menu.intereface_menu.menu != 'settings'">
+                    <a class="item item-icon-right" ng-click="{{menu.url}}"  >
+                        <i class="cicon ion-medkit"></i>
+                        <span class="ctitle">Book</span>
+                    </a>
+                    <a class="item item-icon-right" ui-sref="app.consultations-current" >
+                        <i class="cicon ion-medkit"></i>
+                        <span class="ctitle">Appointment</span>
+                    </a>
+                </span>
+
+                <a class="item item-icon-right" ui-sref="{{menu.url}}" ng-if="menu.intereface_menu.menu != 'consultations' && menu.intereface_menu.menu != 'settings'" >
                     <i class="cicon
                        {{menu.intereface_menu.menu=='records'? 'ion-clipboard': menu.intereface_menu.menu=='chats'? 'ion-chatboxes':menu.intereface_menu.menu=='packages'? 'ion-cube':menu.intereface_menu.menu=='library'? 'ion-ios-book':menu.intereface_menu.menu=='pathology'? 'ion-erlenmeyer-flask':menu.intereface_menu.menu=='medicines'? 'ion-medkit': 'ion-cube'}}"></i>
                     <span class="ctitle">{{menu.intereface_menu.menu|capitalize}}</span>	
@@ -62,11 +68,16 @@
 
         <div class="list catlist" ng-if="apkLanguage != 'english'">
             <div ng-repeat="menu in menuItem">
-                <a class="item item-icon-right" ng-click="{{menu.url}}" ng-if="menu.intereface_menu.menu == 'consultations'  && menu.intereface_menu.menu != 'settings'" >
-                    <i class="cicon ion-medkit"></i>
-                    <span class="ctitle" ng-init="item = menu.intereface_menu.menu">{{cattext[item][language]}}</span>	
-                    <!-- <p>Lorem Ipsum is simply dummy text of the printing</p> -->
-                </a>
+                <span ng-if="menu.intereface_menu.menu == 'consultations' && menu.intereface_menu.menu != 'settings'">
+                    <a class="item item-icon-right" ng-click="{{menu.url}}">
+                        <i class="cicon ion-medkit"></i>
+                        <span class="ctitle" ng-init="item = menu.intereface_menu.menu">{{cattext[item][language]}}</span>
+                    </a>
+                    <a class="item item-icon-right" ui-sref="app.consultations-current">
+                        <i class="cicon ion-medkit"></i>
+                        <span class="ctitle" >{{cattext['appointment'][language]}}</span>
+                    </a>
+                </span>
                 <a class="item item-icon-right" ui-sref="{{menu.url}}" ng-if="menu.intereface_menu.menu != 'consultations' && menu.intereface_menu.menu != 'settings'" >
                     <i class="cicon
                        {{menu.intereface_menu.menu=='records'? 'ion-clipboard': menu.intereface_menu.menu=='chats'? 'ion-chatboxes':menu.intereface_menu.menu=='packages'? 'ion-cube':menu.intereface_menu.menu=='library'? 'ion-ios-book':menu.intereface_menu.menu=='pathology'? 'ion-erlenmeyer-flask':menu.intereface_menu.menu=='medicines'? 'ion-medkit': 'ion-cube'}}"></i>

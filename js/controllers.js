@@ -10,7 +10,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             } else {
                 if ($rootScope.userLogged == 0)
                     //  $rootScope.userLogged = 0;
-                    $state.go('auth.walkthrough');
+                    $state.go('auth.login');
             }
         })
 
@@ -193,8 +193,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 // console.log(response);
             });
 
-            console.log('bhavs---' + $rootScope.userLogged);
-
             $rootScope.$on("sideMenu", function () {
                 $ionicLoading.show({template: 'Loading..'});
                 $http({
@@ -264,11 +262,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 }, function errorCallback(e) {
                     console.log(e);
                 });
-
-
             };
-
-            console.log('bhavs---' + $rootScope.userLogged);
         })
 
         .controller('SearchBarCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
@@ -291,13 +285,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.langtext = response.data.data;
                 $scope.language = response.data.lang.language;
                 if (response.data) {
-                    //$rootScope.apkLanguage = response.data.lang.language;
                     $scope.apkLanguage = window.localStorage.setItem('apkLanguage', response.data.lang.language);
                 } else {
 
                 }
             }, function errorCallback(response) {
-                // console.log(response);
+                console.log(response);
             });
 
             $scope.doLogIn = function () {
@@ -388,7 +381,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('LogoutCtrl', function ($scope, $state, $http, $ionicLoading, $ionicHistory, $timeout, $q, $rootScope) {
             $ionicLoading.show({template: 'Logging out....'});
-
             window.localStorage.clear();
             $rootScope.userLogged = 0;
             $rootScope.$digest;
