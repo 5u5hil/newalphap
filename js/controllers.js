@@ -236,10 +236,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicHistory.clearCache();
                     $ionicHistory.clearHistory();
                     $ionicHistory.nextViewOptions({disableBack: true, historyRoot: true});
-                            //$state.go('auth.walkthrough', {}, {reload: true});
-                            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
-                            $scope.interface = window.localStorage.getItem('interface_id');
-                            $state.go('app.category-list');
+                    //$state.go('auth.walkthrough', {}, {reload: true});
+                    window.localStorage.setItem('apkLanguage', 'english');
+                    window.localStorage.setItem('interface_id', '5');
+                    $state.go('app.category-list');
                 }, 30);
 
             };
@@ -251,8 +251,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     params: {id: $scope.userId, interface: $scope.interface}
                 }).then(function successCallback(response) {
                     console.log(response.data);
-//                    console.log(response.data.doctrs[0].user_id);
-//                    console.log(response.data.doctrs.length);
                     if (response.data.doctrs.length == 1) {
                         $state.go('app.single-profile', {id: response.data.doctrs[0].user_id}, {reload: true});
                         $rootScope.single = 'profile';
@@ -646,8 +644,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 //bring specific category providers
 
         .controller('CategoryListCtrl', function ($scope, $state, $http, $stateParams, $rootScope, $ionicLoading) {
-            //  if (get('id') != null) {
-            $rootScope.userLogged = 1;
+            if (get('id') != null) {
+                $rootScope.userLogged = 1;
+            } else {
+                $rootScope.userLogged = 0;
+            }
             window.localStorage.setItem('interface_id', '5');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = window.localStorage.getItem('id');
