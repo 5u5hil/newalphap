@@ -29,6 +29,14 @@
                     <h2 class="menu-text" ng-if="apkLanguage == 'english'">Home</h2>
                     <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.home[language]}}</h2>
                 </ion-item>
+                
+                <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.consultations-current">
+                    <i class="icon ion-android-home"></i>
+                    <h2 class="menu-text" ng-if="apkLanguage == 'english'">Appointments</h2>
+                    <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.home[language]}}</h2>
+                </ion-item>
+                
+                
                 <ion-item class="item-icon-left logoutbtn" ng-repeat="menu in menuItem" nav-clear menu-close ng-if="menu.intereface_menu.menu == 'consultations'" ng-click="{{menu.url}}">
                     <i class="icon ion-medkit"></i>
                     <h2 class="menu-text" ng-if="apkLanguage == 'english'">{{menu.intereface_menu.menu|capitalize}}</h2>
