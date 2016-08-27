@@ -25,8 +25,19 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userType = 'patient';
             $scope.action = 'login';
+            $scope.registervia = window.localStorage.setItem('registervia', 'apk');
 
             $rootScope.$on('showLoginModal', function ($event, scope, cancelCallback, callback) {
+                //bhavana----------
+               
+               
+                $scope.user = {};
+                $scope.user.name = '';
+                $scope.user.email = '';
+                $scope.user.phone = '';
+                $scope.user.password = '';
+                //bhavana--------------
+
                 $scope.showLogin = true;
                 $scope.registerToggle = function () {
                     $scope.showLogin = !$scope.showLogin;
@@ -48,7 +59,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
                     // console.log("jfskdjfk");
                     $scope.doLogIn = function () {
-                        console.log("khjfgkdjfhg");
+                       // console.log("khjfgkdjfhg");
                         $ionicLoading.show({template: 'Loading...'});
                         var data = new FormData(jQuery("#loginuser")[0]);
                         $.ajax({
@@ -59,7 +70,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             contentType: false,
                             processData: false,
                             success: function (response) {
-                                //console.log(response);
+                                console.log(response);
                                 if (angular.isObject(response)) {
                                     $scope.loginError = '';
                                     $scope.loginError.digest;
@@ -93,7 +104,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                             }).then(function successCallback(response) {
                                                 if (response.data == 1) {
                                                     // alert('Notification setting updated');
-                                                    //  $state.go('app.category-list');
+                                                    // $state.go('app.category-list');
                                                 }
                                             }, function errorCallback(e) {
                                                 console.log(e);
@@ -154,13 +165,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         })
                     }
 
-                    $scope.interface = window.localStorage.setItem('interface_id', '5');
-                    $scope.registervia = window.localStorage.setItem('registervia', 'apk');
-                    $scope.user = {};
-                    $scope.user.name = '';
-                    $scope.user.email = '';
-                    $scope.user.phone = '';
-                    $scope.user.password = '';
+
                     $scope.doSignUp = function () {
                         var data = "name=" + $scope.user.name + "&email=" + $scope.user.email + "&phone=" + $scope.user.phone + "&password=" + $scope.user.password + "&interface=" + $scope.interface + "&registervia=" + $scope.registervia;
                         //var data = new FormData(jQuery("#signup")[0]);
@@ -176,7 +181,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                 store($scope.user);
                                 alert('Kindly check your mobile for OTP')
                                 $('#checkotp').removeClass('hide');
-                                $('#signupUser').addClass('hide');
+                                $('#signup').addClass('hide');
                             }
                         });
                     };
@@ -233,11 +238,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                         }
 
                                         alert('Your sucessfully registered');
-                                        $state.go('app.category-list', {}, {reload: true});
+                                       // $state.go('app.category-list', {}, {reload: true});
                                     } else {
                                         alert('Please fill all the details for signup');
                                     }
                                     $rootScope.$digest;
+                                      $scope.loginModal.hide();
                                 },
                                 error: function (e) {
                                     console.log(e.responseText);

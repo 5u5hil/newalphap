@@ -58,19 +58,20 @@
         
     <form name="signupForm" class="" novalidate id="signup">
                         <div class="item item-body">
-
+                                    <input type="hidden" value="{{interface}}" ng-model="interface" name="interface">
+                                     <input type="hidden" value="{{registervia}}" ng-model="registervia" name="registervia">
                             <label class="item item-input">
-                                <input type="text"  name="name"  required ng-model="user.name" placeholder="Name" ng-minlength="3" />
+                                <input type="text"  name="name"  ng-required ng-model="user.name" placeholder="Name" ng-minlength="3" />
                                 <div class="clr"></div>
                                 <div ng-show="signupForm.name.$error.minlength" class="serror">Username is too short.</div>
-                                <div ng-show="signupForm.name.$error.required" class="serror">Your username is required.</div>
+                                <div ng-show="signupForm.name.$error.invalid" class="serror">Your username is required.</div>
                             </label>
 
                             <label class="item item-input">
 
-                                <input type="email" name="email" required ng-blur="checkEmail(user.email)" placeholder="Email" ng-model="user.email" />
+                                <input type="email" name="email" ng-required ng-blur="checkEmail(user.email)" placeholder="Email" ng-model="user.email" />
 
-                                <div ng-show="signupForm.email.$error.required" class="serror">Email is required.</div>
+                                <div ng-show="signupForm.email.$error.invalid" class="serror">Email is required.</div>
                                 <div ng-show="signupForm.email.$error.email" class="serror">Email is invalid</div>
                             </label>
 
