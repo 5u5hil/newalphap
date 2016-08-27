@@ -46,7 +46,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     }
 
 
-                    console.log("jfskdjfk");
+                    // console.log("jfskdjfk");
                     $scope.doLogIn = function () {
                         console.log("khjfgkdjfhg");
                         $ionicLoading.show({template: 'Loading...'});
@@ -263,6 +263,19 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     console.log(e);
                 });
             };
+            
+            $scope.checkRedirect = function (url) {
+                alert(url);
+                $rootScope.$broadcast('showLoginModal', $scope, function () {
+                    console.log("logged in fail");
+
+                }, function () {
+                    console.log("succesfully logged in");
+                    $state.go(url);
+
+                });
+            }
+            
         })
 
         .controller('SearchBarCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
@@ -656,8 +669,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.language = response.data.lang.language;
                 if (response.data) {
 
-                    //$rootScope.apkLanguage = response.data.lang.language;
-                    $scope.apkLanguage = window.localStorage.setItem('apkLanguage', response.data.lang.language);
+                    $rootScope.apkLanguage = response.data.lang.language;
+                    window.localStorage.setItem('apkLanguage', response.data.lang.language);
                 } else {
 
                 }
@@ -674,7 +687,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $scope.menuItem = response.data.menuItem;
                     $scope.cattext = response.data.dataCat;
                     $scope.language = response.data.lang.language;
-                    $scope.apkLanguage = window.localStorage.setItem('apkLanguage', $scope.language);
+                    $rootScope.apkLanguage = response.data.lang.language;
+                    window.localStorage.setItem('apkLanguage', response.data.lang.language);
                 }
                 $http({
                     method: 'GET',
@@ -693,6 +707,18 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             // } else {
             //  $state.go('auth.walkthrough', {}, {reload: true});
             //  }
+
+            $scope.checkRedirect = function (url) {
+                alert(url);
+                $rootScope.$broadcast('showLoginModal', $scope, function () {
+                    console.log("logged in fail");
+
+                }, function () {
+                    console.log("succesfully logged in");
+                    $state.go(url);
+
+                });
+            }
         })
 
         .controller('PatientSettingsCtrl', function ($scope, $http, $ionicPlatform, $state, $stateParams, $timeout, $ionicModal, $ionicLoading, $rootScope, $sce) {
