@@ -7168,7 +7168,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $ionicLoading.hide();
                     if (response == '1') {
                         $scope.archiveId = window.localStorage.removeItem('archiveId');
-                        alert('video chat added sucessfully.');
+                        alert('Chat recording added successfully.');
                         $state.go('app.chat', {'id': $scope.chatId}, {reload: true});
                     } else {
                         $state.go('app.chat', {'id': $scope.chatId}, {reload: true});
