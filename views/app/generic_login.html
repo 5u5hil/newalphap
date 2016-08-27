@@ -4,11 +4,12 @@
 
     <ion-content > <!--ng-controller="GenericLoginCtrl"-->
 
-        <form name="login_form" class="" novalidate ng-cloak id="loginuser" ng-submit="doLogIn()">
-            <input type="hidden" value="{{interface}}" ng-model="interface" name="interface">
-            <my-tabs ng-if="language == 'english'"> 
+       
+            <my-tabs > 
 
                 <my-tab  title="login"> 
+                     <form name="login_form" class="" novalidate ng-cloak id="loginuser" ng-submit="doLogIn()">
+                     <input type="hidden" value="{{interface}}" ng-model="interface" name="interface">
                     <div class="list">
                         <label class="item item-input">
                             <input type="email" placeholder="Email / Mobile" id="useremail" name="user" ng-model="user.email" required>
@@ -27,36 +28,10 @@
                         <button type="submit" class="button button-positive button-block"  ng-disabled="(selected_tab == 'Login') ? (login_form.email.$invalid || login_form.password.$invalid) : ((selected_tab == 'Phone') ? (login_form.user_phone.$invalid || login_form.user_pin.$invalid) : false)">
                             Login
                         </button>
-                    </div>
+                    </div></form>
                 </my-tab>
-
-            </my-tabs>
-            <my-tabs  ng-if="language != 'english'">
-                <my-tab  title="{{langtext.login[language]}}"> 
-                    <div class="list">
-                        <label class="item item-input">
-                            <input type="email" placeholder="{{langtext.email[language]}}" id="useremail" name="user" ng-model="user.email" required>
-                        </label>
-
-                        <label class="item item-input" show-hide-container>
-                            <input type="password" placeholder="{{langtext.password[language]}}" id="password" name="password" ng-model="user.password" required show-hide-input>                                        
-                        </label>                                    
-                    </div>
-                    <div class='error text-center'>
-                        <span class='error text-center'  style="color:#e42012;" ng-model='loginError' ng-bind-html='loginError' ></span>
-                    </div>
-
-                    <div class="item-body bottom-content">
-                        <button type="submit" class="button button-positive button-block"  ng-disabled="(selected_tab == 'Login') ? (login_form.email.$invalid || login_form.password.$invalid) : ((selected_tab == 'Phone') ? (login_form.user_phone.$invalid || login_form.user_pin.$invalid) : false)">
-                            {{langtext.login[language]}}
-                        </button>
-                    </div>
-                </my-tab>
-            </my-tabs>
-
-        </form>
-        
-    <form name="signupForm" class="" novalidate id="signup">
+                 <my-tab  title="Register"> 
+                      <form name="signupForm" class="" novalidate id="signup">
                         <div class="item item-body">
                                     <input type="hidden" value="{{interface}}" ng-model="interface" name="interface">
                                      <input type="hidden" value="{{registervia}}" ng-model="registervia" name="registervia">
@@ -96,8 +71,7 @@
                             </button>
                         </div>
                     </form>
-        
-          <div id="checkotp" class="hide">
+     <div id="checkotp" class="hide">
                                     <form  id="otpUser"  method="get">
                                         <div class="form-group has-feedback">
                                             <input type="text" ng-model="otp" class="form-control"  name="otpcode"  required  placeholder="Enter your OTP" ng-minlength="5" />
@@ -109,6 +83,35 @@
                                     </form>
                                     <br/>
                                 </div>
+                 </my-tab>
+                
+            </my-tabs>
+            <!--<my-tabs  ng-if="language != 'english'">
+                <my-tab  title="{{langtext.login[language]}}"> 
+                    <div class="list">
+                        <label class="item item-input">
+                            <input type="email" placeholder="{{langtext.email[language]}}" id="useremail" name="user" ng-model="user.email" required>
+                        </label>
+
+                        <label class="item item-input" show-hide-container>
+                            <input type="password" placeholder="{{langtext.password[language]}}" id="password" name="password" ng-model="user.password" required show-hide-input>                                        
+                        </label>                                    
+                    </div>
+                    <div class='error text-center'>
+                        <span class='error text-center'  style="color:#e42012;" ng-model='loginError' ng-bind-html='loginError' ></span>
+                    </div>
+
+                    <div class="item-body bottom-content">
+                        <button type="submit" class="button button-positive button-block"  ng-disabled="(selected_tab == 'Login') ? (login_form.email.$invalid || login_form.password.$invalid) : ((selected_tab == 'Phone') ? (login_form.user_phone.$invalid || login_form.user_pin.$invalid) : false)">
+                            {{langtext.login[language]}}
+                        </button>
+                    </div>
+                </my-tab>
+            </my-tabs>-->
+
+     
+        
+   
 
     </ion-content>
 </ion-modal-view> 
