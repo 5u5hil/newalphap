@@ -70,7 +70,7 @@
                     <h2 class="menu-text" ng-if="apkLanguage == 'english'">Logout</h2>
                     <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.logout[language]}}</h2>
                 </ion-item>
-                <ion-item class="item-icon-left logoutbtn" nav-clear menu-close ng-if="userLogged == '0'" ui-sref="auth.login">
+                <ion-item class="item-icon-left logoutbtn" nav-clear menu-close ng-if="userLogged == '0'" ng-click="checkRedirect('auth.login')">
                     <i class="icon ion-android-unlock"></i>
                     <h2 class="menu-text" ng-if="apkLanguage == 'english'">Login</h2>
                     <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.login[language]}}</h2>

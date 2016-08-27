@@ -153,6 +153,140 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             console.error(error)
                         })
                     }
+
+                    $scope.interface = window.localStorage.setItem('interface_id', '5');
+                    $scope.registervia = window.localStorage.setItem('registervia', 'apk');
+                    $scope.user = {};
+                    $scope.user.name = '';
+                    $scope.user.email = '';
+                    $scope.user.phone = '';
+                    $scope.user.password = '';
+                    $scope.doSignUp = function () {
+                        var data = "name=" + $scope.user.name + "&email=" + $scope.user.email + "&phone=" + $scope.user.phone + "&password=" + $scope.user.password + "&interface=" + $scope.interface + "&registervia=" + $scope.registervia;
+                        //var data = new FormData(jQuery("#signup")[0]);
+                        $.ajax({
+                            type: 'GET',
+                            url: domain + "check-otp",
+                            data: data,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            success: function (response) {
+                                window.localStorage.setItem('code', response.otpcode);
+                                store($scope.user);
+                                alert('Kindly check your mobile for OTP')
+                                $('#checkotp').removeClass('hide');
+                                $('#signupUser').addClass('hide');
+                            }
+                        });
+                    };
+                    //check OTP bhavana
+                    $scope.checkOTP = function (otp) {
+                        $scope.interface = window.localStorage.getItem('interface_id');
+                        $scope.registervia = window.localStorage.getItem('registervia');
+                        $scope.user = {};
+                        $scope.user.name = window.localStorage.getItem('name');
+                        $scope.user.email = window.localStorage.getItem('email');
+                        $scope.user.phone = window.localStorage.getItem('phone');
+                        $scope.user.password = window.localStorage.getItem('password');
+                        var data = "name=" + $scope.user.name + "&email=" + $scope.user.email + "&phone=" + $scope.user.phone + "&password=" + $scope.user.password + "&interface=" + $scope.interface + "&registervia=" + $scope.registervia;
+                        console.log("data " + data);
+                        var code = window.localStorage.getItem('code');
+                        if (parseInt(code) === parseInt(otp)) {
+                            console.log('code' + code + '--otp--' + otp)
+                            $.ajax({
+                                type: 'GET',
+                                url: domain + "register",
+                                data: data,
+                                cache: false,
+                                contentType: false,
+                                processData: false,
+                                success: function (response) {
+                                    if (angular.isObject(response)) {
+                                        jQuery("#signupUser")[0].reset();
+                                        store(response);
+                                        $rootScope.userLogged = 1;
+                                        try {
+                                            window.plugins.OneSignal.getIds(function (ids) {
+                                                console.log('getIds: ' + JSON.stringify(ids));
+                                                if (window.localStorage.getItem('id')) {
+                                                    $scope.userId = window.localStorage.getItem('id');
+                                                } else {
+                                                    $scope.userId = '';
+                                                }
+
+                                                $http({
+                                                    method: 'GET',
+                                                    url: domain + 'notification/insertPlayerId',
+                                                    params: {userId: $scope.userId, playerId: ids.userId, pushToken: ids.pushToken}
+                                                }).then(function successCallback(response) {
+                                                    if (response.data == 1) {
+                                                        // alert('Your sucessfully registered');
+                                                        // $state.go('app.category-list', {}, {reload: true});
+                                                    }
+                                                }, function errorCallback(e) {
+                                                    console.log(e);
+                                                });
+                                            });
+                                        } catch (err) {
+
+                                        }
+
+                                        alert('Your sucessfully registered');
+                                        $state.go('app.category-list', {}, {reload: true});
+                                    } else {
+                                        alert('Please fill all the details for signup');
+                                    }
+                                    $rootScope.$digest;
+                                },
+                                error: function (e) {
+                                    console.log(e.responseText);
+                                }
+                            });
+                        } else {
+                            alert('Enterd OTP code is incorrect.Kindly ckeck');
+                        }
+                    };
+                    //Check if email is already registered
+                    $scope.checkEmail = function (email) {
+                        $scope.interface = window.localStorage.getItem('interface_id');
+                        $http({
+                            method: 'GET',
+                            url: domain + 'check-user-email',
+                            params: {userEmail: email, interface: $scope.interface}
+                        }).then(function successCallback(response) {
+                            if (response.data > 0) {
+                                $scope.user.email = '';
+                                $scope.emailError = "This email-id is already registered!";
+                                $scope.emailError.digest;
+                            } else {
+                                $scope.emailError = "";
+                                $scope.emailError.digest;
+                            }
+                        }, function errorCallback(response) {
+                            console.log(response);
+                        });
+                    };
+                    //Check if phone is already registered - bhavana
+                    $scope.checkPhone = function (phone) {
+                        $scope.interface = window.localStorage.getItem('interface_id');
+                        $http({
+                            method: 'GET',
+                            url: domain + 'check-user-phone',
+                            params: {userPhone: phone, interface: $scope.interface}
+                        }).then(function successCallback(response) {
+                            if (response.data > 0) {
+                                $scope.user.phone = '';
+                                $scope.phoneError = "This phone number is already registered!";
+                                $scope.phoneError.digest;
+                            } else {
+                                $scope.phoneError = "";
+                                $scope.phoneError.digest;
+                            }
+                        }, function errorCallback(response) {
+                            console.log(response);
+                        });
+                    };
                 });
 
             });
@@ -263,9 +397,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     console.log(e);
                 });
             };
-            
+
             $scope.checkRedirect = function (url) {
-                alert(url);
+                // alert(url);
                 $rootScope.$broadcast('showLoginModal', $scope, function () {
                     console.log("logged in fail");
 
@@ -275,7 +409,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
                 });
             }
-            
+
         })
 
         .controller('SearchBarCtrl', function ($scope, $state, $ionicConfig, $rootScope) {
@@ -709,7 +843,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             //  }
 
             $scope.checkRedirect = function (url) {
-                alert(url);
+                // alert(url);
                 $rootScope.$broadcast('showLoginModal', $scope, function () {
                     console.log("logged in fail");
 
