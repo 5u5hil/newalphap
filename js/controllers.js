@@ -29,8 +29,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
             $rootScope.$on('showLoginModal', function ($event, scope, cancelCallback, callback) {
                 //bhavana----------
-               
-               
+
+
                 $scope.user = {};
                 $scope.user.name = '';
                 $scope.user.email = '';
@@ -59,7 +59,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
                     // console.log("jfskdjfk");
                     $scope.doLogIn = function () {
-                       // console.log("khjfgkdjfhg");
+                        // console.log("khjfgkdjfhg");
                         $ionicLoading.show({template: 'Loading...'});
                         var data = new FormData(jQuery("#loginuser")[0]);
                         $.ajax({
@@ -164,8 +164,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             console.error(error)
                         })
                     }
-
-
                     $scope.doSignUp = function () {
                         var data = "name=" + $scope.user.name + "&email=" + $scope.user.email + "&phone=" + $scope.user.phone + "&password=" + $scope.user.password + "&interface=" + $scope.interface + "&registervia=" + $scope.registervia;
                         //var data = new FormData(jQuery("#signup")[0]);
@@ -208,9 +206,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                 processData: false,
                                 success: function (response) {
                                     if (angular.isObject(response)) {
-                                        jQuery("#signupUser")[0].reset();
                                         store(response);
                                         $rootScope.userLogged = 1;
+                                          $rootScope.username = response.fname;
                                         try {
                                             window.plugins.OneSignal.getIds(function (ids) {
                                                 console.log('getIds: ' + JSON.stringify(ids));
@@ -236,14 +234,17 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                         } catch (err) {
 
                                         }
-
                                         alert('Your sucessfully registered');
-                                       // $state.go('app.category-list', {}, {reload: true});
+                                        if (typeof callback === 'function') {
+                                            callback();
+                                        }
+                                         $scope.loginModal.hide();
+                                        // $state.go('app.category-list', {}, {reload: true});
                                     } else {
                                         alert('Please fill all the details for signup');
                                     }
                                     $rootScope.$digest;
-                                      $scope.loginModal.hide();
+
                                 },
                                 error: function (e) {
                                     console.log(e.responseText);
