@@ -3633,7 +3633,7 @@ a.subdued:last-child {
     margin-top: -2px;
     border-style: solid;
     border-width: 2px 0 0 0;
-    border-color: #444; }
+    border-color: #387ef5; }
 .tabs-striped .tab-item.tab-item-active .badge, .tabs-striped .tab-item.active .badge, .tabs-striped .tab-item.activated .badge {
     top: 2px;
     opacity: 1; }
@@ -9434,7 +9434,8 @@ input[type="date"]:before{
                 width: 100%;
                 min-height: 151px;}
 .notfoundtext{padding:20% 0; text-align: center; }
-
+.loginregister{margin-top: 50px; }
+.loginregister .item-body{overflow:hidden; }
 
 
 
