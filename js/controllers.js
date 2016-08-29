@@ -5094,6 +5094,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('PatientJoinCtrl', function ($window, $ionicPlatform, $scope, $http, $stateParams, $sce, $filter, $timeout, $state, $ionicHistory, $ionicLoading) {
             $ionicLoading.show({template: 'Loading...'});
+     $scope.interface = window.localStorage.getItem('interface_id');
 //            if (!get('loadedOnce')) {
 //                store({'loadedOnce': 'true'});
 //                $window.location.reload(true);
@@ -5152,7 +5153,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-doctor',
-                params: {id: $scope.appId, userId: $scope.userId, mode: $scope.mode}
+                params: {id: $scope.appId, userId: $scope.userId, mode: $scope.mode,interface:$scope.interface}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
                
@@ -5160,7 +5161,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.app = response.data.app;
                 $scope.vjhId = response.data.vjhId;
                 //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
-                var apiKey = '45121182';
+                var apiKey = response.data.key; //'45121182';
+                console.log("@@@@@"+apiKey);
                 var sessionId = response.data.app[0].appointments.opentok_session_id;
                 console.log('sessionId' + sessionId);
                 var token = response.data.oToken;
@@ -5445,7 +5447,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.doctorId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
-            $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd hh:mm:ss');
+            $scope.curDate = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $scope.participant = [];
             $scope.msg = [];
             $ionicLoading.show({template: 'Loading...'});
@@ -5479,6 +5481,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
             $scope.goChat = function (chatId, chatStart, chatDate) {
+                 console.log(chatId+"====="+chatStart+"========"+chatDate);
+                 console.log(chatStart+"@@@"+$scope.curDate);
                 //var chatDate = $filter('date')(chatStart, 'MMM dd, yyyy - HH:mm a');
                 if (chatStart <= $scope.curDate)
                     $state.go('app.chat', {'id': chatId}, {reload: true});
