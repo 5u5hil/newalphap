@@ -1,10 +1,13 @@
-
 <ion-modal-view>
-
+ <header class="bar bar-header bar-positive">
+  <h1 class="title"> &nbsp; </h1>
+    <div side="right" class="button button-clear" ng-click="loginModal.hide()">
+    <span class="icon ion-close" style="color:#fff;"></span></div>
+  </header>
 
     <ion-content > <!--ng-controller="GenericLoginCtrl"-->
 
-       
+       <div class="loginregister">
             <my-tabs > 
 
                 <my-tab  title="Sign In"> 
@@ -112,6 +115,6 @@
      
         
    
-
+ </div>
     </ion-content>
 </ion-modal-view> 
