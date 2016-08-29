@@ -5155,7 +5155,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 params: {id: $scope.appId, userId: $scope.userId, mode: $scope.mode}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
-                $ionicLoading.hide();
+               
                 $scope.user = response.data.user;
                 $scope.app = response.data.app;
                 $scope.vjhId = response.data.vjhId;
@@ -5188,6 +5188,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         session.unsubscribe();
                     },
                     streamCreated: function (event) {
+                         $ionicLoading.hide();
                         console.log('stream created....');
                         subscriber = session.subscribe(event.stream, 'subscribersDiv', {width: "100%", height: "100%", subscribeToAudio: true},
                                 function (error) {
