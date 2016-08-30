@@ -5553,6 +5553,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.token = response.data.token;
                 $scope.otherToken = response.data.otherToken;
                 $scope.sessionId = response.data.chatSession;
+                $scope.chatActive = response.data.chatActive;
                 window.localStorage.setItem('Toid', $scope.otherUser.id);
                 //$scope.connect("'" + $scope.token + "'");
                 $scope.apiKey = apiKey;
@@ -5609,8 +5610,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
 
             $timeout(function () {
-                $scope.appendprevious();
-                $scope.movebottom();
+                if ($scope.chatMsgs.length > 0) {
+                    $scope.appendprevious();
+                    $scope.movebottom();
+                } else {
+                    //$('#chat').html('<p> No </p>');
+                }
             }, 1000);
 
             $scope.getchatsharedata = function () {
@@ -5637,6 +5642,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.otherUser = response.data.otherUser;
                 $scope.chatMsgs = response.data.chatMsgs;
                 $scope.sessionId = response.data.chatSession;
+                $scope.chatActive = response.data.chatActive;
                 console.log(response.data.chatMsgs);
                 $scope.apiKey = apiKey;
                 // var session = OT.initSession($scope.apiKey, $scope.sessionId);
