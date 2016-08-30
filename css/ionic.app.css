@@ -5445,7 +5445,9 @@ a.item-content {
     position: relative;
     visibility: hidden;
     overflow: hidden; 
-    text-align: center;}
+    text-align: center;
+    height:25%;}
+
 
 .slider-slides {
     position: relative;
@@ -5463,8 +5465,8 @@ a.item-content {
     width: 100%; }
 
 .slider-pager {
-    position: absolute;
-    bottom: 20px;
+    position: relative;
+    bottom: 15px;
     z-index: 1;
     width: 100%;
     height: 15px;
