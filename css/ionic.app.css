@@ -5444,7 +5444,8 @@ a.item-content {
 .slider {
     position: relative;
     visibility: hidden;
-    overflow: hidden; }
+    overflow: hidden; 
+    text-align: center;}
 
 .slider-slides {
     position: relative;
@@ -9453,6 +9454,7 @@ input[type="date"]:before{
 
 .crdview .icon,.item-bgnone .icon{color:#fff;}
 .item-bgnone .item{background: none !important; color: #fff;}
+
 
 /*.item-bgnone ion-item.item .item-content .icon:before{    
     background-color: #3E454C;

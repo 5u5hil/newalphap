@@ -6,6 +6,19 @@
         <span  ng-if="apkLanguage != 'english'">{{cattext.home[language]}}</span>
     </ion-nav-title>
     <ion-content>
+        <div class="slider">
+            <ion-slide-box on-slide-changed="slideHasChanged($index)">
+            <ion-slide>
+            <img src="./img/nature1.jpg"/>
+            </ion-slide>
+            <ion-slide>
+            <img src="./img/nature2.jpg"/>
+            </ion-slide>
+            <ion-slide>
+            <img src="./img/nature3.jpg"/>
+            </ion-slide>
+            </ion-slide-box>
+        </div>    
         <div class="list catlist" ng-if="apkLanguage == 'english'">
             <div ng-repeat="menu in menuItem">
                 <span ng-if="menu.intereface_menu.menu == 'consultations' && menu.intereface_menu.menu != 'settings'">
