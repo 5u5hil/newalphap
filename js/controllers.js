@@ -208,7 +208,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                     if (angular.isObject(response)) {
                                         store(response);
                                         $rootScope.userLogged = 1;
-                                          $rootScope.username = response.fname;
+                                        $rootScope.username = response.fname;
                                         try {
                                             window.plugins.OneSignal.getIds(function (ids) {
                                                 console.log('getIds: ' + JSON.stringify(ids));
@@ -238,7 +238,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                         if (typeof callback === 'function') {
                                             callback();
                                         }
-                                         $scope.loginModal.hide();
+                                        $scope.loginModal.hide();
                                         // $state.go('app.category-list', {}, {reload: true});
                                     } else {
                                         alert('Please fill all the details for signup');
@@ -1942,6 +1942,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('PreviewConsultationsNoteCtrl', function ($scope, $http, $stateParams, $rootScope, $state, $compile, $ionicModal, $ionicHistory, $timeout, $filter, $ionicLoading) {
             $scope.appId = $stateParams.appId;
             $scope.recId = $stateParams.id;
+            store({'recId': $scope.recId});
             $scope.pcaseId = '';
             $scope.testResult = {};
             $scope.objText = {};
@@ -1956,15 +1957,14 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.patientId = response.data.patient.id;
                 $scope.doctorId = response.data.doctr.id
                 $scope.app = response.data.app;
+                $scope.patient = response.data.patient;
                 $scope.prevRecord = response.data.record;
                 $scope.prevRecordDetails = response.data.recordDetails;
                 if (response.data.record != null) {
                     $scope.precId = response.data.record.id;
                     $scope.recId = response.data.record.id;
                 }
-                window.localStorage.setItem('patientId', $scope.patientId);
-                window.localStorage.setItem('doctorId', $scope.doctorId);
-                window.localStorage.setItem('recId', $scope.recId);
+                store({'patientId': $scope.patientId, 'doctorId': $scope.doctorId, 'recId': $scope.recId});
                 if ($scope.prevRecordDetails.length > 0) {
                     angular.forEach($scope.prevRecordDetails, function (val, key) {
                         if (val.fields.field == 'Case Id') {
@@ -2029,7 +2029,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             }).then(function (modal) {
                 $scope.filemodal = modal;
                 $scope.showRecAttach = function (apath, aname) {
-                    alert(apath + "======" + aname);
+                    //alert(apath + "======" + aname);
                     $scope.attachValue = domain + 'public' + apath + aname;
                     //$('#recattach').modal('show');
                     $scope.filemodal.show();
@@ -2072,7 +2072,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
             $scope.goto = function () {
                 var backurl = get('backurl');
-                unset(['backurl']);
+                unset(['backurl', 'recId', 'patientId', 'doctorId']);
                 if (backurl == 'records-view') {
                     $state.go('app.records-view', {'id': 8, 'shared': 1}, {reload: true});
                 } else if (backurl == 'consultations-current') {
@@ -2083,14 +2083,37 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
             /* New Added */
             $scope.intext = 'more';
-            $scope.infomore = function (r) {
-                console.log("=== " + r + " ===");
+            $scope.infomore = function (r, type) {
+                console.log(r + " more =>  type => " + type);
                 jQuery('#' + r).toggleClass('active');
                 if (jQuery('#' + r).hasClass('active')) {
-                    $scope.intext = 'less'
+                    if (type == 'inv')
+                        jQuery('#' + r + 't').html('Less');
+                    else if (type == 'medi')
+                        jQuery('#' + r + 'm').html('Less');
+                    else if (type == 'proc')
+                        jQuery('#' + r + 'p').html('Less');
+                    else if (type == 'life')
+                        jQuery('#' + r + 'l').html('Less');
+                    else if (type == 'ref')
+                        jQuery('#' + r + 'r').html('Less');
+                    else if (type == 'diet')
+                        jQuery('#' + r + 'd').html('Less');
                 } else {
-                    $scope.intext = 'more';
+                    if (type == 'inv')
+                        jQuery('#' + r + 't').html('More');
+                    else if (type == 'medi')
+                        jQuery('#' + r + 'm').html('More');
+                    else if (type == 'proc')
+                        jQuery('#' + r + 'p').html('More');
+                    else if (type == 'life')
+                        jQuery('#' + r + 'l').html('More');
+                    else if (type == 'ref')
+                        jQuery('#' + r + 'r').html('More');
+                    else if (type == 'diet')
+                        jQuery('#' + r + 'd').html('More');
                 }
+
             };
             $scope.getEvaluationDetails = function () {
                 $http({
@@ -3880,12 +3903,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.specializations = response.data.spec;
                 $scope.langtext = response.data.tabmenu;
                 $scope.language = response.data.lang.language;
-                
+
                 $scope.all_video = response.data.all_video;
-                
+
                 //Time Limit For Interface
                 $scope.timeLimit = response.data.timelimit.cancellation_time;
-                
+
                 //Video
                 $scope.video_time = response.data.video_time;
                 $scope.video_app = response.data.video_app;
@@ -5097,7 +5120,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
 
         .controller('PatientJoinCtrl', function ($window, $ionicPlatform, $scope, $http, $stateParams, $sce, $filter, $timeout, $state, $ionicHistory, $ionicLoading) {
             $ionicLoading.show({template: 'Loading...'});
-     $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.interface = window.localStorage.getItem('interface_id');
 //            if (!get('loadedOnce')) {
 //                store({'loadedOnce': 'true'});
 //                $window.location.reload(true);
@@ -5156,16 +5179,16 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $http({
                 method: 'GET',
                 url: domain + 'appointment/join-doctor',
-                params: {id: $scope.appId, userId: $scope.userId, mode: $scope.mode,interface:$scope.interface}
+                params: {id: $scope.appId, userId: $scope.userId, mode: $scope.mode, interface: $scope.interface}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
-               
+
                 $scope.user = response.data.user;
                 $scope.app = response.data.app;
                 $scope.vjhId = response.data.vjhId;
                 //$scope.oToken = "https://test.doctrs.in/opentok/opentok?session=" + response.data.app[0].appointments.opentok_session_id;
                 var apiKey = response.data.key; //'45121182';
-                console.log("@@@@@"+apiKey);
+                console.log("@@@@@" + apiKey);
                 var sessionId = response.data.app[0].appointments.opentok_session_id;
                 console.log('sessionId' + sessionId);
                 var token = response.data.oToken;
@@ -5193,7 +5216,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         session.unsubscribe();
                     },
                     streamCreated: function (event) {
-                         $ionicLoading.hide();
+                        $ionicLoading.hide();
                         console.log('stream created....');
                         subscriber = session.subscribe(event.stream, 'subscribersDiv', {width: "100%", height: "100%", subscribeToAudio: true},
                                 function (error) {
@@ -5225,7 +5248,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                                                     console.log('audio packet loss ratio: ', audioPacketLossRatio);
                                                     var audioBitRate = 8 * (stats.audio.bytesReceived - prevStats.audio.bytesReceived);
                                                     console.log('audio bit rate: ', audioBitRate, 'bps');
-                                                     $ionicLoading.hide();
+                                                    $ionicLoading.hide();
                                                     $http({
                                                         method: 'GET',
                                                         url: domain + 'log/stats-log',
@@ -5484,8 +5507,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 console.log(e);
             });
             $scope.goChat = function (chatId, chatStart, chatDate) {
-                 console.log(chatId+"====="+chatStart+"========"+chatDate);
-                 console.log(chatStart+"@@@"+$scope.curDate);
+                console.log(chatId + "=====" + chatStart + "========" + chatDate);
+                console.log(chatStart + "@@@" + $scope.curDate);
                 //var chatDate = $filter('date')(chatStart, 'MMM dd, yyyy - HH:mm a');
                 if (chatStart <= $scope.curDate)
                     $state.go('app.chat', {'id': chatId}, {reload: true});
