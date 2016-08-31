@@ -7956,6 +7956,7 @@ ion-side-menu ion-item.item .menu-text {
     font-weight: 500; }
 ion-side-menu ion-item.item:first-child {
     border-top: none; }
+
 ion-side-menu ion-item.item:last-child {
     border-bottom: none; }
 ion-side-menu .heading-item .item-content {
@@ -9439,9 +9440,9 @@ input[type="date"]:before{
 .notfoundtext{padding:20% 0; text-align: center; }
 .loginregister{margin-top: 50px; }
 .loginregister .item-body{overflow:hidden; }
+ion-side-menu ion-item.item:first-child{    border-top: 1px #33383e solid !important;}
 
-
-
+ion-side-menu ion-item.item:last-child{ border-bottom: 1px #33383e solid !important;}
 
 
 /*end of custom tinder cards*/
