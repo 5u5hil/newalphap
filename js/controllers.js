@@ -4327,7 +4327,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             };
             $scope.checkAvailability = function (uid, prodId) {
                 if (checkLogin()) {
-                    alert($scope.instVideo.user_id);
+                    //alert($scope.instVideo.user_id);
                     $scope.interface = window.localStorage.getItem('interface_id');
                     console.log("prodId " + prodId);
                     console.log("uid " + uid);
