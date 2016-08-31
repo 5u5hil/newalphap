@@ -25,7 +25,7 @@
 
 
 .ot-textchat .chatscroll{
-	
+	   padding-bottom: 20px;
 	  position: relative;
   margin-bottom: 1em;
   height: calc(100% - 1em);
@@ -222,5 +222,3 @@ section.ot-bubble.mine{text-align:left;     margin-left: 0.5em;}
 
 .ot-textchat .ot-message-timestamp, .ot-bubble .ot-message-content{color:#fff;}
 .ot-bubble.mine   .ot-message-timestamp, .ot-bubble.mine .ot-message-content{color:#000 !important;}
-
-

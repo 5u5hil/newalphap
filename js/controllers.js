@@ -5557,7 +5557,11 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
         })
 
-        .controller('ChatCtrl', function ($scope, $state, $http, $stateParams, $timeout, $filter, $ionicLoading) {
+        .controller('ChatCtrl', function ($scope, $state, $http, $stateParams, $timeout, $filter, $ionicLoading,$ionicScrollDelegate) {
+
+
+
+
             $scope.chatId = $stateParams.id;
             window.localStorage.setItem('chatId', $stateParams.id);
             $scope.partId = window.localStorage.getItem('id');
@@ -5608,7 +5612,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 })
             };
             $scope.returnjs();
-            $scope.iframeHeight = $(window).height() - 42;
+            $scope.iframeHeight = $(window).height() - 87;
             $('#chat').css('height', $scope.iframeHeight);
             //Previous Chat 
             $scope.appendprevious = function () {
