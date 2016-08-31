@@ -3880,9 +3880,12 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.specializations = response.data.spec;
                 $scope.langtext = response.data.tabmenu;
                 $scope.language = response.data.lang.language;
+                
+                $scope.all_video = response.data.all_video;
+                
                 //Time Limit For Interface
                 $scope.timeLimit = response.data.timelimit.cancellation_time;
-
+                
                 //Video
                 $scope.video_time = response.data.video_time;
                 $scope.video_app = response.data.video_app;
