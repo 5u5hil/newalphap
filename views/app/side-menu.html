@@ -32,7 +32,7 @@
 
                 <ion-item class="item-icon-left logoutbtn" ng-repeat="menu in menuItem" nav-clear menu-close ng-if="menu.intereface_menu.menu == 'consultations'" ng-click="{{menu.url}}">
                     <i class="icon ion-medkit"></i>
-                    <h2 class="menu-text" ng-if="apkLanguage == 'english'">Book</h2>
+                    <h2 class="menu-text" ng-if="apkLanguage == 'english'">Book Now</h2>
                     <h2 class="menu-text" ng-if="apkLanguage != 'english'" ng-init="item = menu.intereface_menu.menu">{{menutext['book'][language]}}</h2>
                 </ion-item>
 
@@ -40,7 +40,7 @@
                     <ion-item class="item-icon-left logoutbtn" ng-if="userLogged == 0" nav-clear menu-close ng-click="checkRedirect('app.consultations-current')" >
                     
                                 <i class ="icon ion-medkit"></i>
-                        <h2 class="menu-text" ng-if="apkLanguage == 'english'">Appointment</h2>
+                        <h2 class="menu-text" ng-if="apkLanguage == 'english'">Existing Appointments</h2>
                         <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.appointment[language]}}</h2>
                         
                     </ion-item>
@@ -50,7 +50,7 @@
                
                     <ion-item class="item-icon-left logoutbtn" nav-clear menu-close ui-sref="app.consultations-current" ng-if="userLogged == 1">
                         <i class="icon ion-medkit"></i>
-                        <h2 class="menu-text" ng-if="apkLanguage == 'english'">Appointment</h2>
+                        <h2 class="menu-text" ng-if="apkLanguage == 'english'">Existing Appointments</h2>
                         <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.appointment[language]}}</h2>
                     </ion-item>
              

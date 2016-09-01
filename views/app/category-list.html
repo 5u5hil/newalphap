@@ -6,7 +6,7 @@
         <span  ng-if="apkLanguage != 'english'">{{cattext.home[language]}}</span>
     </ion-nav-title>
     <ion-content>
-        <div class="slider">
+<!--        <div class="slider">
             <ion-slide-box on-slide-changed="slideHasChanged($index)">
             <ion-slide>
             <img src="./img/nature1.jpg"/>
@@ -18,24 +18,24 @@
             <img src="./img/nature3.jpg"/>
             </ion-slide>
             </ion-slide-box>
-        </div>    
+        </div>    -->
         <div class="list catlist" ng-if="apkLanguage == 'english'">
             <div ng-repeat="menu in menuItem">
                 <span ng-if="menu.intereface_menu.menu == 'consultations' && menu.intereface_menu.menu != 'settings'">
                     <a class="item item-icon-right" ng-click="{{menu.url}}"  >
                         <i class="cicon ion-medkit"></i>
-                        <span class="ctitle">Book</span>
+                        <span class="ctitle">Book Now</span>
                     </a>
                     <span ng-if="userLogged == 0">
                         <a class="item item-icon-right"  ng-click="checkRedirect('app.consultations-current')" >
                             <i class="cicon ion-medkit"></i>
-                            <span class="ctitle">Appointment </span>
+                            <span class="ctitle">Existing Appointments </span>
                         </a>
                     </span>
                     <span ng-if="userLogged == 1">
                         <a class="item item-icon-right" ui-sref="app.consultations-current" >
                             <i class="cicon ion-medkit"></i>
-                            <span class="ctitle">Appointment </span>
+                            <span class="ctitle">Existing Appointments </span>
                         </a>
                     </span>
                 </span>
