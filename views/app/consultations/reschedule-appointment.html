@@ -42,12 +42,12 @@
                             <div class="clr"></div>
                             <div class="item item-body p0 brd-0" ng-repeat="ps in prSch track by $index">
                                 <!--                                    <strong>Available on </strong>-->
-                                <ul class="wk">
+<!--                                <ul class="wk">
                                     <li ng-repeat="day in ps.service_details| orderBy:'' | groupBy:['day_of_week']">
                                         <strong ng-show="day.group_by_CHANGED">{{ day.day_of_week|limitTo:1}} : </strong>
                                         {{day.from|limitTo:2}} - {{day.to|limitTo:2}}
                                     </li>
-                                </ul>	
+                                </ul>	-->
                                 <div class="sche-date">
                                     <div class="leftarrow" ng-click="getFirstSlots(ps.supersaas_id, $index, appointment.mode)">Earliest Slot</div> 
                                     <input type="date" ng-model="schdate[$index]" value="schdate[$index]|dateFormat1" ng-change="getNextSlots(schdate[$index], vs.supersaas_id, $index, serv)"/>
