@@ -2,23 +2,27 @@
     <button class="button button-clear button-positive">Edit</button>
     <ion-nav-title>
 
-        <span  ng-if="apkLanguage == 'english'">Home</span>
+        <span  ng-if="apkLanguage == 'english'">Home </span>
+
         <span  ng-if="apkLanguage != 'english'">{{cattext.home[language]}}</span>
     </ion-nav-title>
+    <ion-nav-buttons side="right"  >
+        <span class="pull-right" side="right" style="color: #fff; cursor: context-menu;">Beta</span>
+    </ion-nav-buttons>
     <ion-content>
-<!--        <div class="slider">
-            <ion-slide-box on-slide-changed="slideHasChanged($index)">
-            <ion-slide>
-            <img src="./img/nature1.jpg"/>
-            </ion-slide>
-            <ion-slide>
-            <img src="./img/nature2.jpg"/>
-            </ion-slide>
-            <ion-slide>
-            <img src="./img/nature3.jpg"/>
-            </ion-slide>
-            </ion-slide-box>
-        </div>    -->
+        <!--        <div class="slider">
+                    <ion-slide-box on-slide-changed="slideHasChanged($index)">
+                    <ion-slide>
+                    <img src="./img/nature1.jpg"/>
+                    </ion-slide>
+                    <ion-slide>
+                    <img src="./img/nature2.jpg"/>
+                    </ion-slide>
+                    <ion-slide>
+                    <img src="./img/nature3.jpg"/>
+                    </ion-slide>
+                    </ion-slide-box>
+                </div>    -->
         <div class="list catlist" ng-if="apkLanguage == 'english'">
             <div ng-repeat="menu in menuItem">
                 <span ng-if="menu.intereface_menu.menu == 'consultations' && menu.intereface_menu.menu != 'settings'">
@@ -43,7 +47,7 @@
                     <a class="item item-icon-right" ng-click="checkRedirect(menu.url)" ng-if="menu.intereface_menu.menu != 'consultations' && menu.intereface_menu.menu != 'settings'" >
                         <i class="cicon
                            {{menu.intereface_menu.menu=='records'? 'ion-folder': menu.intereface_menu.menu=='chats'? 'ion-chatboxes':menu.intereface_menu.menu=='packages'? 'ion-cube':menu.intereface_menu.menu=='library'? 'ion-ios-book':menu.intereface_menu.menu=='pathology'? 'ion-erlenmeyer-flask':menu.intereface_menu.menu=='medicines'? 'ion-medkit': 'ion-cube'}}"></i>
-                        <span class="ctitle"> {{menu.intereface_menu.menu|capitalize}}</span>	
+                        <span class="ctitle"> {{menu.intereface_menu.menu|capitalizeEach}}</span>	
 
                     </a>
                 </span>
@@ -51,7 +55,7 @@
                     <a class="item item-icon-right"  ui-sref="{{menu.url}}" ng-if="menu.intereface_menu.menu != 'consultations' && menu.intereface_menu.menu != 'settings'" >
                         <i class="cicon
                            {{menu.intereface_menu.menu=='records'? 'ion-folder': menu.intereface_menu.menu=='chats'? 'ion-chatboxes':menu.intereface_menu.menu=='packages'? 'ion-cube':menu.intereface_menu.menu=='library'? 'ion-ios-book':menu.intereface_menu.menu=='pathology'? 'ion-erlenmeyer-flask':menu.intereface_menu.menu=='medicines'? 'ion-medkit': 'ion-cube'}}"></i>
-                        <span class="ctitle"> {{menu.intereface_menu.menu|capitalize}}</span>	
+                        <span class="ctitle"> {{menu.intereface_menu.menu|capitalizeEach}}</span>	
 
                     </a>
                 </span>
