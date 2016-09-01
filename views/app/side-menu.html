@@ -39,7 +39,7 @@
               
                     <ion-item class="item-icon-left logoutbtn" ng-if="userLogged == 0" nav-clear menu-close ng-click="checkRedirect('app.consultations-current')" >
                                 <i class ="icon ion-ios-time"></i>
-                        <h2 class="menu-text" ng-if="apkLanguage == 'english'">Existing Appointments</h2>
+                        <h2 class="menu-text" ng-if="apkLanguage == 'english'">Your Appointments</h2>
                         <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.appointment[language]}}</h2>
                         
                     </ion-item>
@@ -49,7 +49,7 @@
                
                     <ion-item class="item-icon-left logoutbtn" nav-clear menu-close ui-sref="app.consultations-current" ng-if="userLogged == 1">
                         <i class="icon ion-ios-time"></i>
-                        <h2 class="menu-text" ng-if="apkLanguage == 'english'">Existing Appointments</h2>
+                        <h2 class="menu-text" ng-if="apkLanguage == 'english'">Your Appointments</h2>
                         <h2 class="menu-text" ng-if="apkLanguage != 'english'">{{menutext.appointment[language]}}</h2>
                     </ion-item>
              
