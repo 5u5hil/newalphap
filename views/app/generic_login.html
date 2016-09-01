@@ -28,7 +28,7 @@
                     </div>
 
                     <div class="item-body bottom-content">
-                        <button type="submit" class="button button-positive button-block"  ng-disabled="(selected_tab == 'Login') ? (login_form.email.$invalid || login_form.password.$invalid) : ((selected_tab == 'Phone') ? (login_form.user_phone.$invalid || login_form.user_pin.$invalid) : false)">
+                        <button type="submit" class="button button-balanced button-block"  ng-disabled="(selected_tab == 'Login') ? (login_form.email.$invalid || login_form.password.$invalid) : ((selected_tab == 'Phone') ? (login_form.user_phone.$invalid || login_form.user_pin.$invalid) : false)">
                             Sign In
                         </button>
                     </div></form>
@@ -69,7 +69,7 @@
                             <p ng-model='phoneError' ng-bind-html="phoneError"></p>
                         </div>
                         <div class="item item-body bottom-content">
-                            <button type="submit" class="button button-assertive button-block" ng-click="doSignUp()" ng-disabled="signupForm.$invalid">
+                            <button type="submit" class="button button-balanced button-block" ng-click="doSignUp()" ng-disabled="signupForm.$invalid">
                                 Sign Up
                             </button>
                         </div>
