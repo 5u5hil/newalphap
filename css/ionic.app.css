@@ -9460,7 +9460,6 @@ ion-side-menu ion-item.item:last-child{ border-bottom: 1px #33383e solid !import
 .crdview .icon,.item-bgnone .icon{color:#fff;}
 .item-bgnone .item{background: none !important; color: #fff;}
 
-
 /* change theme color */
 
 html,body, .ionic-body,h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6,
