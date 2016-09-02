@@ -9474,7 +9474,7 @@ input, button, select, textarea,.tab-item
     border-color: #ec7935;
     background: transparent;
     color: #ec7935; }
-    .cbtn i{color:#fff;}
+    .cbtn i{color:#ec7935;}
 
     .tab-item.tab-item-active, .tab-item.active, .tab-item.activated{box-shadow:0px 2px 0 #ec7935; background:#fff; font-weight:bold; color:#ec7935;}
     .timesheet li{border:1px #ec7935 solid;}
