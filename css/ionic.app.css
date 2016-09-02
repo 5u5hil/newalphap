@@ -2301,7 +2301,7 @@ html {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    font-family: sans-serif;
+
     /* 1 */
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
@@ -2567,12 +2567,17 @@ body, .ionic-body {
     color: #000;
     word-wrap: break-word;
     font-size: 14px;
-    font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+  /*  font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;*/
+ 
     line-height: 20px;
     text-rendering: optimizeLegibility;
     -webkit-backface-visibility: hidden;
     -webkit-user-drag: none;
     -ms-content-zooming: none; }
+
+
+
+
 
 body.grade-b, body.grade-c {
     text-rendering: auto; }
@@ -2799,7 +2804,7 @@ cite {
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     color: #000;
     font-weight: 500;
-    font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+  /*  font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;*/
     line-height: 1.2; }
 h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, .h1 small, .h2 small, .h3 small, .h4 small, .h5 small, .h6 small {
     font-weight: normal;
@@ -4151,7 +4156,7 @@ ion-tabs.tabs-color-active-dark .tab-item.tab-item-active, ion-tabs.tabs-color-a
     white-space: nowrap;
     font-weight: 400;
     font-size: 14px;
-    font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+   /* font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;*/
     opacity: 0.7; }
 .tab-item:hover {
     cursor: pointer; }
@@ -5666,7 +5671,7 @@ label, input, button, select, textarea {
     line-height: 1.42857; }
 
 input, button, select, textarea {
-    font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif; }
+   /* font-family: "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;*/ }
 
 .item-input {
     display: -webkit-box;
@@ -7944,11 +7949,23 @@ ion-side-menu ion-item.item:first-child {
 ion-side-menu ion-item.item:last-child {
     border-bottom: none; }
 ion-side-menu .heading-item .item-content {
-    height: 120px;
+ /*   height: 120px;
     padding-top: 45px;
     padding-left: 115px;
     background-color: #272c30;
-    padding-bottom: 0px; }
+    padding-bottom: 0px; */
+    height: 104px;
+    padding-top: 36px;
+    padding-left: 20px;
+    background-color: #272c30;
+    padding-bottom: 0px;
+
+
+  }
+
+
+
+
 ion-side-menu .heading-item .user-image-container {
     width: 90px;
     position: absolute;
@@ -9445,6 +9462,10 @@ ion-side-menu ion-item.item:last-child{ border-bottom: 1px #33383e solid !import
 
 
 /* change theme color */
+
+html,body, .ionic-body,h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6,
+input, button, select, textarea,.tab-item
+{ font-family: 'Raleway', sans-serif;}
 
 
 .bar.app-top-bar {
