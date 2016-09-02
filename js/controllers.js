@@ -5493,6 +5493,21 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         url: domain + 'doctorsapp/get-chat-msg',
                         params: {partId: value[0].participant_id, chatId: value[0].chat_id}
                     }).then(function successCallback(responseData) {
+
+                        if(responseData.data.msg !== null){
+                            //keygeneration
+                            var phone1 = responseData.data.user[0].phone;
+                            var phone2 = window.localStorage.getItem('phone');
+                            var passphrase = "9773001965";
+                            if (phone1>phone2){
+                                passphrase =  phone1 + phone2;
+                            }
+                            else{
+                                passphrase = phone2 + phone1;
+                            }
+                            privateKey =  cryptico.generateRSAKey(passphrase, 1024);
+                            responseData.data.msg.message = decrypt(responseData.data.msg.message);
+                        }
                         console.log(responseData);
                         $scope.participant[key] = responseData.data.user;
                         $scope.msg[key] = responseData.data.msg;
@@ -5584,6 +5599,20 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.otherToken = response.data.otherToken;
                 $scope.sessionId = response.data.chatSession;
                 $scope.chatActive = response.data.chatActive;
+
+                //keygeneration
+                var phone1 =  $scope.user.phone;
+                var phone2 =  $scope.otherUser.phone;
+                var passphrase = "9773001965";
+                if (phone1>phone2){
+                    passphrase =  phone1 + phone2;
+                }
+                else{
+                    passphrase = phone2 + phone1;
+                }
+                privateKey =  cryptico.generateRSAKey(passphrase, 1024);
+                publicKey = cryptico.publicKeyString(privateKey);  
+
                 window.localStorage.setItem('Toid', $scope.otherUser.id);
                 //$scope.connect("'" + $scope.token + "'");
                 $scope.apiKey = apiKey;
@@ -5619,6 +5648,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $ionicLoading.show({template: 'Retrieving messages...'});
                 $(function () {
                     angular.forEach($scope.chatMsgs, function (value, key) {
+                        value.message=decrypt(value.message);
                         var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');
                         if (value.sender_id == $scope.partId) {
                             $ionicLoading.hide();
