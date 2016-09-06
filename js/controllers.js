@@ -798,6 +798,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             window.localStorage.setItem('interface_id', '6');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = window.localStorage.getItem('id');
+             window.localStorage.setItem('apkLanguage', 'english');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $ionicLoading.show({template: 'Loading..'});
             $http({

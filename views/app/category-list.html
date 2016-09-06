@@ -9,6 +9,8 @@
     <ion-nav-buttons side="right"  >
         <span class="pull-right" side="right" style="color: #fff; cursor: context-menu;">Beta</span>
     </ion-nav-buttons>
+    
+    
     <ion-content>
         <!--        <div class="slider">
                     <ion-slide-box on-slide-changed="slideHasChanged($index)">
@@ -23,7 +25,10 @@
                     </ion-slide>
                     </ion-slide-box>
                 </div>    -->
-        <div class="list catlist" ng-if="apkLanguage == 'english'">
+       
+        <div class="list catlist" ng-if="apkLanguage == 'english'"> 
+            
+          
             <div ng-repeat="menu in menuItem">
                 <span ng-if="menu.intereface_menu.menu == 'consultations' && menu.intereface_menu.menu != 'settings'">
                     <a class="item item-icon-right" ng-click="{{menu.url}}"  >
@@ -64,6 +69,7 @@
         </div>
 
         <div class="list catlist" ng-if="apkLanguage != 'english'">
+       
             <div ng-repeat="menu in menuItem">
                 <span ng-if="menu.intereface_menu.menu == 'consultations' && menu.intereface_menu.menu != 'settings'">
                     <a class="item item-icon-right" ng-click="{{menu.url}}">
