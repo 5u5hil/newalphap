@@ -4345,7 +4345,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
                 $ionicLoading.hide();
             });
-
+            $scope.toggleaddress = function($id){
+                jQuery("#" +$id + "short").toggle("slow");
+                jQuery("#" +$id + "full").toggle("slow");
+            };
             $scope.doit = function () {
                 console.log("removeitem");
                 window.localStorage.removeItem('startSlot');
@@ -4926,6 +4929,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     alert("Please select the package to pay with!");
                 }
             };
+           
         })
 
         .controller('pkgViewCtrl', function ($scope, $ionicModal, $http, $stateParams, $state, $ionicLoading) {
