@@ -272,8 +272,8 @@
              * @method disableSending
              */
             disableSending: function () {
-                this._sendButton.disabled = true;
-                this._composer.disabled = true;
+                this._sendButton.disabled = false;
+                this._composer.disabled = false;
             },
             _shouldGroup: function (message) {
                 if (this._lastMessage && this._lastMessage.senderId === message.senderId) {
