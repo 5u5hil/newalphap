@@ -5498,7 +5498,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         url: domain + 'doctorsapp/get-chat-msg',
                         params: {partId: value[0].participant_id, chatId: value[0].chat_id}
                     }).then(function successCallback(responseData) {
-
+                        console.log('Msg '+responseData.data.msg)
                         if(responseData.data.msg !== null){
                             //keygeneration
                             var phone1 = responseData.data.user[0].phone;
