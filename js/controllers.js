@@ -5562,6 +5562,20 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         url: domain + 'doctorsapp/get-chat-msg',
                         params: {partId: value[0].participant_id, chatId: value[0].chat_id}
                     }).then(function successCallback(responseData) {
+                        if(responseData.data.msg !== null){
+                            //keygeneration
+                            var phone1 = responseData.data.user[0].phone;
+                            var phone2 = window.localStorage.getItem('phone');
+                            var passphrase = "9773001965";
+                            if (phone1>phone2){
+                                passphrase =  phone1 + phone2;
+                            }
+                            else{
+                                passphrase = phone2 + phone1;
+                            }
+                            privateKey =  cryptico.generateRSAKey(passphrase, 1024);
+                            responseData.data.msg.message = decrypt(responseData.data.msg.message);
+                        }
                         console.log(responseData);
                         $scope.participant[key] = responseData.data.user;
                         $scope.msg[key] = responseData.data.msg;
