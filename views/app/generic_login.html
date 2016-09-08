@@ -62,6 +62,10 @@
                                 <input type="password" name="password" required ng-model="user.password" placeholder="Password" ng-minlength="6" />
                                 <div ng-show="signupForm.password.$error.minlength" class="serror">Password is too short.</div>
                             </label>
+                             <label class="item item-input">
+                                <input type="password" name="cpassword" required ng-model="user.cpassword" placeholder="Confirm Password" ng-minlength="6" />
+                                <div ng-show="signupForm.cpassword.$error.noMatch" class="serror">Passwords do not match.</div>
+                            </label>
 
                         </div>
                         <div class="text-center">
