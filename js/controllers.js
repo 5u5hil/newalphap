@@ -36,7 +36,6 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.user.email = '';
                 $scope.user.phone = '';
                 $scope.user.password = '';
-                 $scope.user.cpassword = '';
                 //bhavana--------------
 
                 $scope.showLogin = true;
@@ -166,7 +165,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         })
                     }
                     $scope.doSignUp = function () {
-                        var data = "name=" + $scope.user.name + "&email=" + $scope.user.email + "&phone=" + $scope.user.phone + "&password=" + $scope.user.password + "&interface=" + $scope.interface + "&registervia=" + $scope.registervia+ "&cpassword=" + $scope.user.cpassword;
+                        var data = "name=" + $scope.user.name + "&email=" + $scope.user.email + "&phone=" + $scope.user.phone + "&password=" + $scope.user.password + "&interface=" + $scope.interface + "&registervia=" + $scope.registervia;
                         //var data = new FormData(jQuery("#signup")[0]);
                         $.ajax({
                             type: 'GET',
@@ -193,8 +192,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         $scope.user.email = window.localStorage.getItem('email');
                         $scope.user.phone = window.localStorage.getItem('phone');
                         $scope.user.password = window.localStorage.getItem('password');
-                        $scope.user.cpassword = window.localStorage.getItem('cpassword');
-                         var data = "name=" + $scope.user.name + "&email=" + $scope.user.email + "&phone=" + $scope.user.phone + "&password=" + $scope.user.password + "&interface=" + $scope.interface + "&registervia=" + $scope.registervia+ "&cpassword=" + $scope.user.cpassword;
+                        var data = "name=" + $scope.user.name + "&email=" + $scope.user.email + "&phone=" + $scope.user.phone + "&password=" + $scope.user.password + "&interface=" + $scope.interface + "&registervia=" + $scope.registervia;
                         console.log("data " + data);
                         var code = window.localStorage.getItem('code');
                         if (parseInt(code) === parseInt(otp)) {
@@ -4381,8 +4379,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             $state.go('app.checkavailable', {'data': $scope.prodId, 'uid': $scope.uid});
                         } else {
                             alert('Sorry. The specialist is currently unavailable. Please try booking a scheduled video or try again later.');
-                             $state.go('app.consultation-profile', {'id': $scope.uid}, {reload: true});
-                    }
+                        }
                     });
                 } else {
                     $rootScope.$broadcast('showLoginModal', $scope, function () {
