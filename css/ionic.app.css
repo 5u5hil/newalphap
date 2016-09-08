@@ -7949,16 +7949,18 @@ ion-side-menu ion-item.item:first-child {
 ion-side-menu ion-item.item:last-child {
     border-bottom: none; }
 ion-side-menu .heading-item .item-content {
- /*   height: 120px;
+    height: 120px;
     padding-top: 45px;
     padding-left: 115px;
     background-color: #272c30;
-    padding-bottom: 0px; */
-    height: 104px;
+    padding-bottom: 0px; 
+/*    height: 104px;
     padding-top: 36px;
     padding-left: 20px;
     background-color: #272c30;
-    padding-bottom: 0px;
+    padding-bottom: 0px;*/
+
+    
 
 
   }

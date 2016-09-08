@@ -14,17 +14,25 @@
         <ion-content>
             <ion-list>
                 <ion-item class="heading-item item item-avatar" nav-clear menu-close ui-sref="app.profile">
-                  <!--   <div class="user-image-container">
+                  <div class="user-image-container">
                         <pre-img ratio="_1_1" helper-class="rounded-image">
-                            <img class="user-image" ng-src="img/default-profile.jpg" spinner-on-load>
+                            <img class="user-image" ng-src="img/applogo.jpg" spinner-on-load>
                         </pre-img>
-                    </div> -->
+                    </div> 
                     
                     <h2 class="greeting" ng-if="userLogged == 1">Hi {{username}} </h2>
                     <h2 class="greeting" ng-if="userLogged == 0"></h2>
                     <p class="message" ng-if="apkLanguage == 'english'">Welcome </p>
                     <p class="message" ng-if="apkLanguage != 'english'">{{menutext.welcome[language]}}  </p>
                 </ion-item>
+
+
+
+
+
+
+
+
                 <ion-item class="item-icon-left" nav-clear menu-close ui-sref="app.category-list">
                     <i class="icon ion-android-home"></i>
                     <h2 class="menu-text" ng-if="apkLanguage == 'english'">Home</h2>
