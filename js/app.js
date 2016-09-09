@@ -25,7 +25,8 @@ angular.module('your_app_name', [
     'slugifier',
     'ionic.contrib.ui.tinderCards',
     'jett.ionic.filter.bar',
-    'youtube-embed'
+    'youtube-embed',
+    'PasswordConfirm'
 ])
         .run(function ($ionicPlatform, $http, $state, $rootScope, $ionicConfig, $timeout, $ionicLoading, $ionicHistory) {
             $ionicPlatform.onHardwareBackButton(function (event) {

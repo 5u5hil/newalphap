@@ -13,6 +13,26 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $state.go('auth.login');
             }
         })
+        
+ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
+     console.log("hgjhfjhfjh");
+    return {
+        require: 'ngModel',
+        link: function (scope, elm, attrs, ctrl) {
+
+            ctrl.$setValidity('noMatch1', true);
+
+            attrs.$observe('changePasswordC', function (newVal) {
+                console.log("vnvnbv"+newVal);
+                if (newVal === 'true') {
+                    ctrl.$setValidity('noMatch1', true);
+                } else {
+                    ctrl.$setValidity('noMatch1', false);
+                }
+            });
+        }
+    }
+})       
 
 // APP
         .controller('AppCtrl', function ($scope, $ionicModal, $http, $state, $ionicConfig, $rootScope, $ionicLoading, $ionicHistory, $timeout) {
