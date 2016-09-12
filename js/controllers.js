@@ -4082,7 +4082,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('DoctorRecordJoinCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
         })
 
-        .controller('ConsultationsListPastCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory, $ionicFilterBar) {
+        .controller('ConsultationsListPastCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory, $timeout,$ionicFilterBar) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.imgpath = domain;
