@@ -28,13 +28,14 @@ angular.module('your_app_name', [
     'youtube-embed',
     'PasswordConfirm'
 ])
-        .run(function ($ionicPlatform, $http, $state, $rootScope, $ionicConfig, $timeout, $ionicLoading, $ionicHistory) {
+        .run(function ($ionicPlatform, $http, $state, $rootScope, $ionicPopup, $ionicConfig, $timeout, $ionicLoading, $ionicHistory) {
             $ionicPlatform.onHardwareBackButton(function (event) {
                 event.preventDefault();
             });
             $ionicPlatform.ready(function () {
 
                 // Check for network connection
+                alert(window.Connection);
                 if (window.Connection) {
                     if (navigator.connection.type == Connection.NONE) {
                         $ionicPopup.confirm({
