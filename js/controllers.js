@@ -10,7 +10,10 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             } else {
                 if ($rootScope.userLogged == 0)
                     //  $rootScope.userLogged = 0;
-                    $state.go('auth.login');
+                    $state.go('auth.forgot-password');
+            }
+            $scope.backtohome=function(){
+                 $state.go('app.category-list');
             }
         })
         
@@ -75,6 +78,13 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                             cancelCallback();
                         }
                     }
+
+$scope.forgotpassword=function(){
+   // alert('fads');
+    $scope.loginModal.hide();
+    $state.go('auth.forgot-password')
+}
+
 
 
                     // console.log("jfskdjfk");
@@ -703,6 +713,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
         .controller('ForgotPasswordCtrl', function ($scope, $state, $ionicLoading) {
+           
             $scope.recoverPassword = function (email, phone) {
                 window.localStorage.setItem('email', email);
                 console.log("email:  " + email);
@@ -3919,6 +3930,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             
               $scope.doRefresh = function () {
                 console.log("jskhfksjdf");
+
                 $http({
                     method: 'GET',
                     url: domain + 'appointment/get-patient-active-details',

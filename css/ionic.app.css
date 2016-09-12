@@ -9511,7 +9511,16 @@ input, button, select, textarea,.tab-item
 
 .addr {float:left;
         width:90%;}
-
+.forgot-password-container .item.item-body{padding: 5px !important;}
+.backforgot{    float: left;
+    color: #fff;
+    font-size: 22px;
+    line-height: 34px; margin-left: 10px; position: absolute; z-index: 999; cursor: pointer;}
+    .backforgot i{color: #fff;}
+    .btnforgot{    padding: 0px 20px;
+    /* float: left; */
+    /* clear: right; */
+    color: #ec7935;  cursor: pointer;}
 
 
 
