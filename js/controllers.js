@@ -13,9 +13,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     $state.go('auth.login');
             }
         })
-        
- angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
-     console.log("hgjhfjhfjh");
+
+angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
+    console.log("hgjhfjhfjh");
     return {
         require: 'ngModel',
         link: function (scope, elm, attrs, ctrl) {
@@ -23,7 +23,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             ctrl.$setValidity('noMatch1', true);
 
             attrs.$observe('changePasswordC', function (newVal) {
-                console.log("vnvnbv"+newVal);
+                console.log("vnvnbv" + newVal);
                 if (newVal === 'true') {
                     ctrl.$setValidity('noMatch1', true);
                 } else {
@@ -32,7 +32,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
         }
     }
-})       
+})
 
 // APP
         .controller('AppCtrl', function ($scope, $ionicModal, $http, $state, $ionicConfig, $rootScope, $ionicLoading, $ionicHistory, $timeout) {
@@ -818,7 +818,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             window.localStorage.setItem('interface_id', '6');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = window.localStorage.getItem('id');
-             window.localStorage.setItem('apkLanguage', 'english');
+            window.localStorage.setItem('apkLanguage', 'english');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $ionicLoading.show({template: 'Loading..'});
             $http({
@@ -3916,44 +3916,64 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.drId = '';
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $ionicLoading.show({template: 'Loading...'});
-            
-              $scope.doRefresh = function () {
-                console.log("jskhfksjdf");
+
+            $scope.doRefresh = function () {
+                console.log("jskhfksjdf bhavana");
                 $http({
                     method: 'GET',
-                    url: domain + 'appointment/get-patient-active-details',
-                    params: {id: $scope.userId}
+                    url: domain + 'doctors/consultations-current',
+                    params: {userId: $scope.userId, interface: $scope.interface}
                 }).then(function successCallback(response) {
                     console.log(response.data);
-                    $scope.todays_data = response.data.todays_data;
-                    $scope.todays_app = response.data.todays_appointments;
-                    $scope.todays_usersData = response.data.todays_usersData;
-                    $scope.todays_products = response.data.todays_products;
-                    $scope.todays_time = response.data.todays_time;
-                    $scope.todays_end_time = response.data.todays_end_time;
-                    $scope.todays_note = response.data.todays_note;
-                    $scope.todays_medicine = response.data.todays_medicine;
-                    $scope.week_data = response.data.week_data;
-                    $scope.week_app = response.data.week_appointments;
-                    $scope.week_usersData = response.data.week_usersData;
-                    $scope.week_products = response.data.week_products;
-                    $scope.week_time = response.data.week_time;
-                    $scope.week_end_time = response.data.week_end_time;
-                    $scope.week_note = response.data.week_note;
-                    $scope.week_medicine = response.data.week_medicine;
-                    $scope.all_data = response.data.all_data;
-                    $scope.all_app = response.data.all_appointments;
-                    $scope.all_usersData = response.data.all_usersData;
-                    $scope.all_products = response.data.all_products;
-                    $scope.all_time = response.data.all_time;
-                    $scope.all_end_time = response.data.all_end_time;
-                    $scope.all_note = response.data.all_note;
-                    $scope.all_medicine = response.data.all_medicine;
+                    $scope.specializations = response.data.spec;
+                    $scope.langtext = response.data.tabmenu;
+                    $scope.language = response.data.lang.language;
+
+                    $scope.all_video = response.data.all_video;
+
+                    //Time Limit For Interface
                     $scope.timeLimit = response.data.timelimit.cancellation_time;
+
+                    //Video
+                    $scope.video_time = response.data.video_time;
+                    $scope.video_app = response.data.video_app;
+                    $scope.video_note = response.data.video_note;
+                    $scope.video_doctorsData = response.data.video_doctorsData;
+                    $scope.video_products = response.data.video_products;
+                    $scope.video_end_time = response.data.video_end_time;
+                    // Video past
+                    $scope.video_time_past = response.data.video_time_past;
+                    $scope.video_app_past = response.data.video_app_past;
+                    $scope.video_past_note = response.data.video_past_note;
+                    $scope.video_doctorsData_past = response.data.video_doctorsData_past;
+                    $scope.video_products_past = response.data.video_products_past;
+                    $scope.video_end_time_past = response.data.video_end_time_past;
+                    //console.log('##########'+ $scope.video_app_past);
+                    //Clinic
+                    $scope.clinic_app = response.data.clinic_app;
+                    $scope.clinic_doctorsData = response.data.clinic_doctorsData;
+                    $scope.clinic_products = response.data.clinic_products;
+                    $scope.clinic_time = response.data.clinic_time;
+                    $scope.clinic_end_time = response.data.clinic_end_time;
+
+                    $scope.clinic_app_past = response.data.clinic_app_past;
+                    $scope.clinic_doctorsData_past = response.data.clinic_doctorsData_past;
+                    $scope.clinic_products_past = response.data.clinic_products_past;
+                    $scope.clinic_time_past = response.data.clinic_time_past;
+                    $scope.clinic_end_time = response.data.clinic_end_time;
+                    //Home
+                    $scope.home_app = response.data.home_app;
+                    $scope.home_doctorsData = response.data.home_doctorsData;
+                    $scope.home_products = response.data.home_products;
+                    //Chat 
+                    $scope.chat_app = response.data.chat_app;
+                    $scope.chat_doctorsData = response.data.chat_doctorsData;
+                    $scope.chat_products = response.data.chat_products;
+                    $ionicLoading.hide();
                     $ionicLoading.hide();
                     $scope.$broadcast('scroll.refreshComplete');
                 }, function errorCallback(e) {
-                   $scope.$broadcast('scroll.refreshComplete');
+                    $scope.$broadcast('scroll.refreshComplete');
                 })
 
             };
@@ -4028,17 +4048,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     }
                 });
             };
-            $scope.refreshItems = function () {
-                if (filterBarInstance) {
-                    filterBarInstance();
-                    filterBarInstance = null;
-                }
-
-                $timeout(function () {
-                    //getItems();
-                    $scope.$broadcast('scroll.refreshComplete');
-                }, 1000);
-            };
+            
             /* end of search plugin */
 
             $scope.deleteApp = function (appId, prodId, mode, startTime) {
@@ -4082,7 +4092,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         .controller('DoctorRecordJoinCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory) {
         })
 
-        .controller('ConsultationsListPastCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory, $timeout,$ionicFilterBar) {
+        .controller('ConsultationsListPastCtrl', function ($scope, $http, $stateParams, $state, $ionicLoading, $filter, $ionicHistory, $timeout, $ionicFilterBar) {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.imgpath = domain;
@@ -4091,43 +4101,58 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             $scope.items = [];
             $scope.curTime = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $ionicLoading.show({template: 'Loading...'});
-             $scope.doRefresh = function () {
+            $scope.doRefresh = function () {
                 console.log("jskhfksjdf");
                 $http({
                     method: 'GET',
-                    url: domain + 'appointment/get-patient-active-details',
-                    params: {id: $scope.userId}
+                    url: domain + 'doctors/consultations-past',
+                    params: {userId: $scope.userId, interface: $scope.interface}
                 }).then(function successCallback(response) {
                     console.log(response.data);
-                    $scope.todays_data = response.data.todays_data;
-                    $scope.todays_app = response.data.todays_appointments;
-                    $scope.todays_usersData = response.data.todays_usersData;
-                    $scope.todays_products = response.data.todays_products;
-                    $scope.todays_time = response.data.todays_time;
-                    $scope.todays_end_time = response.data.todays_end_time;
-                    $scope.todays_note = response.data.todays_note;
-                    $scope.todays_medicine = response.data.todays_medicine;
-                    $scope.week_data = response.data.week_data;
-                    $scope.week_app = response.data.week_appointments;
-                    $scope.week_usersData = response.data.week_usersData;
-                    $scope.week_products = response.data.week_products;
-                    $scope.week_time = response.data.week_time;
-                    $scope.week_end_time = response.data.week_end_time;
-                    $scope.week_note = response.data.week_note;
-                    $scope.week_medicine = response.data.week_medicine;
-                    $scope.all_data = response.data.all_data;
-                    $scope.all_app = response.data.all_appointments;
-                    $scope.all_usersData = response.data.all_usersData;
-                    $scope.all_products = response.data.all_products;
-                    $scope.all_time = response.data.all_time;
-                    $scope.all_end_time = response.data.all_end_time;
-                    $scope.all_note = response.data.all_note;
-                    $scope.all_medicine = response.data.all_medicine;
-                    $scope.timeLimit = response.data.timelimit.cancellation_time;
+                    $scope.specializations = response.data.spec;
+                    $scope.langtext = response.data.tabmenu;
+                    $scope.language = response.data.lang.language;
+                    //Video
+                    $scope.video_time = response.data.video_time;
+                    $scope.video_app = response.data.video_app;
+                    $scope.video_doctorsData = response.data.video_doctorsData;
+                    $scope.video_products = response.data.video_products;
+                    $scope.video_end_time = response.data.video_end_time;
+
+                    // Video past
+                    $scope.video_time_past = response.data.video_time_past;
+                    $scope.video_app_past = response.data.video_app_past;
+                    $scope.video_past_note = response.data.video_past_note;
+                    $scope.video_doctorsData_past = response.data.video_doctorsData_past;
+                    $scope.video_products_past = response.data.video_products_past;
+                    $scope.video_end_time_past = response.data.video_end_time_past;
+                    $scope.all_video = response.data.all_video;
+                    //console.log('##########'+ $scope.video_app_past);
+                    //Clinic
+                    $scope.clinic_app = response.data.clinic_app;
+                    $scope.clinic_doctorsData = response.data.clinic_doctorsData;
+                    $scope.clinic_products = response.data.clinic_products;
+                    $scope.clinic_time = response.data.clinic_time;
+                    $scope.clinic_end_time = response.data.clinic_end_time;
+
+                    $scope.clinic_app_past = response.data.clinic_app_past;
+                    $scope.clinic_doctorsData_past = response.data.clinic_doctorsData_past;
+                    $scope.clinic_products_past = response.data.clinic_products_past;
+                    $scope.clinic_time_past = response.data.clinic_time_past;
+                    $scope.clinic_end_time = response.data.clinic_end_time;
+                    $scope.all_clinic = response.data.all_clinic;
+                    //Home
+                    $scope.home_app = response.data.home_app;
+                    $scope.home_doctorsData = response.data.home_doctorsData;
+                    $scope.home_products = response.data.home_products;
+                    //Chat 
+                    $scope.chat_app = response.data.chat_app;
+                    $scope.chat_doctorsData = response.data.chat_doctorsData;
+                    $scope.chat_products = response.data.chat_products;
                     $ionicLoading.hide();
                     $scope.$broadcast('scroll.refreshComplete');
                 }, function errorCallback(e) {
-                   $scope.$broadcast('scroll.refreshComplete');
+                    $scope.$broadcast('scroll.refreshComplete');
                 })
 
             };
@@ -4447,9 +4472,9 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 });
                 $ionicLoading.hide();
             });
-            $scope.toggleaddress = function($id){
-                jQuery("#" +$id + "short").toggle("slow");
-                jQuery("#" +$id + "full").toggle("slow");
+            $scope.toggleaddress = function ($id) {
+                jQuery("#" + $id + "short").toggle("slow");
+                jQuery("#" + $id + "full").toggle("slow");
             };
             $scope.doit = function () {
                 console.log("removeitem");
@@ -5031,7 +5056,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     alert("Please select the package to pay with!");
                 }
             };
-           
+
         })
 
         .controller('pkgViewCtrl', function ($scope, $ionicModal, $http, $stateParams, $state, $ionicLoading) {
@@ -5599,19 +5624,18 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         url: domain + 'doctorsapp/get-chat-msg',
                         params: {partId: value[0].participant_id, chatId: value[0].chat_id}
                     }).then(function successCallback(responseData) {
-                        console.log('Msg '+responseData.data.msg)
-                        if(responseData.data.msg !== null){
+                        console.log('Msg ' + responseData.data.msg)
+                        if (responseData.data.msg !== null) {
                             //keygeneration
                             var phone1 = responseData.data.user[0].phone;
                             var phone2 = window.localStorage.getItem('phone');
                             var passphrase = "9773001965";
-                            if (phone1>phone2){
-                                passphrase =  phone1 + phone2;
-                            }
-                            else{
+                            if (phone1 > phone2) {
+                                passphrase = phone1 + phone2;
+                            } else {
                                 passphrase = phone2 + phone1;
                             }
-                            privateKey =  cryptico.generateRSAKey(passphrase, 1024);
+                            privateKey = cryptico.generateRSAKey(passphrase, 1024);
                             responseData.data.msg.message = decrypt(responseData.data.msg.message);
                         }
                         console.log(responseData);
@@ -5663,18 +5687,17 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                         url: domain + 'doctorsapp/get-chat-msg',
                         params: {partId: value[0].participant_id, chatId: value[0].chat_id}
                     }).then(function successCallback(responseData) {
-                        if(responseData.data.msg !== null){
+                        if (responseData.data.msg !== null) {
                             //keygeneration
                             var phone1 = responseData.data.user[0].phone;
                             var phone2 = window.localStorage.getItem('phone');
                             var passphrase = "9773001965";
-                            if (phone1>phone2){
-                                passphrase =  phone1 + phone2;
-                            }
-                            else{
+                            if (phone1 > phone2) {
+                                passphrase = phone1 + phone2;
+                            } else {
                                 passphrase = phone2 + phone1;
                             }
-                            privateKey =  cryptico.generateRSAKey(passphrase, 1024);
+                            privateKey = cryptico.generateRSAKey(passphrase, 1024);
                             responseData.data.msg.message = decrypt(responseData.data.msg.message);
                         }
                         console.log(responseData);
@@ -5692,7 +5715,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
             });
         })
 
-        .controller('ChatCtrl', function ($scope, $state, $http, $stateParams, $timeout, $filter, $ionicLoading,$ionicScrollDelegate) {
+        .controller('ChatCtrl', function ($scope, $state, $http, $stateParams, $timeout, $filter, $ionicLoading, $ionicScrollDelegate) {
 
             $scope.chatId = $stateParams.id;
             window.localStorage.setItem('chatId', $stateParams.id);
@@ -5718,17 +5741,16 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $scope.chatActive = response.data.chatActive;
 
                 //keygeneration
-                var phone1 =  $scope.user.phone;
-                var phone2 =  $scope.otherUser.phone;
+                var phone1 = $scope.user.phone;
+                var phone2 = $scope.otherUser.phone;
                 var passphrase = "9773001965";
-                if (phone1>phone2){
-                    passphrase =  phone1 + phone2;
-                }
-                else{
+                if (phone1 > phone2) {
+                    passphrase = phone1 + phone2;
+                } else {
                     passphrase = phone2 + phone1;
                 }
-                privateKey =  cryptico.generateRSAKey(passphrase, 1024);
-                publicKey = cryptico.publicKeyString(privateKey);  
+                privateKey = cryptico.generateRSAKey(passphrase, 1024);
+                publicKey = cryptico.publicKeyString(privateKey);
 
                 window.localStorage.setItem('Toid', $scope.otherUser.id);
                 //$scope.connect("'" + $scope.token + "'");
@@ -5765,7 +5787,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                 $ionicLoading.show({template: 'Retrieving messages...'});
                 $(function () {
                     angular.forEach($scope.chatMsgs, function (value, key) {
-                        value.message=decrypt(value.message);
+                        value.message = decrypt(value.message);
                         var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');
                         if (value.sender_id == $scope.partId) {
                             $ionicLoading.hide();
