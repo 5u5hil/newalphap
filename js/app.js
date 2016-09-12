@@ -32,6 +32,24 @@ angular.module('your_app_name', [
             $ionicPlatform.onHardwareBackButton(function (event) {
                 event.preventDefault();
             });
+            $ionicPlatform.ready(function () {
+
+                // Check for network connection
+                if (window.Connection) {
+                    if (navigator.connection.type == Connection.NONE) {
+                        $ionicPopup.confirm({
+                            title: 'No Internet Connection',
+                            content: 'Sorry, no Internet connectivity detected. Please reconnect and try again.'
+                        })
+                                .then(function (result) {
+                                    if (!result) {
+                                        ionic.Platform.exitApp();
+                                    }
+                                });
+                    }
+                }
+
+            });
 
 
 
@@ -213,7 +231,7 @@ angular.module('your_app_name', [
                     }, 0);
                 }
                 try {
-                     if (toState.name == "app.doctor-join" || toState.name == "app.chat")
+                    if (toState.name == "app.doctor-join" || toState.name == "app.chat")
                     {
                         console.log("false state");
                         window.plugins.OneSignal.enableInAppAlertNotification(false);
@@ -224,8 +242,8 @@ angular.module('your_app_name', [
                 } catch (err) {
 
                 }
-                
-               
+
+
             });
             $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams) {
                 if (toState.name.indexOf('app.feeds-categories') > -1)
@@ -285,13 +303,12 @@ angular.module('your_app_name', [
                         },
                         controller: 'LoginCtrl'
                     })
-                    
+
                     .state('app.genericlogin', {
                         url: '/genericlogin',
                         templateUrl: function () {
                             return "views/app/generic_login.html";
                         },
-                       
                     })
 
                     .state('auth.signup', {
@@ -301,7 +318,7 @@ angular.module('your_app_name', [
                         },
                         controller: 'SignupCtrl'
                     })
-                    
+
                     .state('auth.check-otp', {
                         url: '/check-otp',
                         templateUrl: function () {
@@ -462,7 +479,7 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
+
                     .state('app.video-chat', {
                         cache: false,
                         url: "/video-chat",
@@ -508,8 +525,8 @@ angular.module('your_app_name', [
                             }
                         }
                     })
-                    
-                   .state('app.view-chat-video', {
+
+                    .state('app.view-chat-video', {
                         cache: false,
                         url: "/view-chat-video/{id:string}",
                         views: {
