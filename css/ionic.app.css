@@ -9521,7 +9521,7 @@ input, button, select, textarea,.tab-item
     /* float: left; */
     /* clear: right; */
     color: #ec7935;  cursor: pointer;}
-    ion-slide img{max-width: 100%; border-bottom: 2px #ccc solid;}
+    ion-slide img{max-width: 100%; border-bottom: 2px #ccc solid;     padding: 10px;}
 
 
 
