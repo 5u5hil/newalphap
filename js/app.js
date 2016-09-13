@@ -52,7 +52,7 @@ angular.module('your_app_name', [
 //
 //            });
 
-            document.addEventListener("offline", yourCallbackFunction, false);
+            document.addEventListener("offline", onOffline, false);
             function onOffline() {
                 // Handle the offline event
                 alert('Sorry, no Internet connectivity detected. Please reconnect and try again.');
