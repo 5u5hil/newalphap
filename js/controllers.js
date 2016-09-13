@@ -713,21 +713,21 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
         })
 
         .controller('ForgotPasswordCtrl', function ($scope, $state, $ionicLoading) {
- $scope.interface = window.localStorage.getItem('interface_id');
+            $scope.interface = window.localStorage.getItem('interface_id');
             $scope.recoverPassword = function (email, phone) {
                 window.localStorage.setItem('email', email);
                 console.log("email:  " + email);
                 $scope.email = email;
-                 $scope.phone = phone;
+                $scope.phone = phone;
                 $.ajax({
                     type: 'GET',
                     url: domain + "recovery-password",
-                    data: {email: $scope.email, phone: $scope.phone,interface:$scope.interface},
+                    data: {email: $scope.email, phone: $scope.phone, interface: $scope.interface},
                     cache: false,
                     success: function (response) {
                         if (response == '0') {
                             alert('Email and mobile mismatch.');
-                            $state.go('auth.forgot-password',{reload: true});
+                            $state.go('auth.forgot-password', {reload: true});
                         } else {
                             console.log("respone passcode" + response.passcode);
                             window.localStorage.setItem('passcode', response.passcode);
@@ -738,7 +738,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             };
             $scope.updatePassword = function (passcode, password, cpassword) {
                 var email = window.localStorage.getItem('email');
-               
+
                 $.ajax({
                     type: 'GET',
                     url: domain + "update-password",
@@ -1987,51 +1987,75 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.objText = {};
             $scope.diaText = {};
             $ionicLoading.show({template: 'Loading...'});
-            $http({
-                method: "GET",
-                url: domain + "doctrsrecords/get-app-details",
-                params: {appId: $scope.appId}
-            }).then(function successCallback(response) {
-                //console.log(response.data.patient.id);
-                $scope.patientId = response.data.patient.id;
-                $scope.doctorId = response.data.doctr.id
-                $scope.app = response.data.app;
-                $scope.patient = response.data.patient;
-                $scope.prevRecord = response.data.record;
-                $scope.prevRecordDetails = response.data.recordDetails;
-                if (response.data.record != null) {
-                    $scope.precId = response.data.record.id;
-                    $scope.recId = response.data.record.id;
-                }
-                store({'patientId': $scope.patientId, 'doctorId': $scope.doctorId, 'recId': $scope.recId});
-                if ($scope.prevRecordDetails.length > 0) {
-                    angular.forEach($scope.prevRecordDetails, function (val, key) {
-                        if (val.fields.field == 'Case Id') {
-                            $scope.pcaseId = val.value;
-                        }
-                        if (val.fields.field == 'Attachments') {
-                            $scope.isAttachment = val.attachments.length;
-                        }
+            if ($scope.appId != 0) {
+                $http({
+                    method: "GET",
+                    url: domain + "doctrsrecords/get-app-details",
+                    params: {appId: $scope.appId}
+                }).then(function successCallback(response) {
+                    //console.log(response.data.patient.id);
+                    $scope.patientId = response.data.patient.id;
+                    $scope.doctorId = response.data.doctr.id
+                    $scope.app = response.data.app;
+                    $scope.patient = response.data.patient;
+                    $scope.prevRecord = response.data.record;
+                    $scope.prevRecordDetails = response.data.recordDetails;
+                    if (response.data.record != null) {
+                        $scope.precId = response.data.record.id;
+                        $scope.recId = response.data.record.id;
+                    }
+                    store({'patientId': $scope.patientId, 'doctorId': $scope.doctorId, 'recId': $scope.recId});
+                    if ($scope.prevRecordDetails.length > 0) {
+                        angular.forEach($scope.prevRecordDetails, function (val, key) {
+                            if (val.fields.field == 'Case Id') {
+                                $scope.pcaseId = val.value;
+                            }
+                            if (val.fields.field == 'Attachments') {
+                                $scope.isAttachment = val.attachments.length;
+                            }
+                        });
+                    }
+                    if (response.data.app.mode == 1) {
+                        $scope.mode = 'Video';
+                    } else if (response.data.app.mode == 2) {
+                        $scope.mode = 'Chat';
+                    } else if (response.data.app.mode = 3) {
+                        $scope.mode = 'Clinic'
+                    } else if (response.data.app.mode == 4) {
+                        $scope.mode = 'Home';
+                    }
+                    jQuery('#convalid').addClass('hide');
+                    //console.log($scope.mode);
+                    $scope.conDate = $filter('date')(new Date(response.data.app.scheduled_start_time), 'dd-MM-yyyy'); //response.data.app.scheduled_start_time; //$filter('date')(new Date(), 'MM-dd-yyyy');
+                    $scope.curTimeo = $filter('date')(new Date(response.data.app.scheduled_start_time), 'hh:mm a');
+                    //console.log($scope.conDate);
+                    $http({
+                        method: 'GET',
+                        url: domain + 'doctrsrecords/get-fields',
+                        params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
+                    }).then(function successCallback(response) {
+                        console.log(response.data);
+                        $scope.record = response.data.record;
+                        $scope.fields = response.data.fields;
+                        $scope.problems = response.data.problems;
+                        $scope.doctrs = response.data.doctrs;
+                        $scope.patients = response.data.patients;
+                        $scope.cases = response.data.cases;
+                        $rootScope.$emit("GetPatientDetails", {});
+                        $rootScope.$emit("GetFamilyDetails", {});
+                        $scope.getEvaluationDetails();
+                        $ionicLoading.hide();
+                    }, function errorCallback(response) {
+                        console.log(response);
                     });
-                }
-                if (response.data.app.mode == 1) {
-                    $scope.mode = 'Video';
-                } else if (response.data.app.mode == 2) {
-                    $scope.mode = 'Chat';
-                } else if (response.data.app.mode = 3) {
-                    $scope.mode = 'Clinic'
-                } else if (response.data.app.mode == 4) {
-                    $scope.mode = 'Home';
-                }
-                jQuery('#convalid').addClass('hide');
-                //console.log($scope.mode);
-                $scope.conDate = $filter('date')(new Date(response.data.app.scheduled_start_time), 'dd-MM-yyyy'); //response.data.app.scheduled_start_time; //$filter('date')(new Date(), 'MM-dd-yyyy');
-                $scope.curTimeo = $filter('date')(new Date(response.data.app.scheduled_start_time), 'hh:mm a');
-                //console.log($scope.conDate);
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
+            } else {
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-fields',
-                    params: {patient: $scope.patientId, userId: $scope.userId, doctorId: $scope.doctorId, catId: $scope.catId, recId: $scope.recId}
+                    params: {patient: $scope.patientId, doctorId: $scope.doctorId, userId: $scope.userId, recId: $scope.precId, catId: $scope.catId}
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.record = response.data.record;
@@ -2040,16 +2064,63 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                     $scope.doctrs = response.data.doctrs;
                     $scope.patients = response.data.patients;
                     $scope.cases = response.data.cases;
-                    $rootScope.$emit("GetPatientDetails", {});
-                    $rootScope.$emit("GetFamilyDetails", {});
+                    $scope.records = response.data.recordData;
+                    $scope.patientId = $scope.records.for;
+                    $scope.doctorId = $scope.records.doctor_id;
+                    $scope.app = $scope.records.appointment_id;
+                    store({'patientId': $scope.patientId, 'doctorId': $scope.records.doctor_id});
+                    store({'patientId': $scope.patientId, 'doctorId': $scope.records.doctor_id, 'recId': $scope.recId});
+                    $scope.prevRecordDetails = response.data.recordDetails;
+                    if (response.data.recordDetails.length > 0) {
+                        //store({'precId': response.data.recordData.id});
+                        angular.forEach(response.data.recordDetails, function (val, key) {
+                            if (val.fields.field == 'Case Id') {
+                                $scope.casetype = '0';
+                                $scope.caseId = val.value;
+                                $scope.pcaseId = val.value;
+                                //$scope.getCase($scope.casetype);
+                            }
+                            if (val.fields.field == 'Attachments') {
+                                console.log("Attach length " + val.attachments.length);
+                                $scope.isAttachment = val.attachments.length;
+                                if (val.attachments.length > 0) {
+                                    jQuery('#coninprec').removeClass('hide');
+                                }
+                            }
+                            if (val.fields.field == 'Includes Prescription') {
+                                $scope.prescription = val.value;
+                                if (val.value == 'Yes') {
+                                    jQuery('#convalid').removeClass('hide');
+                                }
+                            }
+                            if (val.fields.field == 'Valid till') {
+                                $scope.validTill = $filter('date')(new Date(val.value), 'dd-MM-yyyy');
+                            }
+                            if (val.fields.field == 'Consultation Date') {
+                                // $scope.conDate = $filter('date')(new Date(val.value), 'dd-MM-yyyy');
+                            }
+                            if (val.fields.field == 'Consultation Time') {
+                                // $scope.curTimeo = $filter('date')(new Date(val.value), 'hh:mm a');
+                            }
+                            if (val.fields.field == 'Patient Type') {
+                                $scope.pType = val.value;
+                            }
+                            if (val.fields.field == 'Mode') {
+                                $scope.mode = val.value;
+                            }
+                        });
+                    } else {
+                        $scope.pType = 'Outpatient';
+                        //$scope.conDate = new Date(); //$filter('date')(new Date(), 'dd-MM-yyyy'); //response.data.app.scheduled_start_time; //$filter('date')(new Date(), 'MM-dd-yyyy');
+                        //$scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
+                    }
+                    $scope.loading = false;
+                    $scope.pcase = true;
                     $scope.getEvaluationDetails();
-                    $ionicLoading.hide();
                 }, function errorCallback(response) {
                     console.log(response);
                 });
-            }, function errorCallback(e) {
-                console.log(e);
-            });
+            }
             $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
                 $scope.modal = $ionicModal;
                 $scope.showAttach = function (recDetails) {
