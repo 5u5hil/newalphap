@@ -1789,7 +1789,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                         $scope.limit = 3; //$scope.records[0].record_metadata.length;
                     }
                     angular.forEach($scope.records, function (value, key) {
-                        console.log(key);
+                        //console.log(key);
                         angular.forEach(value.record_metadata, function (val, k) {
                             console.log();
                             if ($scope.catId == 30) {
@@ -1968,10 +1968,10 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             };
 
             //View details
-            $scope.viewDetails = function (recId, appId, userId) {
-                console.log("RecId ==" + recId + "App Id ==" + appId + "== Cat" + $scope.catId + "User Id " + userId);
+            $scope.viewDetails = function (recId, appId, userId, patientId, doctorId) {
+                console.log("RecId ==" + recId + "App Id ==" + appId + "== Cat" + $scope.catId + "User Id " + userId + "Patient -"+ patientId+" doc - "+ doctorId);
                 if ($scope.userId != userId && $scope.catId == '8') {
-                    store({'backurl': 'records-view'});
+                    store({'backurl': 'records-view', 'patientId': patientId, 'doctorId': doctorId});
                     $state.go('app.preview-note', {'id': recId, 'appId': appId, 'res': 'json'}, {reload: true});
                 } else
                     $state.go('app.record-details', {'id': recId, 'shared': $scope.shared, 'res': 'json'}, {reload: true});
@@ -1987,6 +1987,8 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.objText = {};
             $scope.diaText = {};
             $ionicLoading.show({template: 'Loading...'});
+            $scope.patientId = get('patientId');
+            $scope.doctorId = get('doctorId');
             if ($scope.appId != 0) {
                 $http({
                     method: "GET",
@@ -2052,10 +2054,11 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                     console.log(e);
                 });
             } else {
+                console.log("App zero");
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-fields',
-                    params: {patient: $scope.patientId, doctorId: $scope.doctorId, userId: $scope.userId, recId: $scope.precId, catId: $scope.catId}
+                    params: {patient: $scope.patientId, doctorId: $scope.doctorId, userId: $scope.userId, recId: $stateParams.id, catId: $scope.catId}
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     $scope.record = response.data.record;
@@ -2068,7 +2071,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                     $scope.patientId = $scope.records.for;
                     $scope.doctorId = $scope.records.doctor_id;
                     $scope.app = $scope.records.appointment_id;
-                    store({'patientId': $scope.patientId, 'doctorId': $scope.records.doctor_id});
+                    //store({'patientId': $scope.patientId, 'doctorId': $scope.records.doctor_id});
                     store({'patientId': $scope.patientId, 'doctorId': $scope.records.doctor_id, 'recId': $scope.recId});
                     $scope.prevRecordDetails = response.data.recordDetails;
                     if (response.data.recordDetails.length > 0) {
@@ -2114,8 +2117,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                         //$scope.conDate = new Date(); //$filter('date')(new Date(), 'dd-MM-yyyy'); //response.data.app.scheduled_start_time; //$filter('date')(new Date(), 'MM-dd-yyyy');
                         //$scope.curTimeo = $filter('date')(new Date(), 'hh:mm a');
                     }
-                    $scope.loading = false;
-                    $scope.pcase = true;
+                    $ionicLoading.hide();
                     $scope.getEvaluationDetails();
                 }, function errorCallback(response) {
                     console.log(response);
@@ -2229,7 +2231,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-testresult-lang',
-                    params: {userId: $scope.userId, objId: $scope.testId, recId: $scope.precId}
+                    params: {userId: $scope.userId, objId: $scope.testId, recId: $scope.recId}
                 }).then(function successCallback(response) {
                     if (response.data.recdata != '') {
                         $scope.testId = response.data.recdata.record_id;
@@ -2244,7 +2246,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-observations-lang',
-                    params: {userId: $scope.userId, interface: $scope.interface, objId: $scope.objId, recId: $scope.precId}
+                    params: {userId: $scope.userId, interface: $scope.interface, objId: $scope.objId, recId: $scope.recId}
                 }).then(function successCallback(response) {
                     if (response.data.recdata != '') {
                         $scope.objId = response.data.recdata.record_id;
@@ -2259,7 +2261,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 $http({
                     method: 'GET',
                     url: domain + 'doctrsrecords/get-diagnosis-lang',
-                    params: {userId: $scope.userId, diaId: $scope.diaId, recId: $scope.precId}
+                    params: {userId: $scope.userId, diaId: $scope.diaId, recId: $scope.recId}
                 }).then(function successCallback(response) {
                     if (response.data.recdata != '') {
                         $scope.diaId = response.data.recdata.record_id;
@@ -2273,6 +2275,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 }, function errorCallback(e) {
                     console.log(e);
                 });
+                $ionicLoading.hide();
             };
         })
 
