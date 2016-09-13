@@ -18,7 +18,7 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
         })
 
 angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
-    console.log("hgjhfjhfjh");
+    //console.log("hgjhfjhfjh");
     return {
         require: 'ngModel',
         link: function (scope, elm, attrs, ctrl) {
