@@ -8784,7 +8784,7 @@ iframe.videochat{position:absolute; width:100%; height: 100%;}
 .more-nav ul li a:hover{background:#eee;}
 .mb0-mt4{    margin-bottom: 0;
              margin-top: 4px;}
-.scroll-content{overflow:auto !important;}
+.scroll-content{/*overflow:auto !important;*/}
 .minh350{height:350px !important;}
 .top50{top:20px !important;}
 .mtop100{margin-top:100px;}
@@ -9477,7 +9477,7 @@ input, button, select, textarea,.tab-item
     background: transparent;
     color: #ec7935; }
     .cbtn i{color:#ec7935;}
-
+.post-actions .cbtn i{color:#fff;}
     .tab-item.tab-item-active, .tab-item.active, .tab-item.activated{box-shadow:0px 2px 0 #ec7935; background:#fff; font-weight:bold; color:#ec7935;}
     .timesheet li{border:1px #ec7935 solid;}
 .button.button-positive {
