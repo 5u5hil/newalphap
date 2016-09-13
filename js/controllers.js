@@ -12,8 +12,8 @@ angular.module('your_app_name.controllers', ['ionic', 'ngCordova'])
                     //  $rootScope.userLogged = 0;
                     $state.go('auth.forgot-password');
             }
-            $scope.backtohome=function(){
-                 $state.go('app.category-list');
+            $scope.backtohome = function () {
+                $state.go('app.category-list');
             }
         })
 
@@ -79,11 +79,11 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                         }
                     }
 
-$scope.forgotpassword=function(){
-   // alert('fads');
-    $scope.loginModal.hide();
-    $state.go('auth.forgot-password')
-}
+                    $scope.forgotpassword = function () {
+                        // alert('fads');
+                        $scope.loginModal.hide();
+                        $state.go('auth.forgot-password')
+                    }
 
 
 
@@ -713,25 +713,32 @@ $scope.forgotpassword=function(){
         })
 
         .controller('ForgotPasswordCtrl', function ($scope, $state, $ionicLoading) {
-           
+ $scope.interface = window.localStorage.getItem('interface_id');
             $scope.recoverPassword = function (email, phone) {
                 window.localStorage.setItem('email', email);
                 console.log("email:  " + email);
+                $scope.email = email;
+                 $scope.phone = phone;
                 $.ajax({
                     type: 'GET',
                     url: domain + "recovery-password",
-                    data: {email: email, phone: phone},
+                    data: {email: $scope.email, phone: $scope.phone,interface:$scope.interface},
                     cache: false,
                     success: function (response) {
-                        console.log("respone passcode" + response.passcode);
-                        window.localStorage.setItem('passcode', response.passcode);
-                        $state.go('auth.update-password', {}, {reload: true});
+                        if (response == '0') {
+                            alert('Email and mobile mismatch.');
+                            $state.go('auth.forgot-password',{reload: true});
+                        } else {
+                            console.log("respone passcode" + response.passcode);
+                            window.localStorage.setItem('passcode', response.passcode);
+                            $state.go('auth.update-password', {}, {reload: true});
+                        }
                     }
                 });
             };
             $scope.updatePassword = function (passcode, password, cpassword) {
                 var email = window.localStorage.getItem('email');
-                $scope.interface = window.localStorage.getItem('interface_id');
+               
                 $.ajax({
                     type: 'GET',
                     url: domain + "update-password",
@@ -4061,7 +4068,7 @@ $scope.forgotpassword=function(){
                     }
                 });
             };
-            
+
             /* end of search plugin */
 
             $scope.deleteApp = function (appId, prodId, mode, startTime) {
