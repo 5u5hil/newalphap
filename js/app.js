@@ -32,27 +32,31 @@ angular.module('your_app_name', [
             $ionicPlatform.onHardwareBackButton(function (event) {
                 event.preventDefault();
             });
-            $ionicPlatform.ready(function () {
+//            $ionicPlatform.ready(function () {
+//
+//                // Check for network connection
+//                alert(window.Connection);
+//                if (window.Connection) {
+//                    if (navigator.connection.type == Connection.NONE) {
+//                        $ionicPopup.confirm({
+//                            title: 'No Internet Connection',
+//                            content: 'Sorry, no Internet connectivity detected. Please reconnect and try again.'
+//                        })
+//                                .then(function (result) {
+//                                    if (!result) {
+//                                        ionic.Platform.exitApp();
+//                                    }
+//                                });
+//                    }
+//                }
+//
+//            });
 
-                // Check for network connection
-                alert(window.Connection);
-                if (window.Connection) {
-                    if (navigator.connection.type == Connection.NONE) {
-                        $ionicPopup.confirm({
-                            title: 'No Internet Connection',
-                            content: 'Sorry, no Internet connectivity detected. Please reconnect and try again.'
-                        })
-                                .then(function (result) {
-                                    if (!result) {
-                                        ionic.Platform.exitApp();
-                                    }
-                                });
-                    }
-                }
-
-            });
-
-
+            document.addEventListener("offline", yourCallbackFunction, false);
+            function onOffline() {
+                // Handle the offline event
+                alert('Sorry, no Internet connectivity detected. Please reconnect and try again.');
+            }
 
             $ionicPlatform.on("deviceready", function () {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
