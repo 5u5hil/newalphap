@@ -13,7 +13,7 @@
     
     <ion-content>
          <div class="slider">
-                    <ion-slide-box show-pager="false" does-continue="true" auto-play="true">
+                    <ion-slide-box show-pager="false" does-continue="true" auto-play="true" slide-interval="10000">
                     <ion-slide>
                     <img src="./img/slide1.jpg"/>
                     </ion-slide>
@@ -29,7 +29,7 @@
                     </ion-slide-box>
                 </div>   
        
-        <div class="list catlist" ng-if="apkLanguage == 'english'"> 
+        <div class="list catlist mtm-5" ng-if="apkLanguage == 'english'" > 
             
           
             <div ng-repeat="menu in menuItem">
@@ -71,7 +71,7 @@
 
         </div>
 
-        <div class="list catlist" ng-if="apkLanguage != 'english'">
+        <div class="list catlist mtm-5" ng-if="apkLanguage != 'english'">
        
             <div ng-repeat="menu in menuItem">
                 <span ng-if="menu.intereface_menu.menu == 'consultations' && menu.intereface_menu.menu != 'settings'">
