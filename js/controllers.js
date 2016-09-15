@@ -454,7 +454,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
 
         })
 //LOGIN
-        .controller('LoginCtrl', function ($scope, $state, $http, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
+        .controller('LoginCtrl', function ($scope, $state, $http,$ionicHistory, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
             window.localStorage.setItem('interface_id', '6');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userType = 'patient';
@@ -532,7 +532,17 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                             } catch (err) {
                                 // $state.go('app.category-list');
                             }
-                            $state.go('app.category-list');
+
+                            $timeout(function () {
+                                $ionicLoading.hide();
+                                $ionicHistory.clearCache();
+                                $ionicHistory.clearHistory();
+                                $ionicHistory.nextViewOptions({disableBack: true, historyRoot: true});
+                                $state.go('app.category-list', {}, {reload: true});
+                            }, 30);
+
+
+                        
 
 
                         } else {
