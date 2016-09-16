@@ -393,7 +393,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                     url: domain + 'get-login-logout-log',
                     params: {userId: window.localStorage.getItem('id'), interface: $scope.interface, type: $scope.userType, action: $scope.action}
                 }).then(function successCallback(response) {
-                     
+
                 }, function errorCallback(e) {
                     console.log(e);
                 });
@@ -454,7 +454,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
 
         })
 //LOGIN
-        .controller('LoginCtrl', function ($scope, $state, $http,$ionicHistory, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
+        .controller('LoginCtrl', function ($scope, $state, $http, $ionicHistory, $templateCache, $q, $rootScope, $ionicLoading, $timeout) {
             window.localStorage.setItem('interface_id', '6');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userType = 'patient';
@@ -542,7 +542,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                             }, 30);
 
 
-                        
+
 
 
                         } else {
@@ -1980,7 +1980,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
 
             //View details
             $scope.viewDetails = function (recId, appId, userId, patientId, doctorId) {
-                console.log("RecId ==" + recId + "App Id ==" + appId + "== Cat" + $scope.catId + "User Id " + userId + "Patient -"+ patientId+" doc - "+ doctorId);
+                console.log("RecId ==" + recId + "App Id ==" + appId + "== Cat" + $scope.catId + "User Id " + userId + "Patient -" + patientId + " doc - " + doctorId);
                 if ($scope.userId != userId && $scope.catId == '8') {
                     store({'backurl': 'records-view', 'patientId': patientId, 'doctorId': doctorId});
                     $state.go('app.preview-note', {'id': recId, 'appId': appId, 'res': 'json'}, {reload: true});
@@ -5683,12 +5683,11 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             }
 
             sidetab('#cstab1');
-            sidetab('#cstab2');
+           // sidetab('#cstab2');
 
             $scope.pulltab = function (d) {
                 var ww = (jQuery(window).width()) - 40;
                 jQuery('#' + d).toggleClass('active');
-
                 if (jQuery('#' + d).hasClass('active')) {
                     jQuery('#' + d).css('transform', 'translate3d(0px, 0px, 0px)')
                 } else {
