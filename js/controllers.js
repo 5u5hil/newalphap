@@ -5828,7 +5828,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.msg = '';
-            var apiKey = '45121182';
+            //var apiKey = '45121182';
             //console.log($scope.chatId);
             $ionicLoading.show({template: 'Loading...'});
             $http({
@@ -5859,7 +5859,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
 
                 window.localStorage.setItem('Toid', $scope.otherUser.id);
                 //$scope.connect("'" + $scope.token + "'");
-                $scope.apiKey = apiKey;
+                $scope.apiKey = response.data.apiKey;
                 var session = OT.initSession($scope.apiKey, $scope.sessionId);
                 $scope.session = session;
                 var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
@@ -5934,7 +5934,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             window.localStorage.setItem('chatId', $stateParams.id);
             $scope.partId = window.localStorage.getItem('id');
             $scope.msg = '';
-            var apiKey = '45121182';
+           // var apiKey = '45121182';
             //console.log($scope.chatId);
             $http({
                 method: 'GET',
@@ -5947,8 +5947,9 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 $scope.chatMsgs = response.data.chatMsgs;
                 $scope.sessionId = response.data.chatSession;
                 $scope.chatActive = response.data.chatActive;
+                $scope.apiKey = response.data.apiKey;
                 console.log(response.data.chatMsgs);
-                $scope.apiKey = apiKey;
+               // $scope.apiKey = apiKey;
                 // var session = OT.initSession($scope.apiKey, $scope.sessionId);
                 // $scope.session = session;
                 // var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
