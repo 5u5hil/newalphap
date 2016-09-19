@@ -347,6 +347,14 @@ angular.module('your_app_name', [
                         },
                         controller: 'ForgotPasswordCtrl'
                     })
+                    
+                    .state('auth.change-password', {
+                        url: "/change-password",
+                        templateUrl: function () {
+                            return "views/auth/change-password.html";
+                        },
+                        controller: 'ChangePasswordCtrl'
+                    })
 
                     .state('app', {
                         url: "/app",
