@@ -348,13 +348,7 @@ angular.module('your_app_name', [
                         controller: 'ForgotPasswordCtrl'
                     })
                     
-                    .state('auth.change-password', {
-                        url: "/change-password",
-                        templateUrl: function () {
-                            return "views/auth/change-password.html";
-                        },
-                        controller: 'ChangePasswordCtrl'
-                    })
+                    
 
                     .state('app', {
                         url: "/app",
@@ -362,18 +356,23 @@ angular.module('your_app_name', [
                         templateUrl: "views/app/side-menu.html",
                         controller: 'AppCtrl'
                     })
+                    
+                    .state('app.change-password', {
+                        url: "/change-password",
+                        views: {
+                            'menuContent': {
+                                templateUrl: function () {
+                                    return "views/app/change-password.html";
+                                },
+                                controller: 'ChangePasswordCtrl'
+                            }
+                        }
+                    })
 
                     .state('app.category-list', {
                         cache: false,
                         url: "/category-listing",
-                        views: {
-                            'menuContent': {
-                                templateUrl: function () {
-                                    return "views/app/category-list.html";
-                                },
-                                controller: 'CategoryListCtrl'
-                            }
-                        }
+                        
                     })
 
                     .state('app.checkavailable', {

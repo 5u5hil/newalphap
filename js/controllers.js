@@ -774,6 +774,11 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.user = {};
         })
 
+        .controller('ChangePasswordCtrl', function ($scope, $state, $ionicLoading) {
+            $scope.interface = window.localStorage.getItem('interface_id');
+
+        })
+
         .controller('RateApp', function ($scope) {
             $scope.rateApp = function () {
                 if (ionic.Platform.isIOS()) {
@@ -5683,7 +5688,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             }
 
             sidetab('#cstab1');
-           // sidetab('#cstab2');
+            // sidetab('#cstab2');
 
             $scope.pulltab = function (d) {
                 var ww = (jQuery(window).width()) - 40;
@@ -5933,7 +5938,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             window.localStorage.setItem('chatId', $stateParams.id);
             $scope.partId = window.localStorage.getItem('id');
             $scope.msg = '';
-           // var apiKey = '45121182';
+            // var apiKey = '45121182';
             //console.log($scope.chatId);
             $http({
                 method: 'GET',
@@ -5948,7 +5953,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 $scope.chatActive = response.data.chatActive;
                 $scope.apiKey = response.data.apiKey;
                 console.log(response.data.chatMsgs);
-               // $scope.apiKey = apiKey;
+                // $scope.apiKey = apiKey;
                 // var session = OT.initSession($scope.apiKey, $scope.sessionId);
                 // $scope.session = session;
                 // var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
