@@ -357,7 +357,8 @@ angular.module('your_app_name', [
                         controller: 'AppCtrl'
                     })
                     
-                    .state('app.change-password', {
+                    
+                     .state('app.change-password', {
                         url: "/change-password",
                         views: {
                             'menuContent': {
@@ -372,7 +373,14 @@ angular.module('your_app_name', [
                     .state('app.category-list', {
                         cache: false,
                         url: "/category-listing",
-                        
+                        views: {
+                            'menuContent': {
+                                templateUrl: function () {
+                                    return "views/app/category-list.html";
+                                },
+                                controller: 'CategoryListCtrl'
+                            }
+                        }
                     })
 
                     .state('app.checkavailable', {

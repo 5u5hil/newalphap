@@ -26,7 +26,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             ctrl.$setValidity('noMatch1', true);
 
             attrs.$observe('changePasswordC', function (newVal) {
-                console.log("vnvnbv" + newVal);
+               // console.log("vnvnbv" + newVal);
                 if (newVal === 'true') {
                     ctrl.$setValidity('noMatch1', true);
                 } else {
@@ -775,7 +775,32 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
         })
 
         .controller('ChangePasswordCtrl', function ($scope, $state, $ionicLoading) {
+            $scope.email = window.localStorage.getItem('email');
+            $scope.userId = window.localStorage.getItem('id');
             $scope.interface = window.localStorage.getItem('interface_id');
+            // $scope.user = {};
+            $scope.oldpassword = '';
+            $scope.password = '';
+            $scope.cpassword = '';
+            console.log($scope.userId + '--' + $scope.email + "****" + $scope.interface);
+            $scope.doChangepassword = function () {
+                $.ajax({
+                    type: 'GET',
+                    url: domain + "change-password",
+                    data: {userId: $scope.userId, email: $scope.email, interface: $scope.interface, oldpassword: $scope.oldpassword, password: $scope.password},
+                    cache: false,
+                    success: function (response) {
+                        if (response == 1) {
+                            alert('Password updated successfully.');
+                        } else if (response == 2) {
+                            alert('Old password incorrect.');
+                        } else {
+                            alert('Password update unsuccessfully. Please try again!');
+                        }
+                        
+                    }
+                });
+            }
 
         })
 
