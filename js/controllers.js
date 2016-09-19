@@ -5955,14 +5955,14 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.returnjs = function () {
                 jQuery(function () {
                     var wh = jQuery('window').height();
-                    jQuery('#chat').css('height', wh);
+                  //  jQuery('#chat').css('height', wh);
                     //	console.log(wh);
 
                 })
             };
             $scope.returnjs();
             $scope.iframeHeight = $(window).height() - 87;
-            $('#chat').css('height', $scope.iframeHeight);
+         //   $('#chat').css('height', $scope.iframeHeight);
             //Previous Chat 
             $scope.appendprevious = function () {
                 $ionicLoading.show({template: 'Retrieving messages...'});
