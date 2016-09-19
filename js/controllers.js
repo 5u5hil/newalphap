@@ -1861,6 +1861,53 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             }, function errorCallback(response) {
                 console.log(response);
             });
+            
+            $scope.doRefresh = function(){
+               $http({
+                method: 'GET',
+                url: domain + 'records/get-records-details',
+                params: {id: $stateParams.id, userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, shared: $scope.shared}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.records = response.data.records;
+                if ($scope.records.length != 0) {
+                    if ($scope.records[0].record_metadata.length == 6) {
+                        $scope.limit = 3; //$scope.records[0].record_metadata.length;
+                    }
+                    angular.forEach($scope.records, function (value, key) {
+                        //console.log(key);
+                        angular.forEach(value.record_metadata, function (val, k) {
+                            console.log();
+                            if ($scope.catId == 30) {
+                                if (val.field_id == 'no-of-frequency') {
+                                    $scope.repeatFreq[key] = val.value;
+                                }
+                                if (val.field_id == 'no-of-times') {
+                                    $scope.repeatNo[key] = val.value;
+                                }
+                            }
+                            if ($scope.catId == 3) {
+                                if (val.field_id == 'no-of-frequency-1') {
+                                    $scope.repeatFreq[key] = val.value;
+                                }
+                            }
+                        });
+                    });
+                }
+                $scope.createdby = response.data.createdby;
+                $scope.category = response.data.category;
+                $scope.doctors = response.data.doctors;
+                $scope.patient = response.data.patient;
+                $scope.problems = response.data.problems;
+                $scope.doctrs = response.data.shareDoctrs;
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
+                $ionicLoading.hide();
+                 $scope.$broadcast('scroll.refreshComplete');
+            }, function errorCallback(response) {
+               $scope.$broadcast('scroll.refreshComplete');
+            }); 
+            }
             $scope.getRecords = function (cat) {
                 console.log(cat);
                 $scope.catId = cat;
@@ -4105,7 +4152,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                     $scope.chat_doctorsData = response.data.chat_doctorsData;
                     $scope.chat_products = response.data.chat_products;
                     $ionicLoading.hide();
-                    $ionicLoading.hide();
+                   // $ionicLoading.hide();
                     $scope.$broadcast('scroll.refreshComplete');
                 }, function errorCallback(e) {
                     $scope.$broadcast('scroll.refreshComplete');

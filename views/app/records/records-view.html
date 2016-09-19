@@ -8,6 +8,8 @@
         <span  ng-if="apkLanguage != 'english'">  {{langtext.records[language]}}-  {{createdby.length}} </span>
     </div>
     <ion-content>
+         <ion-refresher pulling-text="Pull to refresh..."  on-refresh="doRefresh()">
+        </ion-refresher>
         <div class="list recordview" style="margin-top: 50px;" >
             <div class="mt15" ng-if="records.length == 0"> <p class="txt-center" >No records here. Add now to get started.</p></div>
             <div class="posts-list"  ng-repeat="rec in records track by $index" ng-if="records.length > 0">
