@@ -54,23 +54,23 @@
     }();
     ChatUI = function (ChatMessage) {
         var uiLayout = [
-            '<div class="chatscroll"><div class="ot-bubbles">',
+            '<section id="chat"></section><div class="chatscroll"><div class="ot-bubbles">',
             '</div></div> ',
             '  <div>',
             '    <p class="ot-error-zone" hidden>Error sending the message!</p>',
             '    <p class="ot-new-messages" hidden>\u25BE&nbsp;New messages</p>',
             '</div>'
-
+            
         ].join('\n');
         var buttonLayout = [
-            '<div class="ot-input w100p">',
-            '    <textarea placeholder="Send a message&hellip;" class="ot-composer Chatfield">' + '</textarea>',
-            '    ',
+            '<section id="sendbutton"></section><div class="ot-input">',  
+            '    <textarea placeholder="Send a message&hellip;" class="ot-composer">' + '</textarea>',
+            '    <div class="ot-bottom-line">',
             '      <p class="ot-character-counter"><span></span> characters left</p>',
-            '      <button class="ot-send-button ot-bottom-line">Send&nbsp;\u27E9</button>',
-            '  ',
+            '      <button class="ot-send-button">Send&nbsp;\u27E9</button>',
+            '  </div>',
             '</div>'
-
+            
         ].join('\n');
         var bubbleLayout = [
             '<div>',
@@ -111,15 +111,16 @@
          * informing about a malfunction while sending the message.
          */
         function ChatUI(options) {
-            //var sbtn = document.createElement('section');
+             var sbtn = document.createElement('section');
+            console.log("Bhavana***********"+options)
             options = options || {};
-            this.senderId = options.senderId || ('' + Math.random()).substr(2);
-            this.senderAlias = options.senderAlias || 'me';
+            sbtn.senderId = options.senderId || ('' + Math.random()).substr(2);
+            sbtn.senderAlias = options.senderAlias || 'me';
             this.maxTextLength = options.maxTextLength || 1000;
-            this.groupDelay = options.groupDelay || 2 * 60 * 1000;
+            sbtn.groupDelay = options.groupDelay || 2 * 60 * 1000;
             // 2 min
-            this.timeout = options.timeout || 1000;
-            this._watchScrollAtTheBottom = this._watchScrollAtTheBottom.bind(this);
+            sbtn.timeout = options.timeout || 5000;
+            sbtn._watchScrollAtTheBottom = this._watchScrollAtTheBottom.bind(this);
             this._messages = [];
             this._setupTemplates();
             this._setupUI(options.container);
@@ -137,9 +138,9 @@
                 var chatView = document.createElement('section');
                 var sbtn = document.createElement('section');
                 chatView.innerHTML = uiLayout;
-                sbtn.innerHTML = buttonLayout;
+                 sbtn.innerHTML = buttonLayout;
                 chatView.classList.add('ot-textchat');
-                sbtn.classList.add('ot-input');
+                 sbtn.classList.add('ot-input');
                 var sendButton = sbtn.querySelector('.ot-send-button');
                 var composer = sbtn.querySelector('.ot-composer');
                 var charCounter = sbtn.querySelector('.ot-character-counter > span');
@@ -158,8 +159,7 @@
                 this._composer.onkeydown = this._controlComposerInput.bind(this);
                 this._newMessages.onclick = this._goToNewMessages.bind(this);
                 parent.appendChild(chatView);
-                ///parent.appendChild(sbtn);
-                $("#sent-btn").append(sbtn);
+                parent.appendChild(sbtn);
             },
             _watchScrollAtTheBottom: function () {
                 if (this._isAtBottom()) {
@@ -168,6 +168,7 @@
             },
             _sendMessage: function () {
                 var _this = this;
+
                 var contents = this._composer.value;
                 if (contents.length > _this.maxTextLength) {
                     _this._showTooLongTextError();
@@ -242,16 +243,19 @@
              * @param {ChatMessage} message The message to be displayed.
              */
             addMessage: function (message) {
+                 // var sbtn = document.createElement('section');
                 var shouldGroup = this._shouldGroup(message);
                 var shouldScroll = this._shouldScroll();
+                 console.log("shouldGroup "+shouldGroup)
+                console.log("shouldGroup "+this)
                 this[shouldGroup ? '_groupBubble' : '_addNewBubble'](message);
-                console.log(shouldScroll);
                 if (shouldScroll) {
                     this._scrollToBottom();
                 } else {
                     this._showNewMessageAlert();
                 }
-                this._messages.push(message);          
+                console.log("add msg "+this._messages+" message"+ message);
+                this._messages.push(message);
             },
             /**
              * Transform the message before displaying it in the conversation. The
@@ -287,7 +291,7 @@
                 this._composer.disabled = false;
             },
             _shouldGroup: function (message) {
-              
+                // var sbtn = document.createElement('section');
                 if (this._lastMessage && this._lastMessage.senderId === message.senderId) {
                     var reference = this._lastMessage.dateTime.getTime();
                     var newDate = message.dateTime.getTime();
@@ -300,19 +304,19 @@
             },
             _isAtBottom: function () {
                 var bubbles = this._bubbles;
-                console.log(bubbles+" bubblesss");
                 return bubbles.scrollHeight - bubbles.scrollTop === bubbles.clientHeight;
             },
             _scrollToBottom: function () {
-                console.log(this._bubbles.scrollHeight+" fffff");
                 this._bubbles.scrollTop = this._bubbles.scrollHeight;
             },
             _groupBubble: function (message) {
-                var contents = this.renderMessage(message.text, true);              
+                var contents = this.renderMessage(message.text, true);
+                console.log("_lastBubble "+ this._lastBubble);
                 this._lastBubble.appendChild(this._getBubbleContent(contents));
                 this._lastTimestamp.textContent = this.humanizeDate(message.dateTime);
             },
             _addNewBubble: function (message) {
+                 console.log("_bubbles "+  this._bubbles);
                 this._bubbles.appendChild(this._getBubble(message));
             },
             get _lastMessage() {
@@ -325,13 +329,16 @@
                 return this._bubbles.lastElementChild.querySelector('.ot-message-timestamp');
             },
             _getBubbleContent: function (safeHtml) {
+                console.log("safeHtml "+ safeHtml);
                 var div = document.createElement('DIV');
                 div.classList.add('ot-message-content');
                 div.innerHTML = safeHtml;
+                 console.log("div "+ div)
                 return div;
             },
             _getBubble: function (message) {
                 var chatView = document.createElement('section');
+                console.log('message ' + message.text);
                 if (decrypt(message.text) != '') {
                     var bubble = this._bubbleTemplate.cloneNode(true);
                     var wrapper = bubble.querySelector('div');
@@ -344,13 +351,18 @@
                     }
                     sender.textContent = message.senderAlias;
                     // Content
+                    console.log("message.text "+message.text)
                     var contents = this.renderMessage(message.text, false);
                     wrapper.appendChild(this._getBubbleContent(contents));
+                    console.log("contents "+ contents);
+                    chatView.appendChild(this._getBubbleContent(contents));
+                    
                     // Timestamp
                     timestamp.dateTime = message.dateTime.toISOString();
                     timestamp.textContent = this.humanizeDate(message.dateTime);
                     return bubble;
                 }
+
             },
             /**
              * Called when displaying a message to human format the date.
@@ -406,9 +418,18 @@
             send: function (text, callback) {
                 var signal = this._getMessageSignal(text);
                 this._session.signal(signal, callback);
+                console.log(text + "Text Msg");
+                console.log(decrypt(text) + "Text Msg");
+                if (decrypt(text) != '') {
+                    console.log("cvjgfjg");
+                } else {
+                    console.log("121212");
+                }
+
                 if (decrypt(text) != '') {
                     ajaxCall("GET", domain + "doctorsapp/add-chat-msg", {chat_id: window.localStorage.getItem('chatId'), from: window.localStorage.getItem('id'), to: window.localStorage.getItem('Toid'), msg: text},
                             function (response) {
+                                //console.log(response);
                             });
                 }
             },
@@ -527,6 +548,7 @@
             // and add it to the UI.
             onMessageReceived: function (contents, from) {
                 var message = new ChatMessage(from.connectionId, from.data, contents);
+                console.log("Chat msg rcv"+message);
                 this._chatBox.addMessage(message);
             },
             /**
@@ -540,9 +562,12 @@
             // and allowing multiline messages.
             renderMessage: function (raw) {
                 var output;
+                console.log("raw" + raw);
                 // Allow multiline
                 raw = decrypt(raw);
+                console.log("raw" + raw);
                 output = raw.replace(/(\r\n|\r|\n)/g, '<br/>');
+                console.log("raw" + output);
                 // Detect links
                 if (output != "") {
                     output = output.replace(links, function (href) {

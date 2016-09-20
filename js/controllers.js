@@ -5904,6 +5904,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             $scope.msg = '';
+            $scope.chatMsgs = [];
             //var apiKey = '45121182';
             //console.log($scope.chatId);
             $ionicLoading.show({template: 'Loading...'});
@@ -5980,23 +5981,23 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                     });
                 })
             };
-            $scope.movebottom = function () {
-                jQuery(function () {
-                    var dh = $('.ot-bubbles').height();
-                    $('.chatscroll').scrollTop(dh);
-                    //	console.log(wh);
-
-                })
-            };
-
+     
             $timeout(function () {
+                console.log("append");
                 if ($scope.chatMsgs.length > 0) {
                     $scope.appendprevious();
-                    $scope.movebottom();
+                    $ionicScrollDelegate.scrollBottom([true]);
+               
                 } else {
+                    $ionicScrollDelegate.scrollBottom([true]);
                     //$('#chat').html('<p> No </p>');
                 }
-            }, 1000);
+            }, 2000);
+            $scope.msgSend = function(){
+                $timeout(function () {
+                 $ionicScrollDelegate.scrollBottom([true]);
+             },500);
+            };
 
             $scope.getchatsharedata = function () {
                 $state.go('app.chat-video-share', {reload: true});
