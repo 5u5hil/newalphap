@@ -48,7 +48,7 @@
                                         {{patient[$parent.$parent.$index].fname}} {{patient[$parent.$parent.$index].lname}}
                                     </span>
                                     <span ng-if="detail.fields.name != 'frequency' && detail.fields.name != 'no-of-frequency-1' && detail.fields.name != 'no-of-frequency' && detail.fields.name != 'no-of-times' && detail.fields.field != 'Patient' && detail.fields.field != 'Frequency' && detail.fields.field != 'Prescribed By' && detail.fields.field != 'Measured By' && detail.fields.field != 'Referred By' && detail.fields.field != 'Performed By' && detail.fields.field != 'Consultant' && detail.fields.field != 'Related Problem'">
-                                        <span ng-if="detail.fields.field_type == 8">{{detail.value|dateFormat4}}</span>
+                                        <span ng-if="detail.fields.field_type == 8 && detail.value != ''"><span ng-if="detail.field_id=='consultation-date'" >{{detail.value}}</span><span ng-if="detail.field_id!='consultation-date'" >{{detail.value|dateFormat4}}</span></span>
                                         <span ng-if="detail.fields.field_type == 12">{{detail.value|time1}}</span>
                                         <span ng-if="detail.fields.field_type != 8 && detail.fields.field_type != 12">
                                             <span ng-if="detail.value == ''">NA</span>
