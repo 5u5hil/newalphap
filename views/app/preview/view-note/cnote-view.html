@@ -21,8 +21,8 @@
                     <div class="item item-divider " ng-if="prev.value != ''">
                         <strong>{{prev.fields.field}}</strong>
                     </div>
-                    <div class="fieldvalue" >
-                        {{patient.fname}}
+                    <div class="fieldvalue" ng-repeat="pat in patients" ng-if="pat.id==patientId">
+                        {{pat.fname}} {{pat.lname}}
                     </div>
                 </div>
                 <div ng-if="prev.fields.field == 'Consultation Date'">
@@ -30,7 +30,7 @@
                         <strong>{{prev.fields.field}}</strong>
                     </div>
                     <div class="fieldvalue" ng-if="prev.value != ''">
-                        {{prev.value|dateFormat3}}
+                        {{prev.value}}
                     </div>
                 </div>
                 <div ng-if="prev.fields.field == 'Mode'">
