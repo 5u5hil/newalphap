@@ -26,7 +26,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             ctrl.$setValidity('noMatch1', true);
 
             attrs.$observe('changePasswordC', function (newVal) {
-               // console.log("vnvnbv" + newVal);
+                // console.log("vnvnbv" + newVal);
                 if (newVal === 'true') {
                     ctrl.$setValidity('noMatch1', true);
                 } else {
@@ -797,7 +797,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                         } else {
                             alert('Password update unsuccessfully. Please try again!');
                         }
-                        
+
                     }
                 });
             }
@@ -1861,52 +1861,52 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             }, function errorCallback(response) {
                 console.log(response);
             });
-            
-            $scope.doRefresh = function(){
-               $http({
-                method: 'GET',
-                url: domain + 'records/get-records-details',
-                params: {id: $stateParams.id, userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, shared: $scope.shared}
-            }).then(function successCallback(response) {
-                console.log(response.data);
-                $scope.records = response.data.records;
-                if ($scope.records.length != 0) {
-                    if ($scope.records[0].record_metadata.length == 6) {
-                        $scope.limit = 3; //$scope.records[0].record_metadata.length;
-                    }
-                    angular.forEach($scope.records, function (value, key) {
-                        //console.log(key);
-                        angular.forEach(value.record_metadata, function (val, k) {
-                            console.log();
-                            if ($scope.catId == 30) {
-                                if (val.field_id == 'no-of-frequency') {
-                                    $scope.repeatFreq[key] = val.value;
+
+            $scope.doRefresh = function () {
+                $http({
+                    method: 'GET',
+                    url: domain + 'records/get-records-details',
+                    params: {id: $stateParams.id, userId: $scope.userId, patientId: $scope.patientId, interface: $scope.interface, shared: $scope.shared}
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.records = response.data.records;
+                    if ($scope.records.length != 0) {
+                        if ($scope.records[0].record_metadata.length == 6) {
+                            $scope.limit = 3; //$scope.records[0].record_metadata.length;
+                        }
+                        angular.forEach($scope.records, function (value, key) {
+                            //console.log(key);
+                            angular.forEach(value.record_metadata, function (val, k) {
+                                console.log();
+                                if ($scope.catId == 30) {
+                                    if (val.field_id == 'no-of-frequency') {
+                                        $scope.repeatFreq[key] = val.value;
+                                    }
+                                    if (val.field_id == 'no-of-times') {
+                                        $scope.repeatNo[key] = val.value;
+                                    }
                                 }
-                                if (val.field_id == 'no-of-times') {
-                                    $scope.repeatNo[key] = val.value;
+                                if ($scope.catId == 3) {
+                                    if (val.field_id == 'no-of-frequency-1') {
+                                        $scope.repeatFreq[key] = val.value;
+                                    }
                                 }
-                            }
-                            if ($scope.catId == 3) {
-                                if (val.field_id == 'no-of-frequency-1') {
-                                    $scope.repeatFreq[key] = val.value;
-                                }
-                            }
+                            });
                         });
-                    });
-                }
-                $scope.createdby = response.data.createdby;
-                $scope.category = response.data.category;
-                $scope.doctors = response.data.doctors;
-                $scope.patient = response.data.patient;
-                $scope.problems = response.data.problems;
-                $scope.doctrs = response.data.shareDoctrs;
-                $scope.langtext = response.data.langtext;
-                $scope.language = response.data.lang.language;
-                $ionicLoading.hide();
-                 $scope.$broadcast('scroll.refreshComplete');
-            }, function errorCallback(response) {
-               $scope.$broadcast('scroll.refreshComplete');
-            }); 
+                    }
+                    $scope.createdby = response.data.createdby;
+                    $scope.category = response.data.category;
+                    $scope.doctors = response.data.doctors;
+                    $scope.patient = response.data.patient;
+                    $scope.problems = response.data.problems;
+                    $scope.doctrs = response.data.shareDoctrs;
+                    $scope.langtext = response.data.langtext;
+                    $scope.language = response.data.lang.language;
+                    $ionicLoading.hide();
+                    $scope.$broadcast('scroll.refreshComplete');
+                }, function errorCallback(response) {
+                    $scope.$broadcast('scroll.refreshComplete');
+                });
             }
             $scope.getRecords = function (cat) {
                 console.log(cat);
@@ -2071,6 +2071,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.recId = $stateParams.id;
             store({'recId': $scope.recId});
             $scope.pcaseId = '';
+            $scope.prescription = 'No';
             $scope.testResult = {};
             $scope.objText = {};
             $scope.diaText = {};
@@ -2103,6 +2104,16 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                             if (val.fields.field == 'Attachments') {
                                 $scope.isAttachment = val.attachments.length;
                             }
+                            if (val.fields.field == 'Includes Prescription') {
+                                $scope.prescription = val.value;
+                                if (val.value == 'Yes') {
+                                    //jQuery('#convalid').removeClass('hide');
+                                }
+                            }
+                            if (val.fields.field == 'Valid till') {
+                                $scope.validTill = $filter('date')(new Date(val.value), 'dd-MM-yyyy');
+                            }
+
                         });
                     }
                     if (response.data.app.mode == 1) {
@@ -4152,7 +4163,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                     $scope.chat_doctorsData = response.data.chat_doctorsData;
                     $scope.chat_products = response.data.chat_products;
                     $ionicLoading.hide();
-                   // $ionicLoading.hide();
+                    // $ionicLoading.hide();
                     $scope.$broadcast('scroll.refreshComplete');
                 }, function errorCallback(e) {
                     $scope.$broadcast('scroll.refreshComplete');
@@ -5956,14 +5967,14 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.returnjs = function () {
                 jQuery(function () {
                     var wh = jQuery('window').height();
-                  //  jQuery('#chat').css('height', wh);
+                    //  jQuery('#chat').css('height', wh);
                     //	console.log(wh);
 
                 })
             };
             $scope.returnjs();
             $scope.iframeHeight = $(window).height() - 87;
-         //   $('#chat').css('height', $scope.iframeHeight);
+            //   $('#chat').css('height', $scope.iframeHeight);
             //Previous Chat 
             $scope.appendprevious = function () {
                 $ionicLoading.show({template: 'Retrieving messages...'});
@@ -5981,22 +5992,22 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                     });
                 })
             };
-     
+
             $timeout(function () {
                 console.log("append");
                 if ($scope.chatMsgs.length > 0) {
                     $scope.appendprevious();
                     $ionicScrollDelegate.scrollBottom([true]);
-               
+
                 } else {
                     $ionicScrollDelegate.scrollBottom([true]);
                     //$('#chat').html('<p> No </p>');
                 }
             }, 2000);
-            $scope.msgSend = function(){
+            $scope.msgSend = function () {
                 $timeout(function () {
-                 $ionicScrollDelegate.scrollBottom([true]);
-             },500);
+                    $ionicScrollDelegate.scrollBottom([true]);
+                }, 500);
             };
 
             $scope.getchatsharedata = function () {

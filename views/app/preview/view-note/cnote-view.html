@@ -21,7 +21,7 @@
                     <div class="item item-divider " ng-if="prev.value != ''">
                         <strong>{{prev.fields.field}}</strong>
                     </div>
-                    <div class="fieldvalue" ng-repeat="pat in patients" ng-if="pat.id==patientId">
+                    <div class="fieldvalue" ng-repeat="pat in patients" ng-if="pat.id == patientId">
                         {{pat.fname}} {{pat.lname}}
                     </div>
                 </div>
@@ -58,13 +58,13 @@
                         {{prev.value|timeN}}
                     </div>
                 </div>
-                <div ng-if="prev.fields.field == 'Valid till'">
-                    <div class="item item-divider" id="convalid" ng-if="prev.value != ''">
+                <div ng-if="prev.fields.field == 'Valid till' && prescription == 'Yes'">
+                    <div class="item item-divider" ng-if="prev.value != ''">
                         <strong>{{prev.fields.field}}</strong>
                     </div>
-                    <div class="fieldvalue" ng-if="prev.value != ''"> :{{prev.value|dateFormat3}}</div>
+                    <div class="fieldvalue" ng-if="prev.value != ''"> {{prev.value|dateFormat3}}</div>
                 </div>
-                <div class="hide" ng-if="prev.fields.field == 'Includes Prescription'" id="coninprec">
+                <div ng-if="prev.fields.field == 'Includes Prescription'">
                     <div class="item item-divider">
                         <strong>{{prev.fields.field}}</strong>
                     </div>
@@ -166,17 +166,22 @@
             </div>
             <div class="clr"></div>
             <div class="accordiantab" ng-click="accordiantab('ntlifestyle')">
-                <span class="icon ion-plus-circled"></span>  Lifestyle
+                <span class="icon ion-plus-circled"></span>  Task
             </div> 
             <div  id="ntlifestyle" class="accordiancontent">
                 <div ng-include src="'views/app/preview/view-note/nt-lifestyle.html'"></div>
             </div>
+            <div class="clr"></div>
             <div class="accordiantab" ng-click="accordiantab('ntrefferal')">
                 <span class="icon ion-plus-circled"></span>  Referral
             </div>
             <div  id="ntrefferal" class="accordiancontent">
                 <div ng-include src="'views/app/preview/view-note/nt-refferal.html'"></div>
             </div>
+            <div class="clr"></div>
+            <div class="accordiantab" ng-click="accordiantab('ntlifestyle')">
+                <span class="icon ion-plus-circled"></span>  Task
+            </div> 
         </div>	
 
         <!---- Notes Ends  ----->
