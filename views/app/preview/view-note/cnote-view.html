@@ -78,14 +78,18 @@
                         <span ng-repeat="attach in prev.attachments" >
                             <span ng-init="selData = (attach.orginial_name).split('.')">
                                 <span ng-if="selData[1] == 'png' || selData[1] == 'gif' || selData[1] == 'jpg' || selData[1] == 'PNG' || selData[1] == 'GIF' || selData[1] == 'JPG'">
-                                    <a  class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
-                                        <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
-                                    </a>
+                                    <div class="fieldvalue">  
+                                        <a  class="filelink" style="cursor: pointer;" ng-click="showRecAttach(attach.attachment_path, attach.orginial_name)" >
+                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                        </a>
+                                    </div>
                                 </span>
                                 <span ng-if="selData[1] != 'png' && selData[1] != 'gif' && selData[1] != 'jpg' && selData[1] != 'PNG' && selData[1] != 'GIF' && selData[1] != 'JPG'">
-                                    <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
-                                        <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
-                                    </a>
+                                    <div class="fieldvalue">
+                                        <a class="filelink" href="{{attachpath}}{{attach.attachment_path}}{{attach.orginial_name}}"  download>
+                                            <span class="ico"><i class="ion-paperclip"></i></span> ({{$index + 1}})
+                                        </a>
+                                    </div>
                                 </span>
                             </span>
                         </span>
@@ -183,8 +187,8 @@
                 <span class="icon ion-plus-circled"></span>  Task
             </div> 
         </div>	
-<br/>
-<br/>
+        <br/>
+        <br/>
         <!---- Notes Ends  ----->
     </ion-content>
     <div class="footerbar">
