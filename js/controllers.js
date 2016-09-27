@@ -367,7 +367,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $rootScope.$on("sideMenu", function () {
                 $scope.sideMenu();
             });
-            $scope.sideMenu = function(){
+            $scope.sideMenu = function () {
                 $ionicLoading.show({template: 'Loading..'});
                 $http({
                     method: 'GET',
@@ -396,25 +396,25 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                     url: domain + 'get-login-logout-log',
                     params: {userId: window.localStorage.getItem('id'), interface: $scope.interface, type: $scope.userType, action: $scope.action}
                 }).then(function successCallback(response) {
-                     window.localStorage.clear();
-                $rootScope.userLogged = 0;
-                $rootScope.$digest;
-                $timeout(function () {
-                    $ionicLoading.hide();
-                    $ionicHistory.clearCache();
-                    $ionicHistory.clearHistory();
-                    $ionicHistory.nextViewOptions({disableBack: true, historyRoot: true});
-                    //$state.go('auth.walkthrough', {}, {reload: true});
-                    window.localStorage.setItem('apkLanguage', 'english');
-                    window.localStorage.setItem('interface_id', '6');
-                     $scope.sideMenu();
-                    $state.go('app.category-list');
-                }, 30);
+                    window.localStorage.clear();
+                    $rootScope.userLogged = 0;
+                    $rootScope.$digest;
+                    $timeout(function () {
+                        $ionicLoading.hide();
+                        $ionicHistory.clearCache();
+                        $ionicHistory.clearHistory();
+                        $ionicHistory.nextViewOptions({disableBack: true, historyRoot: true});
+                        //$state.go('auth.walkthrough', {}, {reload: true});
+                        window.localStorage.setItem('apkLanguage', 'english');
+                        window.localStorage.setItem('interface_id', '6');
+                        $scope.sideMenu();
+                        $state.go('app.category-list');
+                    }, 30);
                 }, function errorCallback(e) {
                     console.log(e);
                 });
 
-               
+
 
             };
             $scope.checkCat = function () {
@@ -881,11 +881,11 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             window.localStorage.setItem('interface_id', '6');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = window.localStorage.getItem('id');
-           if (get('id') != null) {
+            if (get('id') != null) {
                 $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             } else {
                 window.localStorage.setItem('apkLanguage', 'english');
-                 $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+                $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
             }
             $ionicLoading.show({template: 'Loading..'});
             $http({
@@ -1726,7 +1726,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                     }
                 }
             };
-            
+
             $scope.getEnd = function () {
                 //console.log(stdt + " === " + $scope.nodays + " === " + endDate);
                 var noDays = $('#dietdays').val();
@@ -6037,6 +6037,89 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
 
             }
 
+        })
+
+        .controller('PastChatCtrl', function ($scope, $ionicLoading, $http, $stateParams, $timeout, $filter) {
+            $scope.chatId = $stateParams.id;
+            window.localStorage.setItem('chatId', $stateParams.id);
+            $scope.partId = get('id');
+            $scope.interface = get('interface_id');
+            $scope.apkLanguage = get('apkLanguage');
+            $scope.msg = '';
+            $scope.chatMsgs = [];
+            $http({
+                method: 'GET',
+                url: domain + 'doctorsapp/get-chat-token-past',
+                params: {chatId: $scope.chatId, userId: $scope.partId, interface: $scope.interface}
+            }).then(function sucessCallback(response) {
+                console.log(response.data);
+                $scope.user = response.data.user;
+                $scope.otherUser = response.data.otherUser;
+                $scope.chatMsgs = response.data.chatMsgs;
+                $scope.sessionId = response.data.chatSession;
+                $scope.chatActive = response.data.chatActive;
+                $scope.apiKey = response.data.apiKey;
+                //keygeneration
+                var phone1 = $scope.user.phone;
+                var phone2 = $scope.otherUser.phone;
+                var passphrase = "9773001965";
+                if (phone1 > phone2) {
+                    passphrase = phone1 + phone2;
+                } else {
+                    passphrase = phone2 + phone1;
+                }
+                privateKey = cryptico.generateRSAKey(passphrase, 1024);
+                publicKey = cryptico.publicKeyString(privateKey);
+                console.log(response.data.chatMsgs);
+                // $scope.apiKey = apiKey;
+                // var session = OT.initSession($scope.apiKey, $scope.sessionId);
+                // $scope.session = session;
+                // var chatWidget = new OTSolution.TextChat.ChatWidget({session: $scope.session, container: '#chat'});
+                // console.log("error source 1" + chatWidget);
+
+            }, function errorCallback(e) {
+                console.log(e);
+            });
+            $scope.returnjs = function () {
+                jQuery(function () {
+                    var wh = jQuery('window').height();
+                    jQuery('#chat').css('height', wh);
+                    //	console.log(wh);
+                })
+            };
+            $scope.returnjs();
+            $scope.iframeHeight = $(window).height() - 88;
+            $('#chat').css('height', $scope.iframeHeight);
+            //Previous Chat 
+
+            $scope.appendprevious = function () {
+                $ionicLoading.show({template: 'Retrieving messages...'});
+                $(function () {
+                    angular.forEach($scope.chatMsgs, function (value, key) {
+                        value.message = decrypt(value.message);
+                        var msgTime = $filter('date')(new Date(value.tstamp), 'd MMM, yyyy - HH:mm a');
+                        if (value.sender_id == $scope.partId) {
+                            $ionicLoading.hide();
+                            $('#pchat .ot-textchat .ot-bubbles').append('<section class="ot-bubble mine" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
+                        } else {
+                            $ionicLoading.hide();
+                            $('#pchat .ot-textchat .ot-bubbles').append('<section class="ot-bubble" data-sender-id=""><div><header class="ot-bubble-header"><p class="ot-message-sender"></p><time class="ot-message-timestamp">' + msgTime + '</time></header><div class="ot-message-content">' + value.message + '</div></div></section>');
+                        }
+                    });
+                });
+            };
+
+            $scope.movebottom = function () {
+                jQuery(function () {
+                    var dh = $('.ot-bubbles').height();
+                    $('.chatscroll').scrollTop(dh);
+                });
+            };
+
+            $timeout(function () {
+                $scope.appendprevious();
+                $scope.movebottom();
+            }, 1000);
         })
 
         .controller('PastChatCtrl', function ($scope, $ionicLoading, $http, $stateParams, $timeout, $filter) {
