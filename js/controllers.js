@@ -6120,6 +6120,19 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 $scope.appendprevious();
                 $scope.movebottom();
             }, 1000);
+            $scope.getchatsharedata = function () {
+                $http({
+                    method: 'GET',
+                    url: domain + 'contentlibrary/get-video-chat-share-data',
+                    params: {userId: window.localStorage.getItem('id'), chatId: $scope.chatId}
+                }).then(function sucessCallback(response) {
+                    console.log(response.data);
+                    $scope.videodata = response.data;
+                    $state.go('app.chat-video-share', {reload: true});
+                }, function errorCallback(response) {
+                    console.log(response.responseText);
+                });
+            }
         })
 
         .controller('JoinChatCtrl', function ($scope, $http, $stateParams, $sce, $ionicLoading) {
