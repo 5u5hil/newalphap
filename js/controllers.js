@@ -38,7 +38,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
 })
 
 // APP
-        .controller('AppCtrl', function ($scope, $ionicModal, $http, $state, $ionicConfig, $rootScope, $ionicLoading, $ionicHistory, $timeout) {
+        .controller('AppCtrl', function ($scope, $ionicModal, $http, $state,$ionicScrollDelegate, $ionicConfig, $rootScope, $ionicLoading, $ionicHistory, $timeout) {
             $rootScope.imgpath = domain + "/public/frontend/user/";
             $rootScope.attachpath = domain + "/public";
             console.log('sdad---' + $rootScope.userLogged + " == " + window.localStorage.getItem('id'));
@@ -114,7 +114,28 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                                         url: domain + 'get-login-logout-log',
                                         params: {userId: window.localStorage.getItem('id'), interface: $scope.interface, type: $scope.userType, action: $scope.action}
                                     }).then(function successCallback(response) {
+                                        $http({
+                                            method: 'GET',
+                                            url: domain + 'get-login',
+                                            params: {id: window.localStorage.getItem('id'), interface: $scope.interface}
+                                        }).then(function successCallback(response) {
+                                            console.log(response.data.lang.language);
+                                            $scope.langtext = response.data.data;
+                                            $scope.language = response.data.lang.language;
+
+                                            //$scope.apkLanguage = window.localStorage.setItem('apkLanguage', response.data.lang.language);
+
+                                            window.localStorage.setItem('apkLanguage', response.data.lang.language);
+                                            $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+                                            //$scope.sideMenu();
+                                           
+                                            window.location.reload();
+
+                                        }, function errorCallback(response) {
+                                            console.log(response);
+                                        });
                                     }, function errorCallback(e) {
+                                        
                                         console.log(e);
                                     });
 
@@ -206,6 +227,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                             processData: false,
                             success: function (response) {
                                 window.localStorage.setItem('code', response.otpcode);
+                                 $ionicScrollDelegate.scrollTop([true]);
                                 store($scope.user);
                                 alert('Kindly check your mobile for OTP')
                                 $('#checkotp').removeClass('hide');
@@ -593,7 +615,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
 
         })
 
-        .controller('SignupCtrl', function ($scope, $state, $http, $rootScope) {
+        .controller('SignupCtrl', function ($scope, $state, $http, $rootScope,$ionicScrollDelegate) {
             $scope.interface = window.localStorage.setItem('interface_id', '6');
             $scope.registervia = window.localStorage.setItem('registervia', 'apk');
             $scope.user = {};
@@ -613,6 +635,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                     processData: false,
                     success: function (response) {
                         window.localStorage.setItem('code', response.otpcode);
+                        $ionicScrollDelegate.scrollTop([true]);
                         store($scope.user);
                         alert('Kindly check your mobile for OTP')
                         $state.go('auth.check-otp', {}, {reload: true});
@@ -881,61 +904,49 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             window.localStorage.setItem('interface_id', '6');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = window.localStorage.getItem('id');
+             $scope.getcatlang = function () {
+                $http({
+                    method: 'GET',
+                    url: domain + 'get-categoty-lang',
+                    params: {id: $scope.userId, interface: $scope.interface}
+                }).then(function successCallback(response) {
+                    if (response.data.dataCat) {
+                        $scope.menuItem = response.data.menuItem;
+                        $scope.cattext = response.data.dataCat;
+                        $scope.language = response.data.lang.language;
+                        $scope.apkLanguage = response.data.lang.language;
+                        window.localStorage.setItem('apkLanguage', response.data.lang.language);
+                    }
+                    $http({
+                        method: 'GET',
+                        url: domain + 'assistants/get-chat-unread-cnt',
+                        params: {userId: $scope.userId}
+                    }).then(function sucessCallback(response) {
+                        console.log(response);
+                        $scope.unreadCnt = response.data;
+                        $ionicLoading.hide();
+                    }, function errorCallback(e) {
+                        console.log(e);
+                    });
+                }, function errorCallback(response) {
+                    // console.log(response);
+                });
+            };
+
+
             if (get('id') != null) {
                 $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+                $scope.getcatlang();
+
+                console.log("lang  IF " + window.localStorage.getItem('apkLanguage'));
             } else {
                 window.localStorage.setItem('apkLanguage', 'english');
                 $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
+                $scope.getcatlang();
+//                 $scope.updatesideMenu();
+
+                console.log("lang Else " + window.localStorage.getItem('apkLanguage'));
             }
-            $ionicLoading.show({template: 'Loading..'});
-            $http({
-                method: 'GET',
-                url: domain + 'get-login',
-                params: {id: window.localStorage.getItem('id'), interface: $scope.interface}
-            }).then(function successCallback(response) {
-                console.log(response.data.lang.language);
-                $scope.langtext = response.data.data;
-                $scope.language = response.data.lang.language;
-                if (response.data) {
-
-                    $rootScope.apkLanguage = response.data.lang.language;
-                    window.localStorage.setItem('apkLanguage', response.data.lang.language);
-                } else {
-
-                }
-            }, function errorCallback(response) {
-                // console.log(response);
-            });
-
-            $http({
-                method: 'GET',
-                url: domain + 'get-categoty-lang',
-                params: {id: $scope.userId, interface: $scope.interface}
-            }).then(function successCallback(response) {
-                if (response.data.dataCat) {
-                    $scope.menuItem = response.data.menuItem;
-                    $scope.cattext = response.data.dataCat;
-                    $scope.language = response.data.lang.language;
-                    $rootScope.apkLanguage = response.data.lang.language;
-                    window.localStorage.setItem('apkLanguage', response.data.lang.language);
-                }
-                $http({
-                    method: 'GET',
-                    url: domain + 'assistants/get-chat-unread-cnt',
-                    params: {userId: $scope.userId}
-                }).then(function sucessCallback(response) {
-                    console.log(response);
-                    $scope.unreadCnt = response.data;
-                    $ionicLoading.hide();
-                }, function errorCallback(e) {
-                    console.log(e);
-                });
-            }, function errorCallback(response) {
-                // console.log(response);
-            });
-            // } else {
-            //  $state.go('auth.walkthrough', {}, {reload: true});
-            //  }
 
             $scope.checkRedirect = function (url) {
                 // alert(url);
