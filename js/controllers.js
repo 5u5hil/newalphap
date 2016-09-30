@@ -7220,39 +7220,37 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.transitionOut = function (card) {
                 console.log('card transition out');
             };
-            $scope.transitionRight = function (card) {
+             $scope.transitionRight = function (card) {
                 $scope.card = card;
                 console.log('card removed to the right');
                 console.log(card);
+                $http({
+                    method: 'GET',
+                    url: domain + 'tracker/update-reminder',
+                    params: {userId: window.localStorage.getItem('id'), interface: $scope.interface, aid: $scope.card, captured: 3}
+                }).then(function sucessCallback(response) {
 
 
-                // $http({
-                //     method: 'GET',
-                //     url: domain + 'tracker/update-reminder',
-                //     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 3}
-                // }).then(function sucessCallback(response) {
-
-
-                // }, function errorCallback(e) {
-                //     console.log(e);
-                // });
-
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
             };
+
+
             $scope.transitionLeft = function (card) {
                 $scope.card = card;
                 console.log('card removed to the left');
                 console.log(card);
+                $http({
+                    method: 'GET',
+                    url: domain + 'tracker/update-reminder',
+                    params: {userId: window.localStorage.getItem('id'), interface: $scope.interface, aid: $scope.card, captured: 2}
+                }).then(function sucessCallback(response) {
 
 
-                // $http({
-                //     method: 'GET',
-                //     url: domain + 'tracker/update-reminder',
-                //     params: {userId: window.localStorage.getItem('id'), aid: $scope.card, captured: 2}
-                // }).then(function sucessCallback(response) {
-                // }, function errorCallback(e) {
-                //     console.log(e);
-                // });
-
+                }, function errorCallback(e) {
+                    console.log(e);
+                });
             };
         })
 
@@ -7585,7 +7583,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 $scope.modal = modal;
             });
             $scope.playVideo = function (archiveid) {
-                $ionicLoading.show({template: 'Retriving Video...'});
+                $ionicLoading.show({template: 'Preparing Video...'});
                 $http({
                     method: 'GET',
                     url: domain + 'contentlibrary/play-recent-video',
@@ -7619,9 +7617,9 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                     if (response == '1') {
                         $scope.archiveId = window.localStorage.removeItem('archiveId');
                         alert('Chat recording added successfully.');
-                        $state.go('app.chat', {'id': $scope.chatId}, {reload: true});
+                        $state.go('app.save-chat-video', {'id': $scope.chatId}, {reload: true});
                     } else {
-                        $state.go('app.chat', {'id': $scope.chatId}, {reload: true});
+                        $state.go('app.save-chat-video', {'id': $scope.chatId}, {reload: true});
                     }
                 });
             }
