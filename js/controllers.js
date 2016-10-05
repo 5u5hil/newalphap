@@ -39,7 +39,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
 
 // APP
 
-        .controller('AppCtrl', function ($scope, $ionicModal, $http, $state, $ionicConfig, $rootScope, $ionicLoading, $ionicHistory, $timeout,$ionicScrollDelegate) {
+        .controller('AppCtrl', function ($scope, $ionicModal, $http, $state, $ionicConfig, $rootScope, $ionicLoading, $ionicHistory, $timeout, $ionicScrollDelegate) {
 
             $rootScope.imgpath = domain + "/public/frontend/user/";
             $rootScope.attachpath = domain + "/public";
@@ -130,14 +130,14 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                                             window.localStorage.setItem('apkLanguage', response.data.lang.language);
                                             $scope.apkLanguage = window.localStorage.getItem('apkLanguage');
                                             //$scope.sideMenu();
-                                           
+
                                             window.location.reload();
 
                                         }, function errorCallback(response) {
                                             console.log(response);
                                         });
                                     }, function errorCallback(e) {
-                                        
+
                                         console.log(e);
                                     });
 
@@ -229,7 +229,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                             processData: false,
                             success: function (response) {
                                 window.localStorage.setItem('code', response.otpcode);
-                                 $ionicScrollDelegate.scrollTop([true]);
+                                $ionicScrollDelegate.scrollTop([true]);
                                 store($scope.user);
                                 alert('Kindly check your mobile for OTP')
                                 $ionicScrollDelegate.scrollTop();
@@ -618,7 +618,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
 
         })
 
-        .controller('SignupCtrl', function ($scope, $state, $http, $rootScope,$ionicScrollDelegate) {
+        .controller('SignupCtrl', function ($scope, $state, $http, $rootScope, $ionicScrollDelegate) {
             $scope.interface = window.localStorage.setItem('interface_id', '6');
             $scope.registervia = window.localStorage.setItem('registervia', 'apk');
             $scope.user = {};
@@ -907,7 +907,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             window.localStorage.setItem('interface_id', '6');
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = window.localStorage.getItem('id');
-             $scope.getcatlang = function () {
+            $scope.getcatlang = function () {
                 $http({
                     method: 'GET',
                     url: domain + 'get-categoty-lang',
@@ -2075,7 +2075,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.submitmodal = function () {
                 console.log($scope.catIds);
                 $scope.modal.hide();
-                 
+
             };
 
             $scope.print = function () {
@@ -2087,7 +2087,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                     alert('printing finished or canceled');
                 });
             };
-            
+
             $scope.path = "";
             $scope.name = "";
             $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
@@ -2099,7 +2099,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                     $scope.value = $rootScope.attachpath + path + name;
                     $scope.fileModal.show();
                 };
-                $scope.closeModal = function(){
+                $scope.closeModal = function () {
                     $scope.fileModal.hide();
                 };
 
@@ -7258,7 +7258,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.transitionOut = function (card) {
                 console.log('card transition out');
             };
-             $scope.transitionRight = function (card) {
+            $scope.transitionRight = function (card) {
                 $scope.card = card;
                 console.log('card removed to the right');
                 console.log(card);
