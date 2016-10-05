@@ -559,10 +559,10 @@
                     </div>
                     <span ng-if="rec.fields.field == 'Frequency'" >
                         <div class="listreq" ng-if="rec.fields.is_mandatory == 1" ><div class="item item-divider mt15" >{{rec.fields.field}} *</div> </div>
-                        <div class="fieldvalue" ng-if="rec.value == 'Repeat'">{{rec.value}} in {{repeatFreq}}</div>
+                        <div class="fieldvalue" ng-if="rec.value == 'Repeat'">Once Every {{repeatNo}} {{repeatFreq}}</div>
                         <div class="fieldvalue" ng-if="rec.value != 'Repeat'">{{rec.value}}</div>
                     </span>
-                    <div ng-if="rec.fields.name != 'no-of-frequency' && rec.fields.field != 'Frequency' && rec.fields.field != 'Includes Prescription' && rec.fields.field != 'Valid till' && rec.fields.name != 'how-it-ended' && rec.fields.name != 'no-of-days' && rec.fields.name != 'quick-history'" class="clr">
+                    <div ng-if="rec.fields.name!= 'no-of-times' && rec.fields.name != 'no-of-frequency' && rec.fields.field != 'Frequency' && rec.fields.field != 'Includes Prescription' && rec.fields.field != 'Valid till' && rec.fields.name != 'how-it-ended' && rec.fields.name != 'no-of-days' && rec.fields.name != 'quick-history'" class="clr">
                         <div class="listreq" ng-if="rec.fields.is_mandatory == 1" ><div class="item item-divider mt15" >{{rec.fields.field}} *</div> </div>
                         <div class="item item-divider mt15" ng-if="rec.fields.is_mandatory != 1" >{{rec.fields.field}} </div>
                         <div ng-if="rec.fields.field == 'Prescribed By' || rec.fields.field == 'Measured By' || rec.fields.field == 'Referred By' || rec.fields.field == 'Conducted By' || rec.fields.field == 'Performed By' || rec.fields.field == 'Consultant'" >

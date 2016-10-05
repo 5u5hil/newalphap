@@ -1835,7 +1835,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             });
         })
 
-        .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $rootScope, $ionicLoading, $cordovaPrinter, $ionicModal, $timeout) {
+        .controller('RecordsViewCtrl', function ($scope, $http, $state, $stateParams, $sce, $rootScope, $ionicLoading, $cordovaPrinter, $ionicModal, $timeout) {
             $scope.interface = window.localStorage.getItem('interface_id');
             unset(['patientId', 'doctorId', 'recId']);
             $scope.userId = get('id');
@@ -2075,6 +2075,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.submitmodal = function () {
                 console.log($scope.catIds);
                 $scope.modal.hide();
+                 
             };
 
             $scope.print = function () {
@@ -2085,6 +2086,31 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 cordova.plugins.printer.print(print_page, 'alpha', function () {
                     alert('printing finished or canceled');
                 });
+            };
+            
+            $scope.path = "";
+            $scope.name = "";
+            $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
+                $scope.fileModal = $ionicModal;
+                $scope.showm = function (path, name) {
+                    $scope.path = path;
+                    $scope.name = name;
+                    console.log(path + '=afd =' + name);
+                    $scope.value = $rootScope.attachpath + path + name;
+                    $scope.fileModal.show();
+                };
+                $scope.closeModal = function(){
+                    $scope.fileModal.hide();
+                };
+
+            }, {
+                // Use our scope for the scope of the modal to keep it simple
+                scope: $scope,
+                // The animation we want to use for the modal entrance
+                animation: 'slide-in-up'
+            });
+            $scope.trustSrc = function (src) {
+                return $sce.trustAsResourceUrl(src);
             };
 
             //View details
@@ -3953,8 +3979,6 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                     alert("Please select doctor to share with!");
                 }
             };
-
-
 
             $scope.path = "";
             $scope.name = "";
