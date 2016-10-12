@@ -279,7 +279,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                                                     params: {userId: $scope.userId, playerId: ids.userId, pushToken: ids.pushToken}
                                                 }).then(function successCallback(response) {
                                                     if (response.data == 1) {
-                                                        // alert('Your sucessfully registered');
+                                                        // alert('You are sucessfully registered');
                                                         // $state.go('app.category-list', {}, {reload: true});
                                                     }
                                                 }, function errorCallback(e) {
@@ -289,7 +289,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                                         } catch (err) {
 
                                         }
-                                        alert('Your sucessfully registered');
+                                        alert('You are sucessfully registered');
                                         if (typeof callback === 'function') {
                                             callback();
                                         }
@@ -685,7 +685,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                                             params: {userId: $scope.userId, playerId: ids.userId, pushToken: ids.pushToken}
                                         }).then(function successCallback(response) {
                                             if (response.data == 1) {
-                                                // alert('Your sucessfully registered');
+                                                // alert('You are sucessfully registered');
                                                 // $state.go('app.category-list', {}, {reload: true});
                                             }
                                         }, function errorCallback(e) {
@@ -696,7 +696,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
 
                                 }
 
-                                alert('Your sucessfully registered');
+                                alert('You are sucessfully registered');
                                 $state.go('app.category-list', {}, {reload: true});
                             } else {
                                 alert('Please fill all the details for signup');
