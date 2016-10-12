@@ -4556,24 +4556,26 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 $scope.langtext = response.data.tabmenu;
                 $scope.language = response.data.lang.language;
                 //$scope.services = response.data.services;
-                $scope.doctors = $filter('orderBy')($scope.doctors, ['instpermission.instant_permission', '-doctorpresense.presence', 'fname', 'lname']);
-                angular.forEach($scope.doctors, function (value, key) {
-                    $http({
-                        method: 'GET',
-                        url: domain + 'doctors/get-doctor-services',
-                        params: {id: value.id, interface: $scope.interface}
-                    }).then(function successCallback(responseData) {
-                        $ionicLoading.hide();
-                        //console.log(responseData);
-                        $scope.services[key] = responseData.data.docServices;
-                        $scope.docServices[key] = responseData.data.data;
-                    }, function errorCallback(response) {
-                        console.log(response);
-                    });
-                    console.log($scope.services);
-                    $scope.spec = response.data.spec;
-                    $ionicLoading.hide();
-                });
+                //$scope.doctors = $filter('orderBy')($scope.doctors, ['instpermission.instant_permission', '-doctorpresense.presence', 'fname', 'lname']);
+                $scope.spec = response.data.spec;
+                $ionicLoading.hide();
+//                angular.forEach($scope.doctors, function (value, key) {
+//                    $http({
+//                        method: 'GET',
+//                        url: domain + 'doctors/get-doctor-services',
+//                        params: {id: value.id, interface: $scope.interface}
+//                    }).then(function successCallback(responseData) {
+//                        $ionicLoading.hide();
+//                        //console.log(responseData);
+//                        $scope.services[key] = responseData.data.docServices;
+//                        $scope.docServices[key] = responseData.data.data;
+//                    }, function errorCallback(response) {
+//                        console.log(response);
+//                    });
+//                    console.log($scope.services);
+//                    $scope.spec = response.data.spec;
+//                    $ionicLoading.hide();
+//                });
             }, function errorCallback(e) {
                 console.log(e);
             });
