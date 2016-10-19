@@ -908,12 +908,12 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.interface = window.localStorage.getItem('interface_id');
             $scope.userId = window.localStorage.getItem('id');
             $http({
-                    method: 'GET',
-                    url: domain + 'image-slider',
-                    params: {interfaceno: $scope.interface}
-                }).then(function successCallback(response) {
-                    $scope.sliderImages = response.data;
-                });
+                method: 'GET',
+                url: domain + 'image-slider',
+                params: {interfaceno: $scope.interface}
+            }).then(function successCallback(response) {
+                $scope.sliderImages = response.data;
+            });
             $scope.getcatlang = function () {
                 $http({
                     method: 'GET',
@@ -2099,11 +2099,11 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.name = "";
             $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
                 $scope.fileModal = $ionicModal;
-                $scope.showm = function (path, name) {
+                $scope.showm = function (ahost, path, name) {
                     $scope.path = path;
                     $scope.name = name;
                     console.log(path + '=afd =' + name);
-                    $scope.value = $rootScope.attachpath + path + name;
+                    $scope.value = ahost + path + name;
                     $scope.fileModal.show();
                 };
                 $scope.closeModal = function () {
@@ -2119,6 +2119,7 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.trustSrc = function (src) {
                 return $sce.trustAsResourceUrl(src);
             };
+
 
             //View details
             $scope.viewDetails = function (recId, appId, userId, patientId, doctorId) {
@@ -2304,9 +2305,9 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 scope: $scope
             }).then(function (modal) {
                 $scope.filemodal = modal;
-                $scope.showRecAttach = function (apath, aname) {
-                    //alert(apath + "======" + aname);
-                    $scope.attachValue = domain + 'public' + apath + aname;
+                $scope.showRecAttach = function (ahost, apath, aname) {
+                    //alert(apath + "======" + aname); domain + 'public'
+                    $scope.attachValue =  ahost + apath + aname;
                     //$('#recattach').modal('show');
                     $scope.filemodal.show();
                 };
@@ -3991,13 +3992,14 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.name = "";
             $ionicModal.fromTemplateUrl('filesview.html', function ($ionicModal) {
                 $scope.modal = $ionicModal;
-                $scope.showm = function (path, name) {
+                $scope.showm = function (ahost, path, name) {
                     $scope.path = path;
                     $scope.name = name;
+                    //$rootScope.attachpath
                     console.log(path + '=afd =' + name);
-                    $scope.value = $rootScope.attachpath + path + name;
+                    $scope.value =  ahost + path + name;
                     $scope.modal.show();
-                }
+                };
 
             }, {
                 // Use our scope for the scope of the modal to keep it simple
