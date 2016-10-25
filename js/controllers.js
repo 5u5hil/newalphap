@@ -7312,10 +7312,12 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $http({
                 method: 'GET',
                 url: domain + 'contentlibrary/get-content-value',
-                params: {conId: $scope.contentId}
+                params: {conId: $scope.contentId,userid:window.localStorage.getItem('id'),interface:window.localStorage.getItem('interface_id')}
             }).then(function sucessCallback(response) {
                 console.log(response.data);
                 $scope.cval = response.data;
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
             }, function errorCallback(e) {
                 console.log(e);
             });
@@ -7890,6 +7892,8 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.allowInternal = 0;
             $scope.allowExternal = 0;
             $scope.allowBroadcast = 0;
+            $scope.langtext;
+            $scope.language;
             $http({
                 method: 'GET',
                 url: domain + 'contentlibrary/content-permission',
@@ -7906,6 +7910,18 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 params: {userid: window.localStorage.getItem('id')}
             }).then(function successCallback(response) {
                 $scope.videoBroadcastList = response.data;
+            });
+            
+            
+            
+            $http({
+                method: 'GET',
+                url: domain + 'video-broadcast-lang',
+                params: {userid: window.localStorage.getItem('id'),interface: window.localStorage.getItem('interface_id')}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                $scope.langtext = response.data.langtext;
+                $scope.language = response.data.lang.language;
             });
 
             $scope.date = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
@@ -7990,6 +8006,17 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.startbroadcast = $stateParams.publish;
             $scope.sessionID = $stateParams.session_id;
             $scope.hlsLink = '';
+            
+             $http({
+                        method: 'GET',
+                        url: domain + 'video-broadcast-stream-lang',
+                        params: {id: window.localStorage.getItem('id'), interface: window.localStorage.getItem('interface_id')}
+                    }).then(function successCallback(response) {
+                        console.log(response.data.session_id);
+                        $scope.langtext = response.data.langtext;
+                         $scope.language = response.data.lang.language;
+                        
+                    })
 
             $scope.initialiseSession = function (sessionId) {
                 console.log('initialiseSession started');

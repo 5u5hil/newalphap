@@ -9,11 +9,16 @@
     </ion-nav-buttons>-->
 
     <ion-content>
-    <div class="row tabnav">
-            <div class="col"><a  ui-sref="app.content-library"  class="active" >Article</a></div>            
+        <div class="row tabnav"  ng-if="apkLanguage == 'english'">
+            <div class="col" ><a  ui-sref="app.content-library"  class="active" >Article</a></div>            
             <div class="col"><a ui-sref="app.video-broadcast"   >Broadcasts</a> </div>
-          
-    </div>
+
+        </div>
+        <div class="row tabnav"  ng-if="apkLanguage != 'english'">
+            <div class="col" ><a  ui-sref="app.content-library"  class="active" >{{langtext.article[language]}}</a></div>            
+            <div class="col"><a ui-sref="app.video-broadcast"   >{{langtext.broadcasts[language]}}</a> </div>
+
+        </div>
         <div class="posts-list" ng-if="clab != ''" >
 
             <div  class="list card post-item greenbox" ng-repeat="contentLab in clab">

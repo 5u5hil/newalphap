@@ -1,6 +1,7 @@
 <ion-view class="category-feeds-view">
     <ion-nav-title>
-        <span>Library</span>
+      <span   ng-if="apkLanguage == 'english'">Library</span>
+        <span  ng-if="apkLanguage != 'english'">{{langtext.library[language]}}</span>
     </ion-nav-title>
     <ion-content class="bgwhite">
         <div class="posts-list" style="padding-bottom:60px;">
