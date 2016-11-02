@@ -734,7 +734,7 @@ angular.module('your_app_name', [
 
                     .state('app.reschedule-appointment', {
                         cache: false,
-                        url: "/reschedule-appointment/{id:int}",
+                        url: "/reschedule-appointment/{id:int}/{drServId:int}",
                         views: {
                             'menuContent': {
                                 templateUrl: function () {
