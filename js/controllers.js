@@ -899,7 +899,17 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
 
 //bring specific category providers
 
-        .controller('CategoryListCtrl', function ($scope, $state, $http, $stateParams, $rootScope, $ionicLoading) {
+        .controller('CategoryListCtrl', function ($scope, $state, $http, $stateParams, $rootScope, $ionicLoading, $ionicSlideBoxDelegate,$timeout) {
+             $http({
+                method: 'GET',
+                url: domain + 'image-slider',
+                params: {interfaceno: $scope.interface}
+            }).then(function successCallback(response) {
+                $scope.sliderImages = response.data;
+                $timeout(function () {
+                    $ionicSlideBoxDelegate.update();
+                }, 1000);
+            });
             if (get('id') != null) {
                 $rootScope.userLogged = 1;
             } else {
