@@ -7924,11 +7924,6 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             }).then(function successCallback(response) {
                 $scope.videoBroadcastList = response.data;
             });
-<<<<<<< HEAD
-=======
-
-
-
             $http({
                 method: 'GET',
                 url: domain + 'video-broadcast-lang',
@@ -7938,8 +7933,6 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
                 $scope.langtext = response.data.langtext;
                 $scope.language = response.data.lang.language;
             });
->>>>>>> 18ddd76bef7cb4057e8823ed21350b08bbf01e79
-
             $scope.date = $filter('date')(new Date(), 'yyyy-MM-dd HH:mm:ss');
             $scope.token = '';
             $scope.session = '';
@@ -8022,17 +8015,12 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             $scope.session = '';
             $scope.subscriber;
             $scope.publisher;
-<<<<<<< HEAD
             $scope.token =  $stateParams.token;
             $scope.startbroadcast=$stateParams.publish;
             $scope.sessionID =$stateParams.session_id;
-            $scope.hlsLink='';
-            
+            $scope.hlsLink='';   
             $ionicHistory.nextViewOptions({disableBack: true, historyRoot: true});
             $ionicHistory.clearHistory();
-            
-            $scope.initialiseSession = function(sessionId){
-=======
             $scope.token = $stateParams.token;
             $scope.startbroadcast = $stateParams.publish;
             $scope.sessionID = $stateParams.session_id;
@@ -8050,7 +8038,6 @@ angular.module('PasswordConfirm', []).directive('changePasswordC', function () {
             })
 
             $scope.initialiseSession = function (sessionId) {
->>>>>>> 18ddd76bef7cb4057e8823ed21350b08bbf01e79
                 console.log('initialiseSession started');
                 $http({
                         method: 'GET',

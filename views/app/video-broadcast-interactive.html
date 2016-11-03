@@ -12,13 +12,15 @@
         <button ng-if="apkLanguage != 'english'" class="button button-icon button-clear" ng-if="startbroadcast == 1" ng-click="endVideo()" style="float:right;"> {{langtext.end[language]}} {{langtext.session[language]}}</button>
     </ion-nav-title>
     <ion-content>	
-        <div class="mediascreen mdhight">
+        <div class="mediascreen h85vh">
             <!--<iframe class="videochat" ng-src="{{trustSrc(oToken)}}" ></iframe>-->
             <div id='myPublisherDiv' style="position:absolute;right: 10px;bottom:10px"></div> 
-
+            
             <!-- <iframe id="iframe_player" src="" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>            -->
+            <div> 
+              <div id='subscribersDiv' class="subscribediv"><span id="hideText">Waiting for person to join!</span></div> 
 
-            <div id='subscribersDiv' class="subscribediv">Waiting for person to join!</div> 
-        </div>
+            </div>
+      </div>
     </ion-content>
 </ion-view>
